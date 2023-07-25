@@ -8,7 +8,7 @@ const Home = () => {
       <SideNavbar />
       <div className="relative min-h-screen bg-white lg:ml-64 sm:ml-16 dark:bg-black">
         <div className="px-2 pt-5 xs:px-4 sm:flex sm:flex-row sm:px-0">
-          <div className="flex flex-col items-center w-full space-y-4 sm:px-4 epx:w-3/4">
+          <div className="flex flex-col items-center w-full space-y-10 sm:px-4 epx:w-3/4">
             <Stories />
             <ImagePost
               src={
@@ -18,6 +18,7 @@ const Home = () => {
               time={"3h"}
               caption={"Hey buddy hello"}
               hashtags={["hello","hey"]}
+              totalLikes={300}
             />
             <ImagePost
               src={
@@ -27,6 +28,7 @@ const Home = () => {
               time={"3h"}
               caption={"Hey buddy hello"}
               hashtags={["hello","hey"]}
+              totalLikes={300}
             />
             <ImagePost
               src={
@@ -36,6 +38,7 @@ const Home = () => {
               time={"3h"}
               caption={"Hey buddy hello"}
               hashtags={["hello","hey"]}
+              totalLikes={300}
             />
             <ImagePost
               src={
@@ -45,6 +48,7 @@ const Home = () => {
               time={"3h"}
               caption={"Hey buddy hello"}
               hashtags={["hello","hey"]}
+              totalLikes={300}
             />
             <div className="w-full h-40"></div>
           </div>
