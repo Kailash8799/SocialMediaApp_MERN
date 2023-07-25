@@ -37,6 +37,7 @@ const TopNavbar = () => {
     <>
       <div
         id="topNav"
+        style={{zIndex:100}}
         className="sticky top-0 left-0 right-0 w-full h-16 transition-all bg-white border-b dark:bg-black border-slate-500/40 dark:border-slate-800"
       >
         <div className="flex items-center justify-between mx-3">
