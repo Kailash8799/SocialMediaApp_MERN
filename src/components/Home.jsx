@@ -15,24 +15,36 @@ const Home = () => {
                 "https://images.unsplash.com/photo-1521133573892-e44906baee46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fHJhbmRvbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
               }
               username={"kailash8799"}
+              time={"3h"}
+              caption={"Hey buddy hello"}
+              hashtags={["hello","hey"]}
             />
             <ImagePost
               src={
                 "https://images.unsplash.com/photo-1521133573892-e44906baee46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fHJhbmRvbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
               }
               username={"kailash8799"}
+              time={"3h"}
+              caption={"Hey buddy hello"}
+              hashtags={["hello","hey"]}
             />
             <ImagePost
               src={
                 "https://images.unsplash.com/photo-1521133573892-e44906baee46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fHJhbmRvbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
               }
               username={"kailash8799"}
+              time={"3h"}
+              caption={"Hey buddy hello"}
+              hashtags={["hello","hey"]}
             />
             <ImagePost
               src={
                 "https://images.unsplash.com/photo-1521133573892-e44906baee46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fHJhbmRvbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
               }
               username={"kailash8799"}
+              time={"3h"}
+              caption={"Hey buddy hello"}
+              hashtags={["hello","hey"]}
             />
             <div className="w-full h-40"></div>
           </div>

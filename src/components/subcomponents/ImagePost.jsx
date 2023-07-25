@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Blurhash } from "react-blurhash";
+import { MoreHorizontal, X } from "lucide-react";
+import { Theme } from "../context/ThemeProvider";
 
-const ImagePost = ({ src,username }) => {
+const ImagePost = ({ src, username, time, caption, hashtags }) => {
   const [imageloaded, setImageloaded] = useState(false);
+  const { themeMode } = useContext(Theme);
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
@@ -11,8 +14,8 @@ const ImagePost = ({ src,username }) => {
     img.src = src;
   }, [src]);
   return (
-    <div className="items-center justify-center w-full mx-auto border border-red-500 sm:mx-0 sm:max-w-xl">
-      <div className="flex items-center justify-between h-12">
+    <div className="items-center justify-center w-full py-3 mx-auto space-y-1 rounded-md shadow-md shadow-slate-500 dark:shadow-slate-600 sm:mx-0 sm:max-w-xl">
+      <div className="flex px-1.5 items-center justify-between h-12">
         {/*  For the header of posts */}
         <div className="flex items-center justify-center space-x-3">
           <div class="cursor-pointer">
@@ -28,11 +31,33 @@ const ImagePost = ({ src,username }) => {
             </div>
           </div>
           <div>
-            <h1 className="text-lg font-medium text-black dark:text-white">{username}</h1>
+            <h1 className="text-lg font-medium text-black cursor-pointer dark:text-white">
+              {username} • {time}
+            </h1>
           </div>
         </div>
-        <div>
-          <h1 className="text-red-50">Hello</h1>
+        <div className="flex items-center justify-center space-x-3">
+          <div className="cursor-pointer">
+            <MoreHorizontal color={themeMode === "dark" ? "#fff" : "#000"} />
+          </div>
+          <div className="cursor-pointer">
+            <X color={themeMode === "dark" ? "#fff" : "#000"} />
+          </div>
+        </div>
+      </div>
+      <div className="px-1.5">
+        <h1 className="flex-wrap text-black dark:text-white">{caption} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae, aliquid. Eos voluptate placeat delectus incidunt esse itaque iusto rerum! Numquam itaque maiores autem fugiat rerum officia architecto odio cum laboriosam sapiente voluptas amet obcaecati, iure possimus, et quod delectus voluptatibus iusto, quis id! Neque saepe magni, tempora delectus ex harum.</h1>
+        <div className="flex flex-wrap space-x-2">
+          {hashtags?.map((item, key) => {
+            return (
+              <span
+                key={key}
+                className="text-blue-800 cursor-pointer hover:underline"
+              >
+                #{item}
+              </span>
+            );
+          })}
         </div>
       </div>
       <div>
