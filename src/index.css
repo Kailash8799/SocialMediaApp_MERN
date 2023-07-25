@@ -7,3 +7,20 @@
   padding: 0px;
   box-sizing: border-box;
 }
+
+.scrollwidth::-webkit-scrollbar {
+  width: 0px;
+}
+
+.scrollwidth:hover::-webkit-scrollbar{
+  width: 4px;
+}
+
+.scrollwidth::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+.scrollwidth::-webkit-scrollbar-thumb {
+background-color: darkgrey;
+outline: 1px solid slategrey;
+}

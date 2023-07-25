@@ -1,20 +1,27 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import Home from "./components/Home";
-import Blogs from "./components/Blogs";
 import NoPage from "./components/NoPage";
+import TopNavbar from "./components/subcomponents/TopNavbar";
+import ThemeProvider from "./components/context/ThemeProvider";
+import Friends from "./components/Friends";
+import Watch from "./components/Watch";
+import Marketplace from "./components/Marketplace";
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Navbar />}>
-          <Route index element={<Home />} />
-          <Route path="blogs" element={<Blogs />} />
-          <Route path="*" element={<NoPage />} />
-        </Route>
-      </Routes>
+      <ThemeProvider>
+        <Routes>
+          <Route path="/" element={<TopNavbar />}>
+            <Route index element={<Home />} />
+            <Route path="/friends" element={<Friends />} />
+            <Route path="/watch" element={<Watch />} />
+            <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="*" element={<NoPage />} />
+          </Route>
+        </Routes>
+      </ThemeProvider>
     </>
   );
 }
