@@ -66,7 +66,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Login />} />
           <Route path="/forgot" element={<Forgot />} />
-          <Route path="/verifyuser" element={<Verifyuser />} />
+          <Route path="/verifyemail" element={<Verifyuser />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       )}

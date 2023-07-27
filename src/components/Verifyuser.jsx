@@ -2,26 +2,35 @@ import React, { useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function Verifyuser() {
+  const searchParams = useSearchParams();
+  console.log(searchParams[0].get("token"));
   const [loading, setloading] = useState(false);
   const [disabled, setdisabled] = useState(true);
   const [mounted, setmounted] = useState(false);
+  const [token,settoken] = useState("");
+  const navigate = useNavigate();
 
   useEffect(()=>{
     setmounted(true)
-  },[])
+    settoken(searchParams[0]?.get("token"))
+    if(token){
+      setdisabled(false)
+    }
+  },[searchParams, token])
   const verifyEmailAddress = async () => {
     if (!mounted) return;
     setloading(true);
     try {
       const responce = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/verifyemail`,
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/verifyuser`,
         {
           method: "POST",
           body: JSON.stringify({
-            token: "params?.get(token)",
-            secret: `${process.env.NEXT_PUBLIC_SECRET}`,
+            token: token,
+            secret: `${process.env.REACT_APP_SECRET}`,
           }),
           headers: {
             "Content-type": "application/json",
@@ -31,7 +40,7 @@ export default function Verifyuser() {
       const data = await responce.json();
       if (data.success) {
         toast.success(data.message);
-        // navigation.location("/signin")   
+        navigate('/', { replace: true });
       } else {
         toast.error(data.message);
       }
@@ -69,7 +78,6 @@ export default function Verifyuser() {
           <div className="mt-8">
             {loading ? (
               <button
-                role="button"
                 aria-label="create my account"
                 className="items-center justify-center w-full py-2 text-xl font-bold leading-none text-center text-white transition-transform border rounded focus:ring-indigo-700 focus:outline-none dark:border-slate-700 bg-gradient-to-tl from-pink-500 to-blue-400 border-slate-200 hover:from-slate-500 hover:to-white"
               >
@@ -91,7 +99,6 @@ export default function Verifyuser() {
               </button>
             ) : (
               <button
-                role="button"
                 disabled={disabled}
                 aria-label="create my account"
                 onClick={verifyEmailAddress}
@@ -99,6 +106,7 @@ export default function Verifyuser() {
               >
                 Verify email
               </button>
+              
             )}
           </div>
         </motion.div>

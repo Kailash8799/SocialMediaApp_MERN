@@ -8,11 +8,11 @@ const Authuser = require("../middleware/authuser");
 var JWT_SECRET = process.env.JWT_SECRET;
 var AES_SECRET = process.env.AES_SECRET;
 const nodemailer = require("nodemailer");
+const REACT_APP_URL = process.env.REACT_APP_LOCALHOST;
 
 router.post("/signup", async (req, res) => {
   try {
     const { username, email, password, secret } = req.body;
-    console.log(secret);
     const user = await User.find(
       { $or: [{ username: username }, { email: email }] },
       { _id: 0, username: 0, email: 0, password: 0 }
@@ -31,6 +31,15 @@ router.post("/signup", async (req, res) => {
       password: hashPassword,
     });
     await ne.save();
+    var token = jwt.sign(
+      {
+        username: ne?.username,
+        email: ne?.email,
+        id: ne?._id,
+      },
+      JWT_SECRET,
+      { expiresIn: "1h", algorithm: "HS384" }
+    );
     let htmlemail = `<!DOCTYPE html>
       <html>
       <head>
@@ -147,8 +156,8 @@ router.post("/signup", async (req, res) => {
               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                 <tr>
                   <td align="center" valign="top" style="padding: 36px 24px;">
-                    <a href="${process.env.NEXT_PUBLIC_HOST}" target="_blank" style="display: inline-block;">
-                      <img src="${process.env.NEXT_PUBLIC_HOST}/logo.png" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
+                    <a href="${REACT_APP_URL}" target="_blank" style="display: inline-block;">
+                      <img src="${REACT_APP_URL}/logo.png" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
                     </a>
                   </td>
                 </tr>
@@ -199,7 +208,7 @@ router.post("/signup", async (req, res) => {
                 <!-- start copy -->
                 <tr>
                   <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                    <p style="margin: 0;">Tap the button below to confirm your email address. If you didn't create an account with <a href="${process.env.NEXT_PUBLIC_HOST}">${process.env.NEXT_PUBLIC_HOST}</a>, you can safely delete this email.</p>
+                    <p style="margin: 0;">Tap the button below to confirm your email address. If you didn't create an account with <a href="${REACT_APP_URL}">${REACT_APP_URL}</a>, you can safely delete this email.</p>
                   </td>
                 </tr>
                 <!-- end copy -->
@@ -213,7 +222,7 @@ router.post("/signup", async (req, res) => {
                           <table border="0" cellpadding="0" cellspacing="0">
                             <tr>
                               <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
-                                <a href="${process.env.NEXT_PUBLIC_HOST}/verifyemail?token=${"token"}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Verify email</a>
+                                <a href="${REACT_APP_URL}/verifyemail?token=${token}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Verify email</a>
                               </td>
                             </tr>
                           </table>
@@ -228,7 +237,7 @@ router.post("/signup", async (req, res) => {
                 <tr>
                   <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                     <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
-                    <p style="margin: 0;"><a href="${process.env.NEXT_PUBLIC_HOST}" target="_blank">${process.env.NEXT_PUBLIC_HOST}/verifyemail?token=${"token"}</a></p>
+                    <p style="margin: 0;"><a href="${REACT_APP_URL}/verifyemail?token=${token}" target="_blank">${REACT_APP_URL}/verifyemail?token=${token}</a></p>
                   </td>
                 </tr>
                 <!-- end copy -->
@@ -236,7 +245,7 @@ router.post("/signup", async (req, res) => {
                 <!-- start copy -->
                 <tr>
                   <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-                    <p style="margin: 0;">Cheers,<br> ${process.env.NEXT_PUBLIC_HOST} </p>
+                    <p style="margin: 0;">Cheers,<br> Team linkage </p>
                   </td>
                 </tr>
                 <!-- end copy -->
@@ -283,60 +292,56 @@ router.post("/signup", async (req, res) => {
       
       </body>
       </html>`;
-      var transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.EMAIL,
-          pass: process.env.PASSWORD_EMAIL,
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD_EMAIL,
+      },
+      secure: true,
+      host: "smtp.titan.email",
+      port: 465,
+    });
+    var mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Verify User",
+      html: htmlemail,
+    };
+
+    const server = await new Promise((resolve, reject) => {
+      // verify connection configuration
+      transporter.verify(function (error, success) {
+        if (success) {
+          resolve(success);
+        }
+        reject(error);
+      });
+    });
+    if (!server) {
+      res.json({ success: false, message: "Error failed" }, { status: 500 });
+    }
+
+    const success = await new Promise((resolve, reject) => {
+      // send mail
+      transporter.sendMail(mailOptions).then((info, err) => {
+        if (info.response.includes("250")) {
+          resolve(true);
+        }
+        reject(err);
+      });
+    });
+
+    if (!success) {
+      res.json(
+        {
+          success: false,
+          message: "Error sending email",
         },
-        secure: true,
-        host: "smtp.titan.email",
-        port: 465,
-      });
-      var mailOptions = {
-        from: process.env.EMAIL,
-        to: email,
-        subject: "Verify User",
-        html: htmlemail,
-      };
+        { status: 500 }
+      );
+    }
 
-      const server = await new Promise((resolve, reject) => {
-        // verify connection configuration
-        transporter.verify(function (error, success) {
-          if (success) {
-            resolve(success);
-          }
-          reject(error);
-        });
-      });
-      if (!server) {
-         res.json(
-          { success: false, message: "Error failed" },
-          { status: 500 }
-        );
-      }
-
-      const success = await new Promise((resolve, reject) => {
-        // send mail
-        transporter.sendMail(mailOptions).then((info, err) => {
-          if (info.response.includes("250")) {
-            resolve(true);
-          }
-          reject(err);
-        });
-      });
-      console.log(success);
-
-      if (!success) {
-        res.json(
-          {
-            success: false,
-            message: "Error sending email",
-          },
-          { status: 500 }
-        );
-      }
-    
     res.json({
       success: true,
       message: "Your account has been created successfully",
@@ -375,6 +380,13 @@ router.post("/signin", async (req, res) => {
       });
       return;
     }
+    if (!user[0].emailVerified) {
+      res.json({
+        success: false,
+        message: "Email not verified!",
+      });
+      return;
+    }
     var token = jwt.sign(
       {
         username: user[0]?.username,
@@ -400,7 +412,39 @@ router.post("/signin", async (req, res) => {
 });
 
 router.post("/verifyuser", async (req, res) => {
-  res.json({ success: true, message: "Signin successfully" });
+  try {
+    let { token } = req.body;
+    const decode = jwt.verify(token,JWT_SECRET);
+    const { username, email,id } = decode;
+    const user = await User.find(
+      { $and: [{ username: username }, { email: email }] },
+      { _id: 0, username: 0, email: 0, password: 0 }
+    );
+    if (user?.length === 0) {
+      res.json({
+        success: false,
+        message: "Invalid token",
+      });
+      return;
+    }
+    if (user[0]?.emailVerified) {
+      res.json({
+        success: true,
+        message: "Email is allready verified",
+      });
+      return;
+    }
+    await User.updateOne(
+      { _id: id, email: email },
+      { $set: { emailVerified: true } },
+      {new:true}
+    );
+    res.json({ success: true, message: "Email verified" });
+    return;
+  } catch (error) {
+    res.json({ success: false, message: "Some error accured!" });
+    return;
+  }
 });
 
 router.post("/forgotpassword", async (req, res) => {
