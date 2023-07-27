@@ -1,9 +1,11 @@
 import React from "react";
+import OneStory from "./OneStory";
 
 const Stories = () => {
   return (
-    <div className="items-center justify-center w-full h-56 mx-auto border border-red-500 sm:mx-0 sm:max-w-xl">
-      <h1 className="text-black dark:text-white">Hello</h1>
+    <div className="items-center w-full h-56 mx-auto sm:mx-0 sm:max-w-xl shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] border-slate-700 overflow-y-auto flex rounded-lg no-scrollbar">
+      <OneStory />
+      
     </div>
   );
 };

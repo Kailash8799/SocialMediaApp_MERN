@@ -13,7 +13,7 @@
 }
 
 .scrollwidth:hover::-webkit-scrollbar{
-  width: 4px;
+  width: 0px;
 }
 
 .scrollwidth::-webkit-scrollbar-track {
@@ -23,4 +23,18 @@
 .scrollwidth::-webkit-scrollbar-thumb {
 background-color: darkgrey;
 outline: 1px solid slategrey;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.storywidth{
+  width: 130px !important;
 }

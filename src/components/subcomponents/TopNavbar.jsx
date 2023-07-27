@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { BsPeople, BsPeopleFill } from "react-icons/bs";
@@ -13,8 +13,9 @@ import {
 import { Theme } from "../context/ThemeProvider";
 
 const TopNavbar = () => {
+  const navigate = useNavigate();
   const [mounted, setMounted] = useState(false);
-  const { themeMode, setthemeMode, ChangeTheme } = useContext(Theme);
+  const { themeMode, ChangeTheme, setisLoggedin} = useContext(Theme);
   const { pathname } = useLocation();
   console.log(pathname);
   useEffect(() => {
@@ -35,7 +36,7 @@ const TopNavbar = () => {
   if (!mounted) return;
   return (
     <>
-      <div
+      {pathname!=="/signup" && pathname !=="/signin" && pathname !=="/forgot" && pathname !== "/verifyuser" && <div
         id="topNav"
         style={{zIndex:100}}
         className="sticky top-0 left-0 right-0 w-full h-16 transition-all bg-white border-b dark:bg-black border-slate-500/40 dark:border-slate-800"
@@ -128,7 +129,11 @@ const TopNavbar = () => {
                 color={themeMode === "dark" ? "#fff" : "black"}
               />
             </div>
-            <div className="py-4 cursor-pointer">
+            <div className="py-4 cursor-pointer" onClick={()=>{
+              setisLoggedin(false)
+              localStorage.removeItem("userlogintoken")
+              navigate("/",{replace:true})
+            }}>
               <BiSolidUserCircle
                 size={30}
                 color={themeMode === "dark" ? "#fff" : "black"}
@@ -136,7 +141,7 @@ const TopNavbar = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
       <Outlet />
     </>
   );

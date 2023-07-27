@@ -1,5 +1,15 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 const NoPage = () => {
-    return <h1>404</h1>;
-  };
-  
-  export default NoPage;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(()=>{
+      navigate('/', { replace: true });
+    },1000)
+  }, [navigate]);
+  return <h1>404</h1>;
+};
+
+export default NoPage;

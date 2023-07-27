@@ -10,7 +10,7 @@ import {
   X,
 } from "lucide-react";
 import { Theme } from "../context/ThemeProvider";
-import { FadeLoader, PuffLoader } from "react-spinners";
+import {  PuffLoader } from "react-spinners";
 
 const ImagePost = ({ src, username, time, caption, hashtags, totalLikes }) => {
   const [imageloaded, setImageloaded] = useState(false);
@@ -31,9 +31,9 @@ const ImagePost = ({ src, username, time, caption, hashtags, totalLikes }) => {
       <div className="flex px-1.5 items-center justify-between h-12">
         {/*  For the header of posts */}
         <div className="flex items-center justify-center space-x-3">
-          <div class="cursor-pointer">
-            <div class="gap2 flex w-full flex-col">
-              <div class="relative aspect-square w-full overflow-hidden rounded-full">
+          <div className="cursor-pointer">
+            <div className="flex flex-col w-full gap2">
+              <div className="relative w-full overflow-hidden rounded-full aspect-square">
                 <img
                   className="transition rounded-full w-11 h-11 hover:scale-105"
                   src={src}
@@ -92,14 +92,14 @@ const ImagePost = ({ src, username, time, caption, hashtags, totalLikes }) => {
           />
         )}
         {imageloaded && (
-          <div class="group row-span-2 mx-auto max-w-screen-md cursor-pointer">
-            <div class="gap2 flex w-full flex-col">
-              <div class="relative aspect-square w-full overflow-hidden ">
+          <div className="max-w-screen-md row-span-2 mx-auto cursor-pointer group">
+            <div className="flex flex-col w-full gap2">
+              <div className="relative w-full overflow-hidden aspect-square ">
                 <img
                   src="https://res.cloudinary.com/dyyonlqge/image/upload/v1685327821/bxgrtnyp2rt4uynge9nx.webp"
-                  class="h-full w-full transition hover:scale-105"
+                  className="w-full h-full transition hover:scale-105"
                   alt=""
-                  srcset=""
+                  srcSet=""
                 />
               </div>
             </div>
