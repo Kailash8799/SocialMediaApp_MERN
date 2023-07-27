@@ -3,6 +3,7 @@ import { ColorRing } from "react-loader-spinner";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
+const secret = process.env.REACT_APP_SECRET;
 
 export default function Verifyuser() {
   const searchParams = useSearchParams();
@@ -30,7 +31,7 @@ export default function Verifyuser() {
           method: "POST",
           body: JSON.stringify({
             token: token,
-            secret: `${process.env.REACT_APP_SECRET}`,
+            secret: secret,
           }),
           headers: {
             "Content-type": "application/json",
@@ -50,6 +51,8 @@ export default function Verifyuser() {
       setloading(false);
     }
   };
+  if (!mounted)
+    return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (
     <>
     <div className="w-full h-full min-h-screen bg-white py-28 sm:py-32 sm:px-4 dark:bg-black">

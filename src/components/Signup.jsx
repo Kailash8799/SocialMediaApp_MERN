@@ -1,14 +1,21 @@
-import React, {useState } from "react";
+import React, {useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { ColorRing } from "react-loader-spinner";
 import { motion } from "framer-motion";
+const secret = process.env.REACT_APP_SECRET;
 
 function Signup() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [loading, setloading] = useState(false);
+  const [mounted,setisMounted] = useState(false)
+  useEffect(()=>{
+    setisMounted(true)
+  },[])
+  if (!mounted)
+    return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
 
   const createUser = async () => {
     setloading(true);
@@ -21,7 +28,7 @@ function Signup() {
             username: name,
             email: email,
             password: password,
-            secret: `${process.env.REACT_APP_SECRET}`,
+            secret: secret,
           }),
           headers: {
             "Content-type": "application/json",

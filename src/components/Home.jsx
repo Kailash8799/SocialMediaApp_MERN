@@ -1,8 +1,15 @@
+import { useEffect, useState } from "react";
 import ImagePost from "./subcomponents/ImagePost";
 import SideNavbar from "./subcomponents/SideNavbar";
 import Stories from "./subcomponents/Stories";
 
 const Home = () => {
+  const [mounted,setisMounted] = useState(false)
+  useEffect(()=>{
+    setisMounted(true)
+  },[])
+  if (!mounted)
+    return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (
     <>
       <SideNavbar />

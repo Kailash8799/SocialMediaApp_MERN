@@ -7,12 +7,20 @@ var jwt = require("jsonwebtoken");
 const Authuser = require("../middleware/authuser");
 var JWT_SECRET = process.env.JWT_SECRET;
 var AES_SECRET = process.env.AES_SECRET;
+var REACT_APP_SECRET = process.env.REACT_APP_SECRET;
 const nodemailer = require("nodemailer");
 const REACT_APP_URL = process.env.REACT_APP_LOCALHOST;
 
 router.post("/signup", async (req, res) => {
   try {
     const { username, email, password, secret } = req.body;
+    if(req.method!=="POST" || secret!==REACT_APP_SECRET){
+      res.json({
+        success: false,
+        message: "Some error accured!",
+      });
+      return;
+    }
     const user = await User.find(
       { $or: [{ username: username }, { email: email }] },
       { _id: 0, username: 0, email: 0, password: 0 }
@@ -358,7 +366,14 @@ router.post("/signup", async (req, res) => {
 
 router.post("/signin", async (req, res) => {
   try {
-    const { usernameemail, password } = req.body;
+    const { usernameemail, password,secret } = req.body;
+    if(req.method!=="POST" || secret!==REACT_APP_SECRET){
+      res.json({
+        success: false,
+        message: "Some error accured!",
+      });
+      return;
+    }
     const user = await User.find({
       $or: [{ username: usernameemail }, { email: usernameemail }],
     });
@@ -413,7 +428,14 @@ router.post("/signin", async (req, res) => {
 
 router.post("/verifyuser", async (req, res) => {
   try {
-    let { token } = req.body;
+    let { token,secret } = req.body;
+    if(req.method!=="POST" || secret!==REACT_APP_SECRET){
+      res.json({
+        success: false,
+        message: "Some error accured!",
+      });
+      return;
+    }
     const decode = jwt.verify(token,JWT_SECRET);
     const { username, email,id } = decode;
     const user = await User.find(

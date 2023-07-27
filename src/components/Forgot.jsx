@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+const secret = process.env.REACT_APP_SECRET;
 
 function Forgot() {
-  
+  const [mounted,setisMounted] = useState(false)
+  useEffect(()=>{
+    setisMounted(true)
+  },[])
+  if (!mounted)
+    return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (
     <>
     <div className="w-full h-full min-h-screen py-24 bg-white sm:px-4 dark:bg-black">
