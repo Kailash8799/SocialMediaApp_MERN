@@ -13,9 +13,10 @@ import Verifyuser from "./components/Verifyuser";
 import { useContext, useEffect, useState } from "react";
 import { Theme } from "./components/context/ThemeProvider";
 import { Toaster, toast } from "react-hot-toast";
+import LoadingBar from "react-top-loading-bar";
 
 function App() {
-  const { isLoggedin, setisLoggedin } = useContext(Theme);
+  const { isLoggedin, setisLoggedin,progress,setProgress } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
   useEffect(() => {
     setisMounted(true);
@@ -70,14 +71,21 @@ function App() {
           </Route>
         </Routes>
       ) : (
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Login />} />
-          <Route path="/forgot" element={<Forgot />} />
-          <Route path="/verifyemail" element={<Verifyuser />} />
-          <Route path="*" element={<NoPage />} />
-        </Routes>
+        <>
+          <LoadingBar
+            color="#f11946"
+            progress={progress}
+            onLoaderFinished={() => setProgress(0)}
+          />
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={<Login />} />
+            <Route path="/forgot" element={<Forgot />} />
+            <Route path="/verifyemail" element={<Verifyuser />} />
+            <Route path="*" element={<NoPage />} />
+          </Routes>
+        </>
       )}
     </>
   );

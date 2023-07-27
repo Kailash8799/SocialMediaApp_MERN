@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ColorRing } from "react-loader-spinner";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Theme } from "./context/ThemeProvider";
 const secret = process.env.REACT_APP_SECRET;
 
 export default function Verifyuser() {
   const searchParams = useSearchParams();
-  console.log(searchParams[0].get("token"));
   const [loading, setloading] = useState(false);
   const [disabled, setdisabled] = useState(true);
   const [mounted, setmounted] = useState(false);
   const [token,settoken] = useState("");
   const navigate = useNavigate();
+  const {setProgress} = useContext(Theme)
 
   useEffect(()=>{
     setmounted(true)
+    setProgress(0)
     settoken(searchParams[0]?.get("token"))
     if(token){
       setdisabled(false)
     }
-  },[searchParams, token])
+    setProgress(100)
+  },[searchParams, token,setProgress])
   const verifyEmailAddress = async () => {
     if (!mounted) return;
     setloading(true);

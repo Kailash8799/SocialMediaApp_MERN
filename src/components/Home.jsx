@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ImagePost from "./subcomponents/ImagePost";
 import SideNavbar from "./subcomponents/SideNavbar";
 import Stories from "./subcomponents/Stories";
+import { Theme } from "./context/ThemeProvider";
 
 const Home = () => {
+  const {setProgress} = useContext(Theme)
   const [mounted,setisMounted] = useState(false)
   useEffect(()=>{
+    setProgress(0)
     setisMounted(true)
-  },[])
+    setProgress(100)
+  },[setProgress])
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (

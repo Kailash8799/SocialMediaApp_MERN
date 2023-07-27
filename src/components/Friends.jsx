@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import AllFriend from "./subcomponents/Friends/AllFriend";
+import SideNavbarFriend from "./subcomponents/Friends/Sidebar";
+import { Theme } from "./context/ThemeProvider";
 
 const Friends = () => {
-  const [mounted,setisMounted] = useState(false)
-  useEffect(()=>{
-    setisMounted(true)
-  },[])
+  const [mounted, setisMounted] = useState(false);
+  const {setProgress} = useContext(Theme)
+  useEffect(() => {
+    setProgress(0)
+    setisMounted(true);
+    setProgress(100)
+  }, [setProgress]);
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (
     <>
-      <div className='min-h-screen bg-white dark:bg-black'>Friends</div>
+      <SideNavbarFriend />
+      <div className="min-h-screen bg-white epx:ml-64 dark:bg-black">
+        <AllFriend />
+      </div>
     </>
   );
 };

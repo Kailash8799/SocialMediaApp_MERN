@@ -1,8 +1,9 @@
-import React, {useEffect, useState } from "react";
+import React, {useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { ColorRing } from "react-loader-spinner";
 import { motion } from "framer-motion";
+import { Theme } from "./context/ThemeProvider";
 const secret = process.env.REACT_APP_SECRET;
 
 function Signup() {
@@ -11,9 +12,12 @@ function Signup() {
   const [password, setpassword] = useState("");
   const [loading, setloading] = useState(false);
   const [mounted,setisMounted] = useState(false)
+  const {setProgress} = useContext(Theme)
   useEffect(()=>{
+    setProgress(0)
     setisMounted(true)
-  },[])
+    setProgress(100)
+  },[setProgress])
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
 

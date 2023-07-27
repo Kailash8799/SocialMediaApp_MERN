@@ -7,16 +7,17 @@ import { Theme } from "./context/ThemeProvider";
 const secret = process.env.REACT_APP_SECRET;
 
 function Login() {
-  console.log(secret);
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [loading, setloading] = useState(false);
-  const { setisLoggedin } = useContext(Theme);
+  const { setisLoggedin,setProgress } = useContext(Theme);
   const [mounted,setisMounted] = useState(false)
   useEffect(()=>{
+    setProgress(0)
     setisMounted(true)
-  },[])
+    setProgress(100)
+  },[setProgress])
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
 
@@ -56,7 +57,7 @@ function Login() {
   };
   return (
     <>
-      <div className="w-full h-full bg-white sm:px-4 sm:py-16 dark:bg-black">
+      <div className="w-screen h-screen bg-white sm:px-4 sm:py-16 dark:bg-black">
         <div className="flex flex-col items-center justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}

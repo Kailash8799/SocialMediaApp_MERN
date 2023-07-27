@@ -11,13 +11,13 @@ import {
   AiFillShop,
 } from "react-icons/ai";
 import { Theme } from "../context/ThemeProvider";
+import LoadingBar from "react-top-loading-bar";
 
 const TopNavbar = () => {
   const navigate = useNavigate();
   const [mounted, setMounted] = useState(false);
-  const { themeMode, ChangeTheme, setisLoggedin} = useContext(Theme);
+  const { themeMode, ChangeTheme, setisLoggedin, progress, setProgress} = useContext(Theme);
   const { pathname } = useLocation();
-  console.log(pathname);
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -36,6 +36,11 @@ const TopNavbar = () => {
   if (!mounted) return;
   return (
     <>
+    <LoadingBar
+        color="#f11946"
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       {pathname!=="/signup" && pathname !=="/signin" && pathname !=="/forgot" && pathname !== "/verifyuser" && <div
         id="topNav"
         style={{zIndex:100}}

@@ -6,10 +6,11 @@ const ThemeProvider = ({ children }) => {
   const [themeMode, setthemeMode] = useState("light");
   const [mounted, setMounted] = useState(false);
   const [isLoggedin, setisLoggedin] = useState(false);
+  const [progress, setProgress] = useState(0)
+
   useEffect(() => {
     setMounted(true);
     let themelocal = localStorage.getItem("thememode");
-    console.log(themelocal);
     if (themelocal === "dark") {
       document.body.classList.remove("light");
       document.body.classList.add("dark");
@@ -43,6 +44,8 @@ const ThemeProvider = ({ children }) => {
         ChangeTheme,
         isLoggedin,
         setisLoggedin,
+        progress,
+        setProgress
       }}
     >
       {children}

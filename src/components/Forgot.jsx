@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Theme } from "./context/ThemeProvider";
+// eslint-disable-next-line
 const secret = process.env.REACT_APP_SECRET;
 
 function Forgot() {
+  const {setProgress} = useContext(Theme)
   const [mounted,setisMounted] = useState(false)
   useEffect(()=>{
+    setProgress(0)
     setisMounted(true)
-  },[])
+    setProgress(100)
+  },[setProgress])
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (
@@ -55,7 +60,6 @@ function Forgot() {
             </label>
             <input
               aria-label="enter email adress"
-              role="input"
               type="email"
               className="w-full py-3 pl-3 mt-2 text-xs font-medium leading-none text-gray-800 bg-gray-200 border rounded focus:outline-none"
             />
@@ -63,7 +67,6 @@ function Forgot() {
 
           <div className="mt-8">
             <button
-              role="button"
               aria-label="create my account"
               className="w-full py-4 text-lg font-bold leading-none text-white transition-transform border rounded focus:ring-indigo-700 focus:outline-none dark:border-slate-700 bg-gradient-to-tl from-pink-500 to-blue-400 border-slate-200 hover:from-slate-500 hover:to-white"
             >
