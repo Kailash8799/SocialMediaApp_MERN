@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { ColorRing } from "react-loader-spinner";
@@ -79,7 +79,6 @@ function Signup() {
             </p>
             <button
               aria-label="Continue with google"
-              role="button"
               className="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-10"
             >
               <svg
@@ -112,7 +111,6 @@ function Signup() {
             </button>
             <button
               aria-label="Continue with github"
-              role="button"
               className="focus:outline-none  focus:ring-2 focus:ring-offset-1 focus:ring-gray-700 py-3.5 px-4 border rounded-lg border-gray-700 flex items-center w-full mt-4"
             >
               <svg
@@ -145,7 +143,6 @@ function Signup() {
               </label>
               <input
                 aria-label="enter name"
-                role="input"
                 type="text"
                 value={name}
                 onChange={(e) => {
@@ -160,7 +157,6 @@ function Signup() {
               </label>
               <input
                 aria-label="enter email adress"
-                role="input"
                 type="email"
                 value={email}
                 onChange={(e) => {
@@ -176,7 +172,6 @@ function Signup() {
               <div className="relative flex items-center justify-center">
                 <input
                   aria-label="enter Password"
-                  role="input"
                   type="password"
                   value={password}
                   onChange={(e) => {
@@ -203,7 +198,6 @@ function Signup() {
             <div className="mt-8">
               {loading ? (
                 <button
-                  role="button"
                   aria-label="create my account"
                   className="items-center justify-center w-full py-2 text-xl font-bold leading-none text-center text-white transition-transform border rounded focus:ring-indigo-700 focus:outline-none dark:border-slate-700 bg-gradient-to-tl from-pink-500 to-blue-400 border-slate-200 hover:from-slate-500 hover:to-white"
                 >
@@ -225,7 +219,6 @@ function Signup() {
                 </button>
               ) : (
                 <button
-                  role="button"
                   aria-label="create my account"
                   onClick={createUser}
                   className="w-full py-4 text-xl font-bold leading-none text-white transition-transform border rounded focus:ring-indigo-700 focus:outline-none dark:border-slate-700 bg-gradient-to-tl from-pink-500 to-blue-400 border-slate-200 hover:from-slate-500 hover:to-white"
