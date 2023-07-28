@@ -9,12 +9,13 @@ var JWT_SECRET = process.env.JWT_SECRET;
 var AES_SECRET = process.env.AES_SECRET;
 var REACT_APP_SECRET = process.env.REACT_APP_SECRET;
 const nodemailer = require("nodemailer");
+const Profile = require("../models/Profile");
 const REACT_APP_URL = process.env.REACT_APP_LOCALHOST;
 
 router.post("/signup", async (req, res) => {
   try {
     const { username, email, password, secret } = req.body;
-    if(req.method!=="POST" || secret!==REACT_APP_SECRET){
+    if (req.method !== "POST" || secret !== REACT_APP_SECRET) {
       res.json({
         success: false,
         message: "Some error accured!",
@@ -366,8 +367,8 @@ router.post("/signup", async (req, res) => {
 
 router.post("/signin", async (req, res) => {
   try {
-    const { usernameemail, password,secret } = req.body;
-    if(req.method!=="POST" || secret!==REACT_APP_SECRET){
+    const { usernameemail, password, secret } = req.body;
+    if (req.method !== "POST" || secret !== REACT_APP_SECRET) {
       res.json({
         success: false,
         message: "Some error accured!",
@@ -402,11 +403,16 @@ router.post("/signin", async (req, res) => {
       });
       return;
     }
+    const userProfile = await Profile.findOne(
+      { userid: user[0]?._id },
+      { userid: 0, followers: 0, following: 0, videos: 0, tweets: 0, images: 0 }
+    );
     var token = jwt.sign(
       {
         username: user[0]?.username,
         email: user[0]?.email,
         id: user[0]?._id,
+        profileid: userProfile?._id,
       },
       JWT_SECRET,
       { expiresIn: "10d", algorithm: "HS384" }
@@ -428,19 +434,19 @@ router.post("/signin", async (req, res) => {
 
 router.post("/verifyuser", async (req, res) => {
   try {
-    let { token,secret } = req.body;
-    if(req.method!=="POST" || secret!==REACT_APP_SECRET){
+    let { token, secret } = req.body;
+    if (req.method !== "POST" || secret !== REACT_APP_SECRET) {
       res.json({
         success: false,
         message: "Some error accured!",
       });
       return;
     }
-    const decode = jwt.verify(token,JWT_SECRET);
-    const { username, email,id } = decode;
+    const decode = jwt.verify(token, JWT_SECRET);
+    const { username, email, id } = decode;
     const user = await User.find(
       { $and: [{ username: username }, { email: email }] },
-      { _id: 0, username: 0, email: 0, password: 0 }
+      { _id: 1, username: 0, email: 0, password: 0 }
     );
     if (user?.length === 0) {
       res.json({
@@ -459,9 +465,16 @@ router.post("/verifyuser", async (req, res) => {
     await User.updateOne(
       { _id: id, email: email },
       { $set: { emailVerified: true } },
-      {new:true}
+      { new: true }
     );
-    res.json({ success: true, message: "Email verified" });
+    const prof = new Profile({
+      userid: user[0]?._id,
+    });
+    await prof.save();
+    res.json({
+      success: true,
+      message: "Email verified and profile has been created!",
+    });
     return;
   } catch (error) {
     res.json({ success: false, message: "Some error accured!" });

@@ -46,6 +46,7 @@ function App() {
             sessionStorage.setItem("validuser", true);
           } else {
             setisLoggedin(false);
+            localStorage.removeItem("userlogintoken")
             toast.error(data.message);
           }
         } catch (error) {

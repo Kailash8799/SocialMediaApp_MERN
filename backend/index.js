@@ -9,7 +9,7 @@ app.use(cors())
 app.use(express.json())
 ConnectDb()
 app.use("/api/auth",require("./routes/auth"))
-// app.use("/api/shop",require("./routes/shop"))
+app.use("/api/addpost",require("./routes/addpost"))
 // app.use("/api/order",require("./routes/order"))
 
 app.listen(PORT,()=>{
