@@ -12,6 +12,9 @@ const Image = require("../models/Image");
 const Profile = require("../models/Profile");
 const Video = require("../models/Video");
 const Tweet = require("../models/Tweet");
+const CommentOnImage = require("../models/CommentOnImage");
+const CommentOnVideo = require("../models/CommentOnVideo");
+const CommentOnTweet = require("../models/CommentOnText");
 
 router.post("/postimage", Authuser, async (req, res) => {
   try {
@@ -108,7 +111,7 @@ router.post("/postvideo", Authuser, async (req, res) => {
 });
 router.post("/posttweet", Authuser, async (req, res) => {
   try {
-    const { secret, token, tweet,hashtags } = req.body;
+    const { secret, token, tweet, hashtags } = req.body;
     if (req.method !== "POST" || REACT_APP_SECRET !== secret) {
       res.json({ success: false, message: "Some error accured!" });
       return;
@@ -130,7 +133,7 @@ router.post("/posttweet", Authuser, async (req, res) => {
       tweet: tweet,
       uid: id,
       profileId: profileid,
-      hashtags:hashtags
+      hashtags: hashtags,
     });
     const post = await newTextpost.save();
     const uprofile = await Profile.findOne({
@@ -150,8 +153,137 @@ router.post("/posttweet", Authuser, async (req, res) => {
     return;
   }
 });
-router.post("/postcomment", async (req, res) => {
-  res.json({ success: false, message: "" });
+router.post("/postimagecomment", Authuser, async (req, res) => {
+  try {
+    const { secret, token, comment, postid } = req.body;
+    if (req.method !== "POST" || REACT_APP_SECRET !== secret) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const decode = jwt.verify(token, JWT_SECRET);
+    const { username, email, id, profileid } = decode;
+    const user = await User.find(
+      { $and: [{ username: username }, { email: email }, { _id: id }] },
+      { _id: 0, username: 0, email: 0, password: 0 }
+    );
+    if (user?.length === 0) {
+      res.json({
+        success: false,
+        message: "Please logout then login and try again!",
+      });
+      return;
+    }
+    let newcommentimage = new CommentOnImage({
+      comment: comment,
+      uid: id,
+      profileId: profileid,
+      postid: postid,
+    });
+    const post = await newcommentimage.save();
+    const imagepost = await Image.findOne({
+      $and: [{ _id: postid }, { uid: id }],
+    });
+    const comments = imagepost?.comments;
+    const newComments = [...comments, post?._id];
+    await Image.updateOne(
+      { $and: [{ _id: postid }, { uid: id }] },
+      { $set: { comments: newComments } },
+      { new: true }
+    );
+    res.json({ success: true, message: "Comment uploaded successfully" });
+    return;
+  } catch (error) {
+    res.json({ success: false, message: "Some error accured! catch" });
+    return;
+  }
+});
+router.post("/postvideocomment", Authuser, async (req, res) => {
+  try {
+    const { secret, token, comment, postid } = req.body;
+    if (req.method !== "POST" || REACT_APP_SECRET !== secret) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const decode = jwt.verify(token, JWT_SECRET);
+    const { username, email, id, profileid } = decode;
+    const user = await User.find(
+      { $and: [{ username: username }, { email: email }, { _id: id }] },
+      { _id: 0, username: 0, email: 0, password: 0 }
+    );
+    if (user?.length === 0) {
+      res.json({
+        success: false,
+        message: "Please logout then login and try again!",
+      });
+      return;
+    }
+    let newcommentvideo = new CommentOnVideo({
+      comment: comment,
+      uid: id,
+      profileId: profileid,
+      postid: postid,
+    });
+    const post = await newcommentvideo.save();
+    const videopost = await Video.findOne({
+      $and: [{ _id: postid }, { uid: id }],
+    });
+    const comments = videopost?.comments;
+    const newComments = [...comments, post?._id];
+    await Video.updateOne(
+      { $and: [{ _id: postid }, { uid: id }] },
+      { $set: { comments: newComments } },
+      { new: true }
+    );
+    res.json({ success: true, message: "Comment uploaded successfully" });
+    return;
+  } catch (error) {
+    res.json({ success: false, message: "Some error accured! catch" });
+    return;
+  }
+});
+router.post("/posttextcomment", Authuser, async (req, res) => {
+  try {
+    const { secret, token, comment, postid } = req.body;
+    if (req.method !== "POST" || REACT_APP_SECRET !== secret) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const decode = jwt.verify(token, JWT_SECRET);
+    const { username, email, id, profileid } = decode;
+    const user = await User.find(
+      { $and: [{ username: username }, { email: email }, { _id: id }] },
+      { _id: 0, username: 0, email: 0, password: 0 }
+    );
+    if (user?.length === 0) {
+      res.json({
+        success: false,
+        message: "Please logout then login and try again!",
+      });
+      return;
+    }
+    let newcommenttweet = new CommentOnTweet({
+      comment: comment,
+      uid: id,
+      profileId: profileid,
+      postid: postid,
+    });
+    const post = await newcommenttweet.save();
+    const textpost = await Tweet.findOne({
+      $and: [{ _id: postid }, { uid: id }],
+    });
+    const comments = textpost?.comments;
+    const newComments = [...comments, post?._id];
+    await Tweet.updateOne(
+      { $and: [{ _id: postid }, { uid: id }] },
+      { $set: { comments: newComments } },
+      { new: true }
+    );
+    res.json({ success: true, message: "Comment uploaded successfully" });
+    return;
+  } catch (error) {
+    res.json({ success: false, message: "Some error accured! catch" });
+    return;
+  }
 });
 router.post("/postlikes", async (req, res) => {
   res.json({ success: false, message: "" });
