@@ -15,6 +15,10 @@ const Tweet = require("../models/Tweet");
 const CommentOnImage = require("../models/CommentOnImage");
 const CommentOnVideo = require("../models/CommentOnVideo");
 const CommentOnTweet = require("../models/CommentOnText");
+const LikeImage = require("../models/LikeImage");
+const { default: mongoose } = require("mongoose");
+const LikeVideo = require("../models/LikeVideo");
+const LikeTweet = require("../models/LikeTweet");
 
 router.post("/postimage", Authuser, async (req, res) => {
   try {
@@ -173,6 +177,13 @@ router.post("/postimagecomment", Authuser, async (req, res) => {
       });
       return;
     }
+    const imagepost = await Image.findOne({
+      $and: [{ _id: new mongoose.Types.ObjectId(postid) }, { uid: id }],
+    });
+    if (imagepost === null) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
     let newcommentimage = new CommentOnImage({
       comment: comment,
       uid: id,
@@ -180,9 +191,6 @@ router.post("/postimagecomment", Authuser, async (req, res) => {
       postid: postid,
     });
     const post = await newcommentimage.save();
-    const imagepost = await Image.findOne({
-      $and: [{ _id: postid }, { uid: id }],
-    });
     const comments = imagepost?.comments;
     const newComments = [...comments, post?._id];
     await Image.updateOne(
@@ -217,6 +225,16 @@ router.post("/postvideocomment", Authuser, async (req, res) => {
       });
       return;
     }
+
+    const videopost = await Video.findOne({
+      $and: [{ _id: new mongoose.Types.ObjectId(postid) }, { uid: id }],
+    });
+
+    if (videopost === null) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+
     let newcommentvideo = new CommentOnVideo({
       comment: comment,
       uid: id,
@@ -224,9 +242,6 @@ router.post("/postvideocomment", Authuser, async (req, res) => {
       postid: postid,
     });
     const post = await newcommentvideo.save();
-    const videopost = await Video.findOne({
-      $and: [{ _id: postid }, { uid: id }],
-    });
     const comments = videopost?.comments;
     const newComments = [...comments, post?._id];
     await Video.updateOne(
@@ -261,6 +276,15 @@ router.post("/posttextcomment", Authuser, async (req, res) => {
       });
       return;
     }
+    const textpost = await Tweet.findOne({
+      $and: [{ _id: new mongoose.Types.ObjectId(postid) }, { uid: id }],
+    });
+
+    if (textpost === null) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+
     let newcommenttweet = new CommentOnTweet({
       comment: comment,
       uid: id,
@@ -268,9 +292,6 @@ router.post("/posttextcomment", Authuser, async (req, res) => {
       postid: postid,
     });
     const post = await newcommenttweet.save();
-    const textpost = await Tweet.findOne({
-      $and: [{ _id: postid }, { uid: id }],
-    });
     const comments = textpost?.comments;
     const newComments = [...comments, post?._id];
     await Tweet.updateOne(
@@ -285,7 +306,169 @@ router.post("/posttextcomment", Authuser, async (req, res) => {
     return;
   }
 });
-router.post("/postlikes", async (req, res) => {
-  res.json({ success: false, message: "" });
+router.post("/likeimage", Authuser, async (req, res) => {
+  try {
+    const { secret, token, postid } = req.body;
+    if (req.method !== "POST" || REACT_APP_SECRET !== secret) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const decode = jwt.verify(token, JWT_SECRET);
+    const { username, email, id, profileid } = decode;
+    const user = await User.find(
+      { $and: [{ username: username }, { email: email }, { _id: id }] },
+      { _id: 0, username: 0, email: 0, password: 0 }
+    );
+    if (user?.length === 0) {
+      res.json({
+        success: false,
+        message: "Please logout then login and try again!",
+      });
+      return;
+    }
+    const imagepost = await Image.findOne({
+      $and: [{ _id: new mongoose.Types.ObjectId(postid) }, { uid: id }],
+    });
+    if (imagepost === null) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const isLiked = await LikeImage.findOne({
+      $and: [{ postid: postid }, { uid: id }],
+    });
+    if (isLiked != null) {
+      res.json({ success: false, message: "Allready liked" });
+      return;
+    }
+    let likeimage = new LikeImage({
+      uid: id,
+      profileId: profileid,
+      postid: postid,
+    });
+    const post = await likeimage.save();
+    const likes = imagepost?.likes;
+    const newlikes = [...likes, post?._id];
+    await Image.updateOne(
+      { $and: [{ _id: postid }, { uid: id }] },
+      { $set: { likes: newlikes } },
+      { new: true }
+    );
+    res.json({ success: true, message: "Liked!" });
+    return;
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Some error accured!" });
+    return;
+  }
+});
+router.post("/likevideo", Authuser, async (req, res) => {
+  try {
+    const { secret, token, postid } = req.body;
+    if (req.method !== "POST" || REACT_APP_SECRET !== secret) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const decode = jwt.verify(token, JWT_SECRET);
+    const { username, email, id, profileid } = decode;
+    const user = await User.find(
+      { $and: [{ username: username }, { email: email }, { _id: id }] },
+      { _id: 0, username: 0, email: 0, password: 0 }
+    );
+    if (user?.length === 0) {
+      res.json({
+        success: false,
+        message: "Please logout then login and try again!",
+      });
+      return;
+    }
+    const videopost = await Video.findOne({
+      $and: [{ _id: new mongoose.Types.ObjectId(postid) }, { uid: id }],
+    });
+    if (videopost === null) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const isLiked = await LikeVideo.findOne({
+      $and: [{ postid: postid }, { uid: id }],
+    });
+    if (isLiked != null) {
+      res.json({ success: false, message: "Allready liked" });
+      return;
+    }
+    let likevideo = new LikeVideo({
+      uid: id,
+      profileId: profileid,
+      postid: postid,
+    });
+    const post = await likevideo.save();
+    const likes = videopost?.likes;
+    const newlikes = [...likes, post?._id];
+    await Video.updateOne(
+      { $and: [{ _id: postid }, { uid: id }] },
+      { $set: { likes: newlikes } },
+      { new: true }
+    );
+    res.json({ success: true, message: "Liked!" });
+    return;
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Some error accured!" });
+    return;
+  }
+});
+router.post("/liketweet", Authuser, async (req, res) => {
+  try {
+    const { secret, token, postid } = req.body;
+    if (req.method !== "POST" || REACT_APP_SECRET !== secret) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const decode = jwt.verify(token, JWT_SECRET);
+    const { username, email, id, profileid } = decode;
+    const user = await User.find(
+      { $and: [{ username: username }, { email: email }, { _id: id }] },
+      { _id: 0, username: 0, email: 0, password: 0 }
+    );
+    if (user?.length === 0) {
+      res.json({
+        success: false,
+        message: "Please logout then login and try again!",
+      });
+      return;
+    }
+    const tweetpost = await Tweet.findOne({
+      $and: [{ _id: new mongoose.Types.ObjectId(postid) }, { uid: id }],
+    });
+    if (tweetpost === null) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const isLiked = await LikeTweet.findOne({
+      $and: [{ postid: postid }, { uid: id }],
+    });
+    if (isLiked != null) {
+      res.json({ success: false, message: "Allready liked" });
+      return;
+    }
+    let liketweet = new LikeTweet({
+      uid: id,
+      profileId: profileid,
+      postid: postid,
+    });
+    const post = await liketweet.save();
+    const likes = tweetpost?.likes;
+    const newlikes = [...likes, post?._id];
+    await Tweet.updateOne(
+      { $and: [{ _id: postid }, { uid: id }] },
+      { $set: { likes: newlikes } },
+      { new: true }
+    );
+    res.json({ success: true, message: "Liked!" });
+    return;
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Some error accured!" });
+    return;
+  }
 });
 module.exports = router;
