@@ -11,9 +11,11 @@ import {
 } from "lucide-react";
 import { Theme } from "../context/ThemeProvider";
 import { PuffLoader } from "react-spinners";
+import Profileimage from "./Profileimage";
 
-const ImagePost = ({ src, username, time, caption, hashtags, totalLikes }) => {
+const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLikes }) => {
   const [imageloaded, setImageloaded] = useState(false);
+  const [profileimageloaded, setprofileimageloaded] = useState(false);
   const [isLiked, setisLiked] = useState(false);
   const [addComment, setAddComment] = useState("");
   const [commentAdding, setCommentAdding] = useState(false);
@@ -25,6 +27,7 @@ const ImagePost = ({ src, username, time, caption, hashtags, totalLikes }) => {
     img.onload = () => {
       setImageloaded(true);
     };
+    
     img.src = src;
   }, [src]);
   return (
@@ -41,12 +44,7 @@ const ImagePost = ({ src, username, time, caption, hashtags, totalLikes }) => {
             <div className="cursor-pointer">
               <div className="flex flex-col w-full gap2">
                 <div className="relative w-full overflow-hidden rounded-full aspect-square">
-                  <img
-                    className="transition rounded-full w-11 h-11 hover:scale-105"
-                    src={src}
-                    alt=""
-                    loading="lazy"
-                  />
+                  <Profileimage key={profileimg} imgsrc={profileimg}/>
                 </div>
               </div>
             </div>
@@ -105,7 +103,7 @@ const ImagePost = ({ src, username, time, caption, hashtags, totalLikes }) => {
             <Blurhash
               hash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
               width={"100%"}
-              height={300}
+              height={350}
               resolutionX={32}
               resolutionY={32}
               punch={0}
