@@ -67,6 +67,57 @@ router.post("/postimage", Authuser, async (req, res) => {
   }
 });
 
+router.post("/deleteimage", Authuser, async (req, res) => {
+  try {
+    const { secret, token, imageid } = req.body;
+    if (req.method !== "POST" || REACT_APP_SECRET !== secret) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const decode = jwt.verify(token, JWT_SECRET);
+    const { username, email, id, profileid } = decode;
+    const user = await User.find(
+      { $and: [{ username: username }, { email: email }, { _id: id }] },
+      { _id: 0, username: 0, email: 0, password: 0 }
+    );
+    if (user?.length === 0) {
+      res.json({
+        success: false,
+        message: "Please logout then login and try again!",
+      });
+      return;
+    }
+    const post = await Image.find({ _id: imageid });
+    if (post?.length === 0) {
+      res.json({
+        success: false,
+        message: "Some error accured please refresh and try again!",
+      });
+      return;
+    }
+    const uprofile = await Profile.findOne({
+      $and: [{ _id: profileid }, { userid: id }],
+    });
+    const images = uprofile?.images;
+    await LikeImage.deleteMany({ postid: post[0]?._id });
+    await Image.deleteMany({ _id: post[0]?._id });
+    await CommentOnImage.deleteMany({ postid: post[0]?._id });
+    const newImages = images?.filter(
+      (item) => item.toString() !== (post[0]?._id).toString()
+    );
+    await Profile.updateOne(
+      { $and: [{ _id: profileid }, { userid: id }] },
+      { $set: { images: newImages } },
+      { new: true }
+    );
+    res.json({ success: true, message: "Image deleted successfully" });
+    return;
+  } catch (error) {
+    res.json({ success: false, message: "Some error accured! catch" });
+    return;
+  }
+});
+
 router.post("/postvideo", Authuser, async (req, res) => {
   try {
     const { secret, token, videoLink, tagged, caption, hashtags } = req.body;
@@ -113,6 +164,59 @@ router.post("/postvideo", Authuser, async (req, res) => {
     return;
   }
 });
+
+router.post("/deletevideo", Authuser, async (req, res) => {
+  try {
+    const { secret, token, videoid } = req.body;
+    if (req.method !== "POST" || REACT_APP_SECRET !== secret) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const decode = jwt.verify(token, JWT_SECRET);
+    const { username, email, id, profileid } = decode;
+    const user = await User.find(
+      { $and: [{ username: username }, { email: email }, { _id: id }] },
+      { _id: 0, username: 0, email: 0, password: 0 }
+    );
+    if (user?.length === 0) {
+      res.json({
+        success: false,
+        message: "Please logout then login and try again!",
+      });
+      return;
+    }
+    const post = await Video.find({ _id: videoid });
+    if (post?.length === 0) {
+      res.json({
+        success: false,
+        message: "Some error accured please refresh and try again!",
+      });
+      return;
+    }
+    const uprofile = await Profile.findOne({
+      $and: [{ _id: profileid }, { userid: id }],
+    });
+    const videos = uprofile?.videos;
+    await LikeVideo.deleteMany({ postid: post[0]?._id });
+    await Video.deleteMany({ _id: post[0]?._id });
+    await CommentOnVideo.deleteMany({ postid: post[0]?._id });
+    const newVideos = videos?.filter(
+      (item) => item.toString() !== (post[0]?._id).toString()
+    );
+    
+    await Profile.updateOne(
+      { $and: [{ _id: profileid }, { userid: id }] },
+      { $set: { videos: newVideos } },
+      { new: true }
+    );
+    res.json({ success: true, message: "Video deleted successfully" });
+    return;
+  } catch (error) {
+    res.json({ success: false, message: "Some error accured! catch" });
+    return;
+  }
+});
+
 router.post("/posttweet", Authuser, async (req, res) => {
   try {
     const { secret, token, tweet, hashtags } = req.body;
@@ -157,6 +261,59 @@ router.post("/posttweet", Authuser, async (req, res) => {
     return;
   }
 });
+
+router.post("/deletetweet", Authuser, async (req, res) => {
+  try {
+    const { secret, token, tweetid } = req.body;
+    if (req.method !== "POST" || REACT_APP_SECRET !== secret) {
+      res.json({ success: false, message: "Some error accured!" });
+      return;
+    }
+    const decode = jwt.verify(token, JWT_SECRET);
+    const { username, email, id, profileid } = decode;
+    const user = await User.find(
+      { $and: [{ username: username }, { email: email }, { _id: id }] },
+      { _id: 0, username: 0, email: 0, password: 0 }
+    );
+    if (user?.length === 0) {
+      res.json({
+        success: false,
+        message: "Please logout then login and try again!",
+      });
+      return;
+    }
+    const post = await Tweet.find({ _id: tweetid });
+    if (post?.length === 0) {
+      res.json({
+        success: false,
+        message: "Some error accured please refresh and try again!",
+      });
+      return;
+    }
+    const uprofile = await Profile.findOne({
+      $and: [{ _id: profileid }, { userid: id }],
+    });
+    const tweets = uprofile?.tweets;
+    await LikeTweet.deleteMany({ postid: post[0]?._id });
+    await Tweet.deleteMany({ _id: post[0]?._id });
+    await CommentOnTweet.deleteMany({ postid: post[0]?._id });
+    const newTweets = tweets?.filter(
+      (item) => item.toString() !== (post[0]?._id).toString()
+    );
+    
+    await Profile.updateOne(
+      { $and: [{ _id: profileid }, { userid: id }] },
+      { $set: { tweets: newTweets } },
+      { new: true }
+    );
+    res.json({ success: true, message: "Tweet deleted successfully" });
+    return;
+  } catch (error) {
+    res.json({ success: false, message: "Some error accured! catch" });
+    return;
+  }
+});
+
 router.post("/postimagecomment", Authuser, async (req, res) => {
   try {
     const { secret, token, comment, postid } = req.body;
