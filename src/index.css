@@ -6,6 +6,7 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .scrollwidth::-webkit-scrollbar {
@@ -38,3 +39,8 @@ outline: 1px solid slategrey;
 .storywidth{
   width: 115px !important;
 }
+
+.modal-backdrop{
+  backdrop-filter: blur(5px);
+}
+

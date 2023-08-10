@@ -7,6 +7,9 @@ const ThemeProvider = ({ children }) => {
   const [mounted, setMounted] = useState(false);
   const [isLoggedin, setisLoggedin] = useState(false);
   const [progress, setProgress] = useState(0)
+  const [uploadfile,setUploadfile] = useState(null);
+  const [uploadimagemodal,setuploadimagemodal] = useState(false)
+  const [uploadimagemodalanimation,setuploadimagemodalanimation] = useState(false)
 
   useEffect(() => {
     setMounted(true);
@@ -45,7 +48,13 @@ const ThemeProvider = ({ children }) => {
         isLoggedin,
         setisLoggedin,
         progress,
-        setProgress
+        setProgress,
+        uploadfile,
+        setUploadfile,
+        uploadimagemodal,
+        setuploadimagemodal,
+        uploadimagemodalanimation,
+        setuploadimagemodalanimation
       }}
     >
       {children}
