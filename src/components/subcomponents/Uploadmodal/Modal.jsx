@@ -19,12 +19,17 @@ const Modal = () => {
   const [uploadfilebar, setuploadfilebar] = useState(false);
   const [textpostitem, settextpostitem] = useState("");
   const [textpost, settextpost] = useState(false);
+  const [isVideo, setisVideo] = useState(false);
   const selectFile = (e) => {
     e.preventDefault();
     fileref.current.click();
   };
   const addFiletovar = (e) => {
     const reader = new FileReader();
+    setisVideo(false)
+    if ((e.target.files[0].type).includes("video")) {
+      setisVideo(true);
+    }
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
     }
@@ -231,11 +236,20 @@ const Modal = () => {
                       className="h-[520px] relative flex flex-col items-center justify-center overflow-hidden"
                     >
                       <div className="items-center  mx-0 rounded-lg overflow-hidden object-cover justify-center flex flex-col">
-                        <img
-                          src={uploadfile}
-                          className="w-full h-full"
-                          alt=""
-                        />
+                        {!isVideo && (
+                          <img
+                            src={uploadfile}
+                            className="w-full h-full"
+                            alt=""
+                          />
+                        )}
+                        {isVideo && (
+                          <video controls autoPlay={true} className="w-full h-full">
+                            <source
+                              src={uploadfile}
+                            />
+                          </video>
+                        )}
                       </div>
                       <div
                         className="absolute bottom-0 right-0"
