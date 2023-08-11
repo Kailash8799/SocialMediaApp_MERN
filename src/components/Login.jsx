@@ -47,11 +47,11 @@ function Login() {
         setisLoggedin(true);
         navigate("/", { replace: true });
       } else {
-        toast.error(data.message);
+        toast.error(data?.message);
       }
       setloading(false);
     } catch (error) {
-      toast.error(error);
+      toast.error("Some error accured!");
       setloading(false);
     }
   };

@@ -17,7 +17,7 @@ import LoadingBar from "react-top-loading-bar";
 import Modal from "./components/subcomponents/Uploadmodal/Modal";
 
 function App() {
-  const { isLoggedin, setisLoggedin, progress, setProgress,uploadimagemodal } =
+  const { isLoggedin, setisLoggedin, progress, setProgress, uploadimagemodal } =
     useContext(Theme);
   const [mounted, setisMounted] = useState(false);
   useEffect(() => {
@@ -49,11 +49,11 @@ function App() {
           } else {
             setisLoggedin(false);
             localStorage.removeItem("userlogintoken");
-            toast.error(data.message);
+            toast.error(data?.message);
           }
         } catch (error) {
           setisLoggedin(false);
-          toast.error(error);
+          toast.error(error?.message);
         }
       })();
     }
@@ -65,7 +65,7 @@ function App() {
       <Toaster />
       {isLoggedin ? (
         <>
-         {uploadimagemodal && <Modal />}
+          {uploadimagemodal && <Modal />}
           <Routes>
             <Route path="/" element={<TopNavbar />}>
               <Route index element={<Home />} />

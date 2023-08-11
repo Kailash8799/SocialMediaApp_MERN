@@ -45,14 +45,14 @@ export default function Verifyuser() {
       );
       const data = await responce.json();
       if (data.success) {
-        toast.success(data.message);
+        toast.success(data?.message);
         navigate("/", { replace: true });
       } else {
-        toast.error(data.message);
+        toast.error(data?.message);
       }
       setloading(false);
     } catch (error) {
-      toast.error(error);
+      toast.error("Some error accured!");
       setloading(false);
     }
   };

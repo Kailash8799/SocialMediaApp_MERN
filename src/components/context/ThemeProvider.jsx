@@ -24,7 +24,7 @@ const ThemeProvider = ({ children }) => {
       setthemeMode("light");
     }
   }, []);
-  if (!mounted) return;
+  
   const ChangeTheme = () => {
     if (themeMode === "light") {
       document.body.classList.remove("light");
@@ -38,7 +38,7 @@ const ThemeProvider = ({ children }) => {
       localStorage.setItem("thememode", "light");
     }
   };
-
+  if (!mounted)return;
   return (
     <Theme.Provider
       value={{
