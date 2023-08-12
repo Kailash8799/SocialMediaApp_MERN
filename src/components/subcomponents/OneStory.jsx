@@ -6,9 +6,9 @@ const OneStory = () => {
       <div style={{ zIndex: 50 }} className="absolute top-1 left-1">
         <div className="cursor-pointer">
           <div className="flex flex-col w-full gap2">
-            <div className="relative w-full overflow-hidden rounded-full aspect-square">
+            <div className="img-container relative w-full overflow-hidden rounded-full aspect-square">
               <img
-                className="transition border-[3px] border-blue-600 rounded-full w-11 h-11 hover:scale-105"
+                className="img-container transition border-[3px] border-blue-600 rounded-full w-11 h-11 hover:scale-105"
                 src={
                   "https://res.cloudinary.com/dyyonlqge/image/upload/v1685327821/bxgrtnyp2rt4uynge9nx.webp"
                 }
@@ -20,7 +20,7 @@ const OneStory = () => {
         </div>
       </div>
       <div className="h-full">
-            <div className="relative w-full h-full overflow-hidden rounded-lg aspect-auto">
+            <div className="img-container relative w-full h-full overflow-hidden rounded-lg aspect-auto">
               <img
                 src="https://res.cloudinary.com/dyyonlqge/image/upload/v1685327821/bxgrtnyp2rt4uynge9nx.webp"
                 className="w-full h-full transition hover:scale-105"

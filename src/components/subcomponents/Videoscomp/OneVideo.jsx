@@ -21,15 +21,15 @@ const OneVideo = ({ src, username, time, caption, hashtags, totalLikes }) => {
     
   }, []);
   return (
-    <div className="items-center justify-center w-full py-3 mx-auto space-y-1 rounded-md shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] border-slate-700 sm:mx-0 sm:max-w-xl">
+    <div className="items-center selection:bg-none justify-center w-full py-3 mx-auto space-y-1 rounded-md shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] border-slate-700 sm:mx-0 sm:max-w-xl">
       <div className="flex px-1.5 items-center justify-between h-12">
         {/*  For the header of posts */}
         <div className="flex items-center justify-center space-x-3">
           <div className="cursor-pointer">
             <div className="flex flex-col w-full gap2">
-              <div className="relative w-full overflow-hidden rounded-full aspect-square">
+              <div className="relative img-container w-full overflow-hidden rounded-full aspect-square">
                 <img
-                  className="transition rounded-full w-11 h-11 hover:scale-105"
+                  className="transition img-container rounded-full w-11 h-11 hover:scale-105"
                   src={src}
                   alt=""
                   loading="lazy"
@@ -79,10 +79,10 @@ const OneVideo = ({ src, username, time, caption, hashtags, totalLikes }) => {
         {(
           <div className="max-w-screen-md row-span-2 mx-auto cursor-pointer group">
             <div className="flex flex-col w-full gap2">
-              <div className="relative w-full overflow-hidden aspect-square ">
+              <div className="relative img-container w-full overflow-hidden aspect-square ">
                 <video
                   src="https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
-                  className="w-full h-full transition"
+                  className="w-full img-container h-full transition"
                   controls
                   alt=""
                   srcSet=""

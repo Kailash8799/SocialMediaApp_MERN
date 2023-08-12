@@ -15,7 +15,7 @@ const Profileimage = ({ imgsrc }) => {
   }, [imgsrc]);
   return (
     <img
-      className="transition border-none rounded-full w-11 h-11 hover:scale-105"
+      className="transition img-container border-none rounded-full w-11 h-11 hover:scale-105"
       src={profileimageloaded ? imgsrc : "/user.png"}
       alt=""
       loading="lazy"

@@ -15,7 +15,7 @@ import Profileimage from "./Profileimage";
 
 const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLikes }) => {
   const [imageloaded, setImageloaded] = useState(false);
-  const [profileimageloaded, setprofileimageloaded] = useState(false);
+  // const [profileimageloaded, setprofileimageloaded] = useState(false);
   const [isLiked, setisLiked] = useState(false);
   const [addComment, setAddComment] = useState("");
   const [commentAdding, setCommentAdding] = useState(false);
@@ -36,14 +36,14 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
         onClick={(e) => {
           setopenPopup(false);
         }}
-        className="items-center justify-center w-full py-3 mx-auto space-y-1 rounded-md shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] border-slate-700 sm:mx-0 sm:max-w-xl"
+        className="items-center selection:bg-none justify-center w-full py-3 mx-auto space-y-1 rounded-md shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] border-slate-700 sm:mx-0 sm:max-w-xl"
       >
         <div className="flex px-1.5 items-center justify-between h-12">
           {/*  For the header of posts */}
           <div className="flex items-center justify-center space-x-3">
             <div className="cursor-pointer">
               <div className="flex flex-col w-full gap2">
-                <div className="relative w-full overflow-hidden rounded-full aspect-square">
+                <div className="img-container relative w-full overflow-hidden rounded-full aspect-square">
                   <Profileimage key={profileimg} imgsrc={profileimg}/>
                 </div>
               </div>
@@ -112,10 +112,10 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
           {imageloaded && (
             <div className="max-w-screen-md row-span-2 mx-auto cursor-pointer group">
               <div className="flex flex-col w-full gap2">
-                <div className="relative w-full overflow-hidden aspect-square ">
+                <div className="img-container relative w-full overflow-hidden aspect-square ">
                   <img
                     src="https://res.cloudinary.com/dyyonlqge/image/upload/v1685327821/bxgrtnyp2rt4uynge9nx.webp"
-                    className="w-full h-full transition hover:scale-105"
+                    className="img-container selection:bg-none w-full h-full transition hover:scale-105"
                     alt=""
                     srcSet=""
                   />

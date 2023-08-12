@@ -11,11 +11,11 @@ const OneFriend = ({ id }) => {
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (
-    <div className="cursor-pointer my-2 rounded-lg shadow-inner dark:border-b-[1px] border-slate-700 shadow-slate-500 dark:shadow-slate-500">
-      <div className="relative w-full overflow-hidden rounded-t-lg aspect-square">
+    <div className="cursor-pointer selection:bg-none my-2 rounded-lg shadow-inner dark:border-b-[1px] border-slate-700 shadow-slate-500 dark:shadow-slate-500">
+      <div className="relative img-container w-full overflow-hidden rounded-t-lg aspect-square">
         <img
           src="https://res.cloudinary.com/dyyonlqge/image/upload/v1685327821/bxgrtnyp2rt4uynge9nx.webp"
-          className="w-full h-full transition hover:scale-105"
+          className="w-full h-full img-container transition hover:scale-105"
           alt=""
           srcSet=""
         />
