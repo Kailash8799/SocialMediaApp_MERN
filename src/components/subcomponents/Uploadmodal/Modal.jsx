@@ -1,10 +1,13 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Theme } from "../../context/ThemeProvider";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiImage } from "react-icons/fi";
 import { PlaySquare } from "lucide-react";
 import { BiArrowBack } from "react-icons/bi";
+import { toast } from "react-hot-toast";
+import { RotatingLines } from "react-loader-spinner";
+const secret = process.env.REACT_APP_SECRET;
 
 const Modal = () => {
   const {
@@ -20,14 +23,24 @@ const Modal = () => {
   const [textpostitem, settextpostitem] = useState("");
   const [textpost, settextpost] = useState(false);
   const [isVideo, setisVideo] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
+  const [token, settoken] = useState("");
+  const [ismounted, setisMounted] = useState(false);
+  useEffect(() => {
+    setisMounted(true);
+    const tk = localStorage.getItem("userlogintoken");
+    if (tk) {
+      settoken(tk);
+    }
+  }, []);
   const selectFile = (e) => {
     e.preventDefault();
     fileref.current.click();
   };
-  const addFiletovar = (e) => {
+  const addFiletovar = async (e) => {
     const reader = new FileReader();
-    setisVideo(false)
-    if ((e.target.files[0].type).includes("video")) {
+    setisVideo(false);
+    if (e.target.files[0].type.includes("video")) {
       setisVideo(true);
     }
     if (e.target.files[0]) {
@@ -38,6 +51,45 @@ const Modal = () => {
       setuploadfilebar(true);
     };
   };
+  const uploadtextPost = async () => {
+    try {
+      setisLoading(true);
+      const responce = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/posttweet`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            token: token,
+            secret: secret,
+            tweet: textpostitem,
+            hashtags: ["Hello", "Hii"],
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const data = await responce.json();
+      if (data.success) {
+        toast.success(data?.message);
+        settextpostitem("");
+        setisLoading(false);
+        setuploadimagemodalanimation(false);
+        setUploadfile(null)
+        setTimeout(() => {
+          setuploadimagemodal(false);
+        }, 500);
+      } else {
+        toast.error(data?.message);
+        setisLoading(false);
+      }
+      setisLoading(false);
+    } catch (error) {
+      toast.error("Some error accured");
+      setisLoading(false);
+    }
+  };
+  if (!ismounted) return;
   return (
     <div
       className="selection:bg-none fixed h-screen w-screen modal-backdrop"
@@ -244,10 +296,12 @@ const Modal = () => {
                           />
                         )}
                         {isVideo && (
-                          <video controls autoPlay={true} className="w-full h-full">
-                            <source
-                              src={uploadfile}
-                            />
+                          <video
+                            controls
+                            autoPlay={true}
+                            className="w-full h-full"
+                          >
+                            <source src={uploadfile} />
                           </video>
                         )}
                       </div>
@@ -373,9 +427,26 @@ const Modal = () => {
                       </div>
                     </div>
                     <div className="mt-2">
-                      <h1 className="text-center cursor-pointer text-white font-semibold py-2 rounded-lg  max-w-xs w-full bg-blue-600 mx-auto">
-                        Post
-                      </h1>
+                      {!isLoading ? (
+                        <h1
+                          onClick={() => {
+                            uploadtextPost();
+                          }}
+                          className="text-center cursor-pointer text-white font-semibold py-2 rounded-lg  max-w-xs w-full bg-blue-600 mx-auto"
+                        >
+                          Post
+                        </h1>
+                      ) : (
+                        <h1 className="text-center cursor-pointer text-white font-semibold py-2 rounded-lg justify-center flex  max-w-xs w-full bg-blue-600 mx-auto">
+                          <RotatingLines
+                            strokeColor="white"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="23"
+                            visible={true}
+                          />
+                        </h1>
+                      )}
                     </div>
                   </div>
                 </motion.div>

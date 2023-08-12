@@ -53,7 +53,8 @@ function App() {
           }
         } catch (error) {
           setisLoggedin(false);
-          toast.error(error?.message);
+          localStorage.removeItem("userlogintoken");
+          toast.error("Some error accured!");
         }
       })();
     }
