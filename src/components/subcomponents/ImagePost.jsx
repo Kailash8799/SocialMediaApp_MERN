@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Blurhash } from "react-blurhash";
 import {
   Bookmark,
-  Heart,
-  HeartHandshake,
   MessagesSquare,
   MoreHorizontal,
   Send,
@@ -12,6 +10,9 @@ import {
 import { Theme } from "../context/ThemeProvider";
 import { PuffLoader } from "react-spinners";
 import Profileimage from "./Profileimage";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLikes }) => {
   const [imageloaded, setImageloaded] = useState(false);
@@ -43,14 +44,14 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
           <div className="flex items-center justify-center space-x-3">
             <div className="cursor-pointer">
               <div className="flex flex-col w-full gap2">
-                <div className="img-container relative w-full overflow-hidden rounded-full aspect-square">
+                <div className="relative w-full overflow-hidden rounded-full img-container aspect-square">
                   <Profileimage key={profileimg} imgsrc={profileimg}/>
                 </div>
               </div>
             </div>
             <div>
               <h1 className="text-lg font-medium text-black cursor-pointer dark:text-white">
-                {username} • {time}
+                {username.length > 10 ? username.slice(0,10) : username} • <Moment fromNow>{time}</Moment>
               </h1>
             </div>
           </div>
@@ -78,12 +79,7 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
         </div>
         <div className="px-1.5">
           <h1 className="flex-wrap text-black dark:text-white">
-            {caption} Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            Vitae, aliquid. Eos voluptate placeat delectus incidunt esse itaque
-            iusto rerum! Numquam itaque maiores autem fugiat rerum officia
-            architecto odio cum laboriosam sapiente voluptas amet obcaecati,
-            iure possimus, et quod delectus voluptatibus iusto, quis id! Neque
-            saepe magni, tempora delectus ex harum.
+            {caption}
           </h1>
           <div className="flex flex-wrap space-x-2">
             {hashtags?.map((item, key) => {
@@ -112,10 +108,10 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
           {imageloaded && (
             <div className="max-w-screen-md row-span-2 mx-auto cursor-pointer group">
               <div className="flex flex-col w-full gap2">
-                <div className="img-container relative w-full overflow-hidden aspect-square ">
+                <div className="relative w-full overflow-hidden img-container aspect-square ">
                   <img
-                    src="https://res.cloudinary.com/dyyonlqge/image/upload/v1685327821/bxgrtnyp2rt4uynge9nx.webp"
-                    className="img-container selection:bg-none w-full h-full transition hover:scale-105"
+                    src={src}
+                    className="w-full h-full transition img-container selection:bg-none hover:scale-105"
                     alt=""
                     srcSet=""
                   />
@@ -123,31 +119,22 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
               </div>
             </div>
           )}
-          {/*  For the posts */}
-          {/* <Blurhash
-          hash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
-          width={"100%"}
-          height={300}
-          resolutionX={32}
-          resolutionY={32}
-          punch={1}
-        /> */}
         </div>
         <div className="flex items-center justify-between h-12 px-3">
           {/*  For the footer of posts */}
           <div className="flex items-center justify-center space-x-5">
             <div className="cursor-pointer">
               {isLiked ? (
-                <HeartHandshake
+                <AiFillHeart
                   onClick={() => {
                     setisLiked(false);
                   }}
-                  size={28}
+                  size={29}
                   color="#ed1d1d"
                 />
               ) : (
-                <Heart
-                  size={28}
+                <AiOutlineHeart
+                  size={29}
                   onClick={() => {
                     setisLiked(true);
                   }}
@@ -175,7 +162,7 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
         <div className="px-3">
           {isLiked ? (
             <h1 className="-mt-2 font-semibold text-black dark:text-white">
-              Liked by you and {totalLikes} others
+              Liked by you {totalLikes !== 0 && `and ${totalLikes} others`}
             </h1>
           ) : (
             <h1 className="-mt-2 font-semibold text-black dark:text-white">

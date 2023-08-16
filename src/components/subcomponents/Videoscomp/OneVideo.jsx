@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   Bookmark,
-  Heart,
-  HeartHandshake,
   MessagesSquare,
   MoreHorizontal,
   Send,
   X,
 } from "lucide-react";
-import {  PuffLoader } from "react-spinners";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { PuffLoader } from "react-spinners";
 import { Theme } from "../../context/ThemeProvider";
 
 const OneVideo = ({ src, username, time, caption, hashtags, totalLikes }) => {
@@ -17,9 +16,7 @@ const OneVideo = ({ src, username, time, caption, hashtags, totalLikes }) => {
   const [commentAdding, setCommentAdding] = useState(false);
 
   const { themeMode } = useContext(Theme);
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
   return (
     <div className="items-center selection:bg-none justify-center w-full py-3 mx-auto space-y-1 rounded-md shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] border-slate-700 sm:mx-0 sm:max-w-xl">
       <div className="flex px-1.5 items-center justify-between h-12">
@@ -27,9 +24,9 @@ const OneVideo = ({ src, username, time, caption, hashtags, totalLikes }) => {
         <div className="flex items-center justify-center space-x-3">
           <div className="cursor-pointer">
             <div className="flex flex-col w-full gap2">
-              <div className="relative img-container w-full overflow-hidden rounded-full aspect-square">
+              <div className="relative w-full overflow-hidden rounded-full img-container aspect-square">
                 <img
-                  className="transition img-container rounded-full w-11 h-11 hover:scale-105"
+                  className="transition rounded-full img-container w-11 h-11 hover:scale-105"
                   src={src}
                   alt=""
                   loading="lazy"
@@ -75,14 +72,13 @@ const OneVideo = ({ src, username, time, caption, hashtags, totalLikes }) => {
         </div>
       </div>
       <div>
-        
-        {(
+        {
           <div className="max-w-screen-md row-span-2 mx-auto cursor-pointer group">
             <div className="flex flex-col w-full gap2">
-              <div className="relative img-container w-full overflow-hidden aspect-square ">
+              <div className="relative w-full overflow-hidden img-container aspect-square ">
                 <video
                   src="https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
-                  className="w-full img-container h-full transition"
+                  className="w-full h-full transition img-container"
                   controls
                   alt=""
                   srcSet=""
@@ -90,23 +86,24 @@ const OneVideo = ({ src, username, time, caption, hashtags, totalLikes }) => {
               </div>
             </div>
           </div>
-        )}
+        }
       </div>
       <div className="flex items-center justify-between h-12 px-3">
         {/*  For the footer of posts */}
         <div className="flex items-center justify-center space-x-5">
           <div className="cursor-pointer">
             {isLiked ? (
-              <HeartHandshake
-                onClick={() => {
-                  setisLiked(false);
-                }}
-                size={28}
-                color="#ed1d1d"
-              />
+                <AiFillHeart
+                  onClick={() => {
+                    setisLiked(false);
+                  }}
+                  className="transition-all transform"
+                  size={29}
+                  color="#ed1d1d"
+                />
             ) : (
-              <Heart
-                size={28}
+              <AiOutlineHeart
+                size={29}
                 onClick={() => {
                   setisLiked(true);
                 }}
@@ -158,9 +155,9 @@ const OneVideo = ({ src, username, time, caption, hashtags, totalLikes }) => {
             <h1
               onClick={() => {
                 setCommentAdding(true);
-                setTimeout(()=>{
-                    setCommentAdding(false)
-                },1000)
+                setTimeout(() => {
+                  setCommentAdding(false);
+                }, 1000);
               }}
               className="text-lg text-center text-blue-900 cursor-pointer"
             >

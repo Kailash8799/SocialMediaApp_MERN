@@ -15,6 +15,7 @@ import { Theme } from "./components/context/ThemeProvider";
 import { Toaster, toast } from "react-hot-toast";
 import LoadingBar from "react-top-loading-bar";
 import Modal from "./components/subcomponents/Uploadmodal/Modal";
+import AllPosts from "./components/AllPosts";
 
 function App() {
   const { isLoggedin, setisLoggedin, progress, setProgress, uploadimagemodal } =
@@ -73,6 +74,11 @@ function App() {
               <Route path="/friends" element={<Friends />} />
               <Route path="/watch" element={<Watch />} />
               <Route path="/marketplace" element={<Marketplace />} />
+              <Route path="/tweets" element={<Marketplace />} />
+              <Route path="/saved" element={<Marketplace />} />
+              <Route path="/messages" element={<Marketplace />} />
+              <Route path="/explore" element={<Marketplace />} />
+              <Route path="/posts" element={<AllPosts />} />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>
