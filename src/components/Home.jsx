@@ -3,10 +3,15 @@ import ImagePost from "./subcomponents/ImagePost";
 import SideNavbar from "./subcomponents/SideNavbar";
 import Stories from "./subcomponents/Stories";
 import { Theme } from "./context/ThemeProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { setPosts } from "../redux/actions/postaction";
 
 const Home = () => {
   const { setProgress } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
+  const allposts = useSelector((state)=>state.setPosts.posts)
+  const [homefeed, sethomefeed] = useState(allposts);
+  const dispatch = useDispatch();
   try {
     useEffect(() => {
       setProgress(0);
@@ -27,6 +32,7 @@ const Home = () => {
           );
           const posts = await postsdata.json();
           if (posts?.success) {
+            dispatch(setPosts(posts?.posts))
             sethomefeed(posts?.posts);
           } else {
             sethomefeed([]);
@@ -36,10 +42,10 @@ const Home = () => {
         sethomefeed([]);
       }
       setProgress(100);
-    }, [setProgress]);
-  } catch (error) {}
-  const [homefeed, sethomefeed] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
-  console.log(homefeed);
+    }, [dispatch, setProgress]);
+  } catch (error) {
+    console.log(error);
+  }
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (

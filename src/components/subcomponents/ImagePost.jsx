@@ -11,10 +11,18 @@ import { Theme } from "../context/ThemeProvider";
 import { PuffLoader } from "react-spinners";
 import Profileimage from "./Profileimage";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import Moment from 'react-moment';
-import 'moment-timezone';
+import Moment from "react-moment";
+import "moment-timezone";
 
-const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLikes }) => {
+const ImagePost = ({
+  profileimg,
+  src,
+  username,
+  time,
+  caption,
+  hashtags,
+  totalLikes,
+}) => {
   const [imageloaded, setImageloaded] = useState(false);
   // const [profileimageloaded, setprofileimageloaded] = useState(false);
   const [isLiked, setisLiked] = useState(false);
@@ -28,7 +36,7 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
     img.onload = () => {
       setImageloaded(true);
     };
-    
+
     img.src = src;
   }, [src]);
   return (
@@ -45,13 +53,14 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
             <div className="cursor-pointer">
               <div className="flex flex-col w-full gap2">
                 <div className="relative w-full overflow-hidden rounded-full img-container aspect-square">
-                  <Profileimage key={profileimg} imgsrc={profileimg}/>
+                  <Profileimage key={profileimg} imgsrc={profileimg} />
                 </div>
               </div>
             </div>
             <div>
               <h1 className="text-lg font-medium text-black cursor-pointer dark:text-white">
-                {username.length > 10 ? username.slice(0,10) : username} • <Moment fromNow>{time}</Moment>
+                {username?.length > 10 ? username.slice(0, 10) : username} •{" "}
+                <Moment interval={1} fromNow>{time}</Moment>
               </h1>
             </div>
           </div>
@@ -66,7 +75,9 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
               />
               {openPopup && (
                 <div
-                  onClick={(e)=>{e.stopPropagation()}}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
                   style={{ zIndex: 40 }}
                   className="absolute shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] transition-opacity border-slate-700 right-0 w-40  bg-white rounded-md dark:bg-black h-52"
                 ></div>
@@ -78,9 +89,7 @@ const ImagePost = ({ profileimg,src, username, time, caption, hashtags, totalLik
           </div>
         </div>
         <div className="px-1.5">
-          <h1 className="flex-wrap text-black dark:text-white">
-            {caption}
-          </h1>
+          <h1 className="flex-wrap text-black dark:text-white">{caption}</h1>
           <div className="flex flex-wrap space-x-2">
             {hashtags?.map((item, key) => {
               return (
