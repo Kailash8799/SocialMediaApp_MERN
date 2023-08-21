@@ -60,6 +60,7 @@ const Home = () => {
                 <ImagePost
                   key={ind}
                   src={item?.imageLink}
+                  id={item?._id}
                   profileimg={item?.profileId?.profileImage}
                   username={item?.profileId?.username}
                   time={item?.createdAt}
@@ -68,6 +69,7 @@ const Home = () => {
                   totalLikes={(item?.likes)?.length}
                   totalComments={(item?.comments)?.length}
                   tagged={item?.tagged}
+                  isLikedpost={item?.likes.includes(item?.profileId?.userid)}
                 />
               );
             })}

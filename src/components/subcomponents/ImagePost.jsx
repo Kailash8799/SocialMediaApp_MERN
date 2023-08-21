@@ -13,6 +13,8 @@ import Profileimage from "./Profileimage";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Moment from "react-moment";
 import "moment-timezone";
+import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const ImagePost = ({
   profileimg,
@@ -22,16 +24,25 @@ const ImagePost = ({
   caption,
   hashtags,
   totalLikes,
+  id,
+  isLikedpost,
 }) => {
   const [imageloaded, setImageloaded] = useState(false);
   // const [profileimageloaded, setprofileimageloaded] = useState(false);
-  const [isLiked, setisLiked] = useState(false);
+  const [isLiked, setisLiked] = useState(isLikedpost);
   const [addComment, setAddComment] = useState("");
   const [commentAdding, setCommentAdding] = useState(false);
   const [openPopup, setopenPopup] = useState(false);
-
+  const [token, settoken] = useState("");
+  const [mounted, setMounted] = useState(false);
   const { themeMode } = useContext(Theme);
+  const [loading, setloading] = useState(false);
   useEffect(() => {
+    setMounted(true);
+    let tkn = localStorage.getItem("userlogintoken");
+    if (tkn) {
+      settoken(tkn);
+    }
     const img = new Image();
     img.onload = () => {
       setImageloaded(true);
@@ -39,6 +50,110 @@ const ImagePost = ({
 
     img.src = src;
   }, [src]);
+  if (!mounted) return;
+
+  const likeImage = async () => {
+    if (loading) {
+      toast.error("Loading...");
+      return;
+    }
+    setisLiked(true);
+    setloading(true);
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/likeimage`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            postid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        setloading(false);
+      } else {
+        toast.error(posts?.message);
+        setloading(false);
+      }
+    } catch (error) {
+      toast.success("Error");
+      setloading(false);
+    }
+  };
+  const dislikeImage = async () => {
+    if (loading) {
+      toast.error("Loading...");
+      return;
+    }
+    setisLiked(false);
+    setloading(true);
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/dislikeimage`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            postid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        setloading(false);
+      } else {
+        toast.error(posts?.message);
+        setloading(false);
+      }
+    } catch (error) {
+      toast.success("Error");
+      setloading(false);
+    }
+  };
+  const postComment = async () => {
+    setCommentAdding(true);
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postimagecomment`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            postid: id,
+            token: token,
+            comment:addComment
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        setAddComment("")
+        setCommentAdding(false);
+      } else {
+        toast.error(posts?.message);
+        setCommentAdding(false);
+      }
+    } catch (error) {
+      toast.success("Error");
+      setCommentAdding(false);
+    }
+  };
   return (
     <>
       <div
@@ -60,7 +175,9 @@ const ImagePost = ({
             <div>
               <h1 className="text-lg font-medium text-black cursor-pointer dark:text-white">
                 {username?.length > 10 ? username.slice(0, 10) : username} •{" "}
-                <Moment interval={1} fromNow>{time}</Moment>
+                <Moment interval={1} fromNow>
+                  {time}
+                </Moment>
               </h1>
             </div>
           </div>
@@ -103,7 +220,8 @@ const ImagePost = ({
             })}
           </div>
         </div>
-        <div>
+       <Link to={`/posts/${id}`}>
+       <div>
           {!imageloaded && (
             <Blurhash
               hash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
@@ -115,7 +233,12 @@ const ImagePost = ({
             />
           )}
           {imageloaded && (
-            <div className="max-w-screen-md row-span-2 mx-auto cursor-pointer group">
+            <div
+              onDoubleClick={() => {
+                likeImage();
+              }}
+              className="max-w-screen-md row-span-2 mx-auto cursor-pointer group"
+            >
               <div className="flex flex-col w-full gap2">
                 <div className="relative w-full overflow-hidden img-container aspect-square ">
                   <img
@@ -129,6 +252,7 @@ const ImagePost = ({
             </div>
           )}
         </div>
+        </Link> 
         <div className="flex items-center justify-between h-12 px-3">
           {/*  For the footer of posts */}
           <div className="flex items-center justify-center space-x-5">
@@ -136,7 +260,7 @@ const ImagePost = ({
               {isLiked ? (
                 <AiFillHeart
                   onClick={() => {
-                    setisLiked(false);
+                    dislikeImage();
                   }}
                   size={29}
                   color="#ed1d1d"
@@ -145,7 +269,7 @@ const ImagePost = ({
                 <AiOutlineHeart
                   size={29}
                   onClick={() => {
-                    setisLiked(true);
+                    likeImage();
                   }}
                   color={themeMode === "dark" ? "#fff" : "#000"}
                 />
@@ -171,7 +295,8 @@ const ImagePost = ({
         <div className="px-3">
           {isLiked ? (
             <h1 className="-mt-2 font-semibold text-black dark:text-white">
-              Liked by you {totalLikes !== 0 && `and ${totalLikes} others`}
+              Liked by you{" "}
+              {!(totalLikes === 1 && isLikedpost) && `and ${totalLikes} others`}
             </h1>
           ) : (
             <h1 className="-mt-2 font-semibold text-black dark:text-white">
@@ -196,12 +321,7 @@ const ImagePost = ({
               <PuffLoader color="blue" size={30} />
             ) : (
               <h1
-                onClick={() => {
-                  setCommentAdding(true);
-                  setTimeout(() => {
-                    setCommentAdding(false);
-                  }, 1000);
-                }}
+                onClick={postComment}
                 className="text-lg text-center text-blue-900 cursor-pointer"
               >
                 post
