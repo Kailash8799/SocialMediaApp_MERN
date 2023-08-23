@@ -5,12 +5,14 @@ import Stories from "./subcomponents/Stories";
 import { Theme } from "./context/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../redux/actions/postaction";
+import PostSkeleton from "./subcomponents/PostSkeleton";
 
 const Home = () => {
   const { setProgress } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
   const allposts = useSelector((state)=>state.setPosts.posts)
   const [homefeed, sethomefeed] = useState(allposts);
+  const [fetching,setfetching] = useState(false);
   const dispatch = useDispatch();
   try {
     useEffect(() => {
@@ -18,6 +20,7 @@ const Home = () => {
       setisMounted(true);
       try {
         (async () => {
+          setfetching(true);
           const postsdata = await fetch(
             `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/getAllPosts`,
             {
@@ -33,13 +36,16 @@ const Home = () => {
           const posts = await postsdata.json();
           if (posts?.success) {
             dispatch(setPosts(posts?.posts))
+            setfetching(false);
             sethomefeed(posts?.posts);
           } else {
             sethomefeed([]);
+            setfetching(false)
           }
         })();
       } catch (error) {
         sethomefeed([]);
+        setfetching(false)
       }
       setProgress(100);
     }, [dispatch, setProgress]);
@@ -55,7 +61,7 @@ const Home = () => {
         <div className="px-2 pt-5 xs:px-4 sm:flex sm:flex-row sm:px-0">
           <div className="flex flex-col items-center w-full space-y-10 sm:px-4 epx:w-3/4">
             <Stories />
-            {homefeed?.map((item, ind) => {
+           {!fetching && homefeed?.map((item, ind) => {
               return (
                 <ImagePost
                   key={ind}
@@ -73,6 +79,8 @@ const Home = () => {
                 />
               );
             })}
+            {fetching && <PostSkeleton />}
+            {fetching && <PostSkeleton />}
             <div className="w-full h-40"></div>
           </div>
           <div className="sticky hidden w-1/4 h-[80vh] border border-red-800 top-16 epx:block">

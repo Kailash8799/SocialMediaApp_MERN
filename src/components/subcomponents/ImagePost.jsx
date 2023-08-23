@@ -164,7 +164,8 @@ const ImagePost = ({
       >
         <div className="flex px-1.5 items-center justify-between h-12">
           {/*  For the header of posts */}
-          <div className="flex items-center justify-center space-x-3">
+         <Link to={`/profile/${username}`}>
+         <div className="flex items-center justify-center space-x-3">
             <div className="cursor-pointer">
               <div className="flex flex-col w-full gap2">
                 <div className="relative w-full overflow-hidden rounded-full img-container aspect-square">
@@ -181,6 +182,7 @@ const ImagePost = ({
               </h1>
             </div>
           </div>
+          </Link> 
           <div className="flex items-center justify-center space-x-3">
             <div className="relative cursor-pointer">
               <MoreHorizontal
@@ -275,12 +277,12 @@ const ImagePost = ({
                 />
               )}
             </div>
-            <div className="cursor-pointer">
+            <Link to={`/posts/${id}`}><div className="cursor-pointer">
               <MessagesSquare
                 size={27}
                 color={themeMode === "dark" ? "#fff" : "#000"}
               />
-            </div>
+            </div></Link>
             <div className="cursor-pointer">
               <Send size={25} color={themeMode === "dark" ? "#fff" : "#000"} />
             </div>
