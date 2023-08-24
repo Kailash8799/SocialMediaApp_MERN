@@ -18,6 +18,7 @@ import Modal from "./components/subcomponents/Uploadmodal/Modal";
 import AllPosts from "./components/AllPosts";
 import Postdetails from "./components/Postdetails";
 import Profile from "./components/Profile";
+import Messages from "./components/Messages";
 
 function App() {
   const { isLoggedin, setisLoggedin, progress, setProgress, uploadimagemodal } =
@@ -78,7 +79,7 @@ function App() {
               <Route path="/marketplace" element={<Marketplace />} />
               <Route path="/tweets" element={<Marketplace />} />
               <Route path="/saved" element={<Marketplace />} />
-              <Route path="/messages" element={<Marketplace />} />
+              <Route path="/messages" element={<Messages />} />
               <Route path="/explore" element={<Marketplace />} />
               <Route path="/posts" element={<AllPosts />} />
               <Route path="/posts/:id" element={<Postdetails />} />
