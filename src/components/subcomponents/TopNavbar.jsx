@@ -24,7 +24,9 @@ const TopNavbar = () => {
     progress,
     setProgress,
     setuploadimagemodal,
-    setuploadimagemodalanimation
+    setuploadimagemodalanimation,
+    setsidebarModal,
+    setsidebarModalanimation,
   } = useContext(Theme);
   const { pathname } = useLocation();
   useEffect(() => {
@@ -149,7 +151,7 @@ const TopNavbar = () => {
               <div className="flex flex-row items-center justify-between space-x-3">
                 <div
                   onClick={() => {
-                    setuploadimagemodalanimation(true)
+                    setuploadimagemodalanimation(true);
                     setuploadimagemodal(true);
                   }}
                   className="items-center block py-4 cursor-pointer"
@@ -168,9 +170,11 @@ const TopNavbar = () => {
                 <div
                   className="py-4 cursor-pointer"
                   onClick={() => {
-                    setisLoggedin(false);
-                    localStorage.removeItem("userlogintoken");
-                    navigate("/", { replace: true });
+                    setsidebarModalanimation(true)
+                    setsidebarModal(true)
+                    // setisLoggedin(false);
+                    // localStorage.removeItem("userlogintoken");
+                    // navigate("/", { replace: true });
                   }}
                 >
                   <BiSolidUserCircle

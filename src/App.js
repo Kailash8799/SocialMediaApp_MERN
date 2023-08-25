@@ -19,10 +19,17 @@ import AllPosts from "./components/AllPosts";
 import Postdetails from "./components/Postdetails";
 import Profile from "./components/Profile";
 import Messages from "./components/Messages";
+import SidebarModal from "./components/subcomponents/Uploadmodal/Sidebar";
 
 function App() {
-  const { isLoggedin, setisLoggedin, progress, setProgress, uploadimagemodal } =
-    useContext(Theme);
+  const {
+    isLoggedin,
+    setisLoggedin,
+    progress,
+    setProgress,
+    uploadimagemodal,
+    sidebarModal,
+  } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
   useEffect(() => {
     setisMounted(true);
@@ -71,6 +78,7 @@ function App() {
       {isLoggedin ? (
         <>
           {uploadimagemodal && <Modal />}
+          {sidebarModal && <SidebarModal />}
           <Routes>
             <Route path="/" element={<TopNavbar />}>
               <Route index element={<Home />} />

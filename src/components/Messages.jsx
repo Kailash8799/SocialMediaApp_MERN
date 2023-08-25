@@ -1,11 +1,14 @@
 import React from "react";
+import Received from "./subcomponents/messages/Received";
+import Sender from "./subcomponents/messages/Sender";
+import User from "./subcomponents/messages/User";
 
 const Messages = () => {
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden selection:bg-none overflow-y-hidden overdlowiny dark:bg-black">
       <div class="flex  overflow-hidden antialiased text-gray-800">
-        <div class="flex flex-row h-[90vh] overflow-hidden w-full overflow-x-hidden">
-          <div class="md:flex hidden  h-screen flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
+        <div class="flex flex-row h-[92vh] no-scrollbar overflow-hidden w-full overflow-x-hidden">
+          <div class="md:flex hidden dark:bg-black h-screen flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
             <div class="flex flex-row items-center justify-center h-12 w-full">
               <div class="flex items-center justify-center rounded-2xl text-indigo-700 bg-indigo-100 h-10 w-10">
                 <svg
@@ -25,7 +28,7 @@ const Messages = () => {
               </div>
               <div class="ml-2 font-bold text-2xl">QuickChat</div>
             </div>
-            <div class="flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
+            <div class="flex flex-col items-center bg-indigo-100 dark:border-slate-700 dark:bg-slate-900 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
               <div class="h-20 w-20 rounded-full border overflow-hidden">
                 <img
                   src="https://avatars3.githubusercontent.com/u/2763884?s=128"
@@ -35,12 +38,6 @@ const Messages = () => {
               </div>
               <div class="text-sm font-semibold mt-2">Aminos Co.</div>
               <div class="text-xs text-gray-500">Lead UI/UX Designer</div>
-              <div class="flex flex-row items-center mt-3">
-                <div class="flex flex-col justify-center h-4 w-8 bg-indigo-500 rounded-full">
-                  <div class="h-3 w-3 bg-white rounded-full self-end mr-1"></div>
-                </div>
-                <div class="leading-none ml-1 text-xs">Active</div>
-              </div>
             </div>
             <div class="flex flex-col mt-8">
               <div class="flex flex-row items-center justify-between text-xs">
@@ -49,167 +46,84 @@ const Messages = () => {
                   4
                 </span>
               </div>
-              <div class="flex flex-col overflow-y-scroll  space-y-1 mt-4 -mx-2 h-64 ">
-                <button class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                  <div class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
-                    H
-                  </div>
-                  <div class="ml-2 text-sm font-semibold">Henry Boyd</div>
-                </button>
-                <button class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                  <div class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
-                    H
-                  </div>
-                  <div class="ml-2 text-sm font-semibold">Henry Boyd</div>
-                </button>
-                <button class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                  <div class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
-                    H
-                  </div>
-                  <div class="ml-2 text-sm font-semibold">Henry Boyd</div>
-                </button>
-                <button class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                  <div class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
-                    H
-                  </div>
-                  <div class="ml-2 text-sm font-semibold">Henry Boyd</div>
-                </button>
-                <button class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                  <div class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
-                    H
-                  </div>
-                  <div class="ml-2 text-sm font-semibold">Henry Boyd</div>
-                </button>
-                <button class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                  <div class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
-                    H
-                  </div>
-                  <div class="ml-2 text-sm font-semibold">Henry Boyd</div>
-                </button>
-                <button class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                  <div class="flex items-center justify-center h-8 w-8 bg-gray-200 rounded-full">
-                    M
-                  </div>
-                  <div class="ml-2 text-sm font-semibold">Marta Curtis</div>
-                  <div class="flex items-center justify-center ml-auto text-xs text-white bg-red-500 h-4 w-4 rounded leading-none">
-                    2
-                  </div>
-                </button>
-                <button class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                  <div class="flex items-center justify-center h-8 w-8 bg-orange-200 rounded-full">
-                    P
-                  </div>
-                  <div class="ml-2 text-sm font-semibold">Philip Tucker</div>
-                </button>
-                <button class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                  <div class="flex items-center justify-center h-8 w-8 bg-pink-200 rounded-full">
-                    C
-                  </div>
-                  <div class="ml-2 text-sm font-semibold">Christine Reid</div>
-                </button>
-                <button class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2">
-                  <div class="flex items-center justify-center h-8 w-8 bg-purple-200 rounded-full">
-                    J
-                  </div>
-                  <div class="ml-2 text-sm font-semibold">Jerry Guzman</div>
-                </button>
+              <div class="flex flex-col scrollbardesign overflow-y-scroll  space-y-1 mt-4 -mx-2 h-64 ">
+                <User />
+                <User />
+                <User />
+                <User />
+                <User />
+                <User />
+                <User />
               </div>
-              
-             
             </div>
           </div>
-          <div class="flex flex-col flex-auto h-full p-6">
-            <div class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
-              <div class="flex flex-col h-full overflow-x-auto mb-4">
+          <div class="flex flex-col flex-auto h-full md:p-6">
+            <div class="flex flex-col flex-auto flex-shrink-0  md:rounded-2xl bg-gray-100 dark:bg-black dark:border border-slate-800 h-full p-4">
+              <div class="flex flex-col h-full scrollbardesign overflow-x-auto mb-4">
                 <div class="flex flex-col h-full">
                   <div class="grid grid-cols-12 gap-y-2">
-                    <div class="col-start-1 col-end-10 p-3 rounded-lg">
-                      <div class="flex flex-row items-center">
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                          A
-                        </div>
-                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>Hey How are you today?</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-start-1 col-end-10 p-3 rounded-lg">
-                      <div class="flex flex-row items-center">
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                          A
-                        </div>
-                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Vel ipsa commodi illum saepe numquam maxime
-                            asperiores voluptate sit, minima perspiciatis.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-start-4 col-end-13 p-3 rounded-lg">
-                      <div class="flex items-center justify-start flex-row-reverse">
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                          A
-                        </div>
-                        <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                          <div>I'm ok what about you?</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-start-4 col-end-13 p-3 rounded-lg">
-                      <div class="flex items-center justify-start flex-row-reverse">
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                          A
-                        </div>
-                        <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                          <div>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing.
-                            ?
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-start-1 col-end-10 p-3 rounded-lg">
-                      <div class="flex flex-row items-center">
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                          A
-                        </div>
-                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>Lorem ipsum dolor sit amet !</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-start-4 col-end-13 p-3 rounded-lg">
-                      <div class="flex items-center justify-start flex-row-reverse">
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                          A
-                        </div>
-                        <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                          <div>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing.
-                            ?
-                          </div>
-                          <div class="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500">
-                            Seen
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-start-1 col-end-10 p-3 rounded-lg">
-                      <div class="flex flex-row items-center">
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                          A
-                        </div>
-                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Perspiciatis, in.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-start-1 col-end-10 p-3 rounded-lg">
+                    <Received
+                      profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }
+                    />
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+
+                    <Sender  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Sender  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Sender  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    <Received  profileImage={
+                        "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                      }/>
+                    {/* <div class="col-start-1 col-end-10 p-3 rounded-lg">
                       <div class="flex flex-row items-center">
                         <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
                           A
@@ -274,11 +188,11 @@ const Messages = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
-              <div class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
+              <div class="flex flex-row dark:bg-slate-900 items-center h-16 rounded-xl bg-white w-full px-4">
                 <div>
                   <button class="flex items-center justify-center text-gray-400 hover:text-gray-600">
                     <svg
@@ -301,7 +215,7 @@ const Messages = () => {
                   <div class="relative w-full">
                     <input
                       type="text"
-                      class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
+                      class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 dark:text-white dark:bg-slate-700 pl-4 pr-9 h-10"
                     />
                     <button class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
                       <svg
@@ -323,8 +237,8 @@ const Messages = () => {
                 </div>
                 <div class="ml-4">
                   <button class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
-                    <span>Send</span>
-                    <span class="ml-2">
+                    <span className="md:block hidden">Send</span>
+                    <span class="ml-2 my-1.5">
                       <svg
                         class="w-4 h-4 transform rotate-45 -mt-px"
                         fill="none"
