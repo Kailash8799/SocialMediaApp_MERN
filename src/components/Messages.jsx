@@ -5,7 +5,7 @@ import User from "./subcomponents/messages/User";
 
 const Messages = () => {
   return (
-    <div className="overflow-hidden selection:bg-none overflow-y-hidden overdlowiny dark:bg-black">
+    <div className="overflow-hidden overflow-y-hidden selection:bg-none overdlowiny dark:bg-black">
       <div class="flex  overflow-hidden antialiased text-gray-800">
         <div class="flex flex-row h-[92vh] no-scrollbar overflow-hidden w-full overflow-x-hidden">
           <div class="md:flex hidden dark:bg-black h-screen flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
@@ -47,13 +47,41 @@ const Messages = () => {
                 </span>
               </div>
               <div class="flex flex-col scrollbardesign overflow-y-scroll  space-y-1 mt-4 -mx-2 h-64 ">
-                <User />
-                <User />
-                <User />
-                <User />
-                <User />
-                <User />
-                <User />
+                <User
+                  profileImage={
+                    "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                  }
+                />
+                <User
+                  profileImage={
+                    "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                  }
+                />
+                <User
+                  profileImage={
+                    "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                  }
+                />
+                <User
+                  profileImage={
+                    "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                  }
+                />
+                <User
+                  profileImage={
+                    "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                  }
+                />
+                <User
+                  profileImage={
+                    "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                  }
+                />
+                <User
+                  profileImage={
+                    "https://avatars3.githubusercontent.com/u/2763884?s=128"
+                  }
+                />
               </div>
             </div>
           </div>
@@ -67,62 +95,98 @@ const Messages = () => {
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
                       }
                     />
-                    <Received  profileImage={
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
+                      }
+                    />
 
-                    <Sender  profileImage={
+                    <Sender
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Sender  profileImage={
+                      }
+                    />
+                    <Sender
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
+                      }
+                    />
 
-                    <Received  profileImage={
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Sender  profileImage={
+                      }
+                    />
+                    <Sender
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
-                    <Received  profileImage={
+                      }
+                    />
+                    <Received
+                      profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
-                      }/>
+                      }
+                    />
                     {/* <div class="col-start-1 col-end-10 p-3 rounded-lg">
                       <div class="flex flex-row items-center">
                         <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
@@ -237,7 +301,7 @@ const Messages = () => {
                 </div>
                 <div class="ml-4">
                   <button class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
-                    <span className="md:block hidden">Send</span>
+                    <span className="hidden md:block">Send</span>
                     <span class="ml-2 my-1.5">
                       <svg
                         class="w-4 h-4 transform rotate-45 -mt-px"
