@@ -20,6 +20,7 @@ import Postdetails from "./components/Postdetails";
 import Profile from "./components/Profile";
 import Messages from "./components/Messages";
 import SidebarModal from "./components/subcomponents/Uploadmodal/Sidebar";
+import Explore from "./components/Explore/Explore";
 
 function App() {
   const {
@@ -88,7 +89,7 @@ function App() {
               <Route path="/tweets" element={<Marketplace />} />
               <Route path="/saved" element={<Marketplace />} />
               <Route path="/messages" element={<Messages />} />
-              <Route path="/explore" element={<Marketplace />} />
+              <Route path="/explore" element={<Explore />} />
               <Route path="/posts" element={<AllPosts />} />
               <Route path="/posts/:id" element={<Postdetails />} />
               <Route path="/profile/:username" element={<Profile />} />
