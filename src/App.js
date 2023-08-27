@@ -21,6 +21,8 @@ import Profile from "./components/Profile";
 import Messages from "./components/Messages";
 import SidebarModal from "./components/subcomponents/Uploadmodal/Sidebar";
 import Explore from "./components/Explore/Explore";
+import Tweets from "./components/Tweets";
+import Saved from "./components/Saved";
 
 function App() {
   const {
@@ -86,8 +88,8 @@ function App() {
               <Route path="/friends" element={<Friends />} />
               <Route path="/watch" element={<Watch />} />
               <Route path="/marketplace" element={<Marketplace />} />
-              <Route path="/tweets" element={<Marketplace />} />
-              <Route path="/saved" element={<Marketplace />} />
+              <Route path="/tweets" element={<Tweets />} />
+              <Route path="/saved" element={<Saved />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/explore" element={<Explore />} />
               <Route path="/posts" element={<AllPosts />} />

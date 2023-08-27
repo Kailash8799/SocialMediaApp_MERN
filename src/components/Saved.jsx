@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Theme } from './context/ThemeProvider'
-import SideNavbar from './subcomponents/SideNavbar'
+import React, { useContext, useEffect, useState } from "react";
+import SideNavbar from "./subcomponents/SideNavbar";
+import { Theme } from "./context/ThemeProvider";
 
-const Marketplace = () => {
-  const [mounted,setisMounted] = useState(false)
-  const {setProgress} = useContext(Theme)
-  useEffect(()=>{
-    setProgress(0)
-    setisMounted(true)
-    setProgress(100)
-  },[setProgress])
+const Saved = () => {
+  const [mounted, setisMounted] = useState(false);
+  const { setProgress } = useContext(Theme);
+
+  useEffect(() => {
+    setProgress(0);
+    setisMounted(true);
+    setProgress(100);
+  }, [setProgress]);
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (
@@ -23,7 +24,7 @@ const Marketplace = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Marketplace
+export default Saved;
