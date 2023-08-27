@@ -2,16 +2,16 @@ import React from "react";
 
 const Received = ({ profileImage, message, id, userid, time }) => {
   return (
-    <div class="col-start-1 col-end-10 p-3 rounded-lg">
-      <div class="flex flex-row items-center">
-        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+    <div className="col-start-1 col-end-10 p-3 rounded-lg">
+      <div className="flex flex-row items-center">
+        <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 bg-indigo-500 rounded-full">
           <img
             src={profileImage}
             alt="Profile"
-            className="rounded-full overflow-hidden"
+            className="overflow-hidden rounded-full"
           />
         </div>
-        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+        <div className="relative px-4 py-2 ml-3 text-sm bg-white shadow rounded-xl">
           <div>Hey How are you today?</div>
         </div>
       </div>

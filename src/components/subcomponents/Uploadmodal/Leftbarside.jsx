@@ -21,6 +21,7 @@ const LeftSidebarModal = () => {
     leftsidebarModalanimation,
     setleftsidebarModalanimation,
   } = useContext(Theme);
+
   const [ismounted, setisMounted] = useState(false);
   const { pathname } = useLocation();
   useEffect(() => {
@@ -109,7 +110,7 @@ const LeftSidebarModal = () => {
                     </motion.div>
                   </div>
                 </div>
-                <div className="w-full mt-3 space-y-5 overflow-hidden px-7">
+                <div className="w-full mt-3 space-y-5 overflow-y-auto px-7">
                   <div
                     onClick={() => {
                       setleftsidebarModalanimation(false);

@@ -6,47 +6,47 @@ import User from "./subcomponents/messages/User";
 const Messages = () => {
   return (
     <div className="overflow-hidden overflow-y-hidden selection:bg-none overdlowiny dark:bg-black">
-      <div class="flex  overflow-hidden antialiased text-gray-800">
-        <div class="flex flex-row h-[92vh] no-scrollbar overflow-hidden w-full overflow-x-hidden">
-          <div class="md:flex hidden dark:bg-black h-screen flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
-            <div class="flex flex-row items-center justify-center h-12 w-full">
-              <div class="flex items-center justify-center rounded-2xl text-indigo-700 bg-indigo-100 h-10 w-10">
+      <div className="flex overflow-hidden antialiased text-gray-800">
+        <div className="flex flex-row h-[92vh] no-scrollbar overflow-hidden w-full overflow-x-hidden">
+          <div className="flex-col flex-shrink-0 hidden w-64 h-screen py-8 pl-6 pr-2 bg-white md:flex dark:bg-black">
+            <div className="flex flex-row items-center justify-center w-full h-12">
+              <div className="flex items-center justify-center w-10 h-10 text-indigo-700 bg-indigo-100 rounded-2xl">
                 <svg
-                  class="w-6 h-6"
+                  className="w-6 h-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
                   ></path>
                 </svg>
               </div>
-              <div class="ml-2 font-bold text-2xl">QuickChat</div>
+              <div className="ml-2 text-2xl font-bold">QuickChat</div>
             </div>
-            <div class="flex flex-col items-center bg-indigo-100 dark:border-slate-700 dark:bg-slate-900 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
-              <div class="h-20 w-20 rounded-full border overflow-hidden">
+            <div className="flex flex-col items-center w-full px-4 py-6 mt-4 bg-indigo-100 border border-gray-200 rounded-lg dark:border-slate-700 dark:bg-slate-900">
+              <div className="w-20 h-20 overflow-hidden border rounded-full">
                 <img
                   src="https://avatars3.githubusercontent.com/u/2763884?s=128"
                   alt="Avatar"
-                  class="h-full w-full"
+                  className="w-full h-full"
                 />
               </div>
-              <div class="text-sm font-semibold mt-2">Aminos Co.</div>
-              <div class="text-xs text-gray-500">Lead UI/UX Designer</div>
+              <div className="mt-2 text-sm font-semibold">Aminos Co.</div>
+              <div className="text-xs text-gray-500">Lead UI/UX Designer</div>
             </div>
-            <div class="flex flex-col mt-8">
-              <div class="flex flex-row items-center justify-between text-xs">
-                <span class="font-bold">Active Conversations</span>
-                <span class="flex items-center justify-center bg-gray-300 h-4 w-4 rounded-full">
+            <div className="flex flex-col mt-8">
+              <div className="flex flex-row items-center justify-between text-xs">
+                <span className="font-bold">Active Conversations</span>
+                <span className="flex items-center justify-center w-4 h-4 bg-gray-300 rounded-full">
                   4
                 </span>
               </div>
-              <div class="flex flex-col scrollbardesign overflow-y-scroll  space-y-1 mt-4 -mx-2 h-64 ">
+              <div className="flex flex-col h-64 mt-4 -mx-2 space-y-1 overflow-y-scroll scrollbardesign ">
                 <User
                   profileImage={
                     "https://avatars3.githubusercontent.com/u/2763884?s=128"
@@ -85,11 +85,11 @@ const Messages = () => {
               </div>
             </div>
           </div>
-          <div class="flex flex-col flex-auto h-full md:p-6">
-            <div class="flex flex-col flex-auto flex-shrink-0  md:rounded-2xl bg-gray-100 dark:bg-black dark:border border-slate-800 h-full p-4">
-              <div class="flex flex-col h-full scrollbardesign overflow-x-auto mb-4">
-                <div class="flex flex-col h-full">
-                  <div class="grid grid-cols-12 gap-y-2">
+          <div className="flex flex-col flex-auto h-full md:p-6">
+            <div className="flex flex-col flex-auto flex-shrink-0 h-full p-4 bg-gray-100 md:rounded-2xl dark:bg-black dark:border border-slate-800">
+              <div className="flex flex-col h-full mb-4 overflow-x-auto scrollbardesign">
+                <div className="flex flex-col h-full">
+                  <div className="grid grid-cols-12 gap-y-2">
                     <Received
                       profileImage={
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
@@ -187,67 +187,67 @@ const Messages = () => {
                         "https://avatars3.githubusercontent.com/u/2763884?s=128"
                       }
                     />
-                    {/* <div class="col-start-1 col-end-10 p-3 rounded-lg">
-                      <div class="flex flex-row items-center">
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                    {/* <div className="col-start-1 col-end-10 p-3 rounded-lg">
+                      <div className="flex flex-row items-center">
+                        <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 bg-indigo-500 rounded-full">
                           A
                         </div>
-                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div class="flex flex-row items-center">
-                            <button class="flex items-center justify-center bg-indigo-600 hover:bg-indigo-800 rounded-full h-8 w-10">
+                        <div className="relative px-4 py-2 ml-3 text-sm bg-white shadow rounded-xl">
+                          <div className="flex flex-row items-center">
+                            <button className="flex items-center justify-center w-10 h-8 bg-indigo-600 rounded-full hover:bg-indigo-800">
                               <svg
-                                class="w-6 h-6 text-white"
+                                className="w-6 h-6 text-white"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="1.5"
                                   d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
                                 ></path>
                                 <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="1.5"
                                   d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                 ></path>
                               </svg>
                             </button>
-                            <div class="flex flex-row items-center space-x-px ml-4">
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-4 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-10 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-10 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-12 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-10 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-6 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-5 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-4 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-3 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-10 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-10 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-1 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-1 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-8 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-2 w-1 bg-gray-500 rounded-lg"></div>
-                              <div class="h-4 w-1 bg-gray-500 rounded-lg"></div>
+                            <div className="flex flex-row items-center ml-4 space-x-px">
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-4 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-8 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-8 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-10 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-10 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-12 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-10 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-6 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-5 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-4 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-3 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-10 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-10 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-8 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-8 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-1 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-1 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-8 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-8 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-2 bg-gray-500 rounded-lg"></div>
+                              <div className="w-1 h-4 bg-gray-500 rounded-lg"></div>
                             </div>
                           </div>
                         </div>
@@ -256,64 +256,64 @@ const Messages = () => {
                   </div>
                 </div>
               </div>
-              <div class="flex flex-row dark:bg-slate-900 items-center h-16 rounded-xl bg-white w-full px-4">
+              <div className="flex flex-row items-center w-full h-16 px-4 bg-white dark:bg-slate-900 rounded-xl">
                 <div>
-                  <button class="flex items-center justify-center text-gray-400 hover:text-gray-600">
+                  <button className="flex items-center justify-center text-gray-400 hover:text-gray-600">
                     <svg
-                      class="w-5 h-5"
+                      className="w-5 h-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
                       ></path>
                     </svg>
                   </button>
                 </div>
-                <div class="flex-grow ml-4">
-                  <div class="relative w-full">
+                <div className="flex-grow ml-4">
+                  <div className="relative w-full">
                     <input
                       type="text"
-                      class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 dark:text-white dark:bg-slate-700 pl-4 pr-9 h-10"
+                      className="flex w-full h-10 pl-4 border rounded-xl focus:outline-none focus:border-indigo-300 dark:text-white dark:bg-slate-700 pr-9"
                     />
-                    <button class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
+                    <button className="absolute top-0 right-0 flex items-center justify-center w-12 h-full text-gray-400 hover:text-gray-600">
                       <svg
-                        class="w-6 h-6"
+                        className="w-6 h-6"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         ></path>
                       </svg>
                     </button>
                   </div>
                 </div>
-                <div class="ml-4">
-                  <button class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
+                <div className="ml-4">
+                  <button className="flex items-center justify-center flex-shrink-0 px-4 py-1 text-white bg-indigo-500 hover:bg-indigo-600 rounded-xl">
                     <span className="hidden md:block">Send</span>
-                    <span class="ml-2 my-1.5">
+                    <span className="ml-2 my-1.5">
                       <svg
-                        class="w-4 h-4 transform rotate-45 -mt-px"
+                        className="w-4 h-4 -mt-px transform rotate-45"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
                         ></path>
                       </svg>
