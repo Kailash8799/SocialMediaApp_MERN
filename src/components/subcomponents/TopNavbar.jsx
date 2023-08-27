@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { BsPeople, BsPeopleFill } from "react-icons/bs";
@@ -15,12 +15,9 @@ import { Theme } from "../context/ThemeProvider";
 import LoadingBar from "react-top-loading-bar";
 
 const TopNavbar = () => {
-  const navigate = useNavigate();
   const [mounted, setMounted] = useState(false);
   const {
     themeMode,
-    ChangeTheme,
-    setisLoggedin,
     progress,
     setProgress,
     setuploadimagemodal,
@@ -67,9 +64,6 @@ const TopNavbar = () => {
               <div className="items-center cursor-pointer">
                 <Link to={"/"}>
                   <h1
-                    onClick={() => {
-                      ChangeTheme();
-                    }}
                     className="items-center py-4 text-xl font-bold text-black dark:text-white"
                   >
                     SocialMedia

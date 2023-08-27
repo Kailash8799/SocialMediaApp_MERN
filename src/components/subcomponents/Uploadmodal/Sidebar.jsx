@@ -1,98 +1,29 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Theme } from "../../context/ThemeProvider";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
-import { FiImage } from "react-icons/fi";
-import { PlaySquare } from "lucide-react";
-import { BiArrowBack } from "react-icons/bi";
-import { toast } from "react-hot-toast";
-import { RotatingLines } from "react-loader-spinner";
-const secret = process.env.REACT_APP_SECRET;
+import { Moon, SunMoon } from "lucide-react";
 
 const SidebarModal = () => {
   const {
-    uploadfile,
-    setUploadfile,
+    ChangeTheme,
     setsidebarModal,
     sidebarModalanimation,
     setsidebarModalanimation,
     themeMode,
   } = useContext(Theme);
-  const fileref = useRef(null);
-  const [uploadfilebar, setuploadfilebar] = useState(false);
-  const [textpostitem, settextpostitem] = useState("");
-  const [textpost, settextpost] = useState(false);
-  const [isVideo, setisVideo] = useState(false);
-  const [isLoading, setisLoading] = useState(false);
-  const [token, settoken] = useState("");
   const [ismounted, setisMounted] = useState(false);
+  const [toggle, settoggle] = useState(
+    themeMode === "dark" ? "light" : themeMode
+  );
   useEffect(() => {
     setisMounted(true);
-    const tk = localStorage.getItem("userlogintoken");
-    if (tk) {
-      settoken(tk);
-    }
   }, []);
-  const selectFile = (e) => {
-    e.preventDefault();
-    fileref.current.click();
-  };
-  const addFiletovar = async (e) => {
-    const reader = new FileReader();
-    setisVideo(false);
-    if (e.target.files[0].type.includes("video")) {
-      setisVideo(true);
-    }
-    if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
-    }
-    reader.onload = (readerEvent) => {
-      setUploadfile(readerEvent.target.result);
-      setuploadfilebar(true);
-    };
-  };
-  const uploadtextPost = async () => {
-    try {
-      setisLoading(true);
-      const responce = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/posttweet`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            token: token,
-            secret: secret,
-            tweet: textpostitem,
-            hashtags: ["Hello", "Hii"],
-          }),
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      );
-      const data = await responce.json();
-      if (data.success) {
-        toast.success(data?.message);
-        settextpostitem("");
-        setisLoading(false);
-        setsidebarModalanimation(false);
-        setUploadfile(null);
-        setTimeout(() => {
-          setsidebarModal(false);
-        }, 500);
-      } else {
-        toast.error(data?.message);
-        setisLoading(false);
-      }
-      setisLoading(false);
-    } catch (error) {
-      toast.error("Some error accured");
-      setisLoading(false);
-    }
-  };
+
   if (!ismounted) return;
   return (
     <div
-      className="selection:bg-none fixed h-screen w-screen modal-backdrop"
+      className="fixed w-screen h-screen selection:bg-none modal-backdrop"
       style={{ zIndex: 150 }}
       onClick={() => {
         setsidebarModalanimation(false);
@@ -101,7 +32,7 @@ const SidebarModal = () => {
         }, 500);
       }}
     >
-      <div className="h-full w-full flex items-center justify-end">
+      <div className="flex items-center justify-end w-full h-full">
         <AnimatePresence>
           {sidebarModalanimation && (
             <motion.div
@@ -136,8 +67,8 @@ const SidebarModal = () => {
                 <div
                   className={`h-12 border-b items-center flex justify-between border-slate-300 dark:border-slate-800 px-7`}
                 >
-                  <div className="items-center transition-all mx-auto border-green-200 justify-center">
-                    <h1 className="text-center transition-all inline-block font-semibold text-black dark:text-white">
+                  <div className="items-center justify-center mx-auto transition-all border-green-200">
+                    <h1 className="inline-block font-semibold text-center text-black transition-all dark:text-white">
                       Create new text post
                     </h1>
                   </div>
@@ -159,7 +90,7 @@ const SidebarModal = () => {
                       exit={{
                         x: 100,
                       }}
-                      className="cursor-pointer items-center justify-center"
+                      className="items-center justify-center cursor-pointer"
                     >
                       <AiOutlineClose
                         color={themeMode === "dark" ? "white" : "black"}
@@ -168,7 +99,25 @@ const SidebarModal = () => {
                     </motion.div>
                   </div>
                 </div>
-                <div className="px-7 w-full overflow-hidden"></div>
+                <div className="w-full overflow-y-auto px-7">
+                  <div
+                    className={`px-3 mt-5 py-3 mx-2 rounded-lg cursor-pointer hover:dark:bg-slate-400/10 hover:bg-slate-400/25`}
+                  >
+                    <div  onClick={() => {
+                      settoggle(themeMode)
+                      ChangeTheme();
+                    }} className="flex flex-row items-center space-x-2 ">
+                      {themeMode === "dark" ? (
+                        <SunMoon size={28} color="#2f76ac" />
+                      ) : (
+                        <Moon size={28} color="#2f76ac" />
+                      )}
+                      <h1 className="text-xl font-bold text-black/70 dark:text-white">
+                        Toggle to {toggle}
+                      </h1>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
           )}
