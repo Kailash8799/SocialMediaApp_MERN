@@ -23,6 +23,7 @@ import SidebarModal from "./components/subcomponents/Uploadmodal/Sidebar";
 import Explore from "./components/Explore/Explore";
 import Tweets from "./components/Tweets";
 import Saved from "./components/Saved";
+import LeftSidebarModal from "./components/subcomponents/Uploadmodal/Leftbarside";
 
 function App() {
   const {
@@ -32,6 +33,7 @@ function App() {
     setProgress,
     uploadimagemodal,
     sidebarModal,
+    leftsidebarModal
   } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
   useEffect(() => {
@@ -82,6 +84,7 @@ function App() {
         <>
           {uploadimagemodal && <Modal />}
           {sidebarModal && <SidebarModal />}
+          {leftsidebarModal && <LeftSidebarModal />}
           <Routes>
             <Route path="/" element={<TopNavbar />}>
               <Route index element={<Home />} />

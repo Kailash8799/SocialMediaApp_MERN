@@ -27,6 +27,8 @@ const TopNavbar = () => {
     setuploadimagemodalanimation,
     setsidebarModal,
     setsidebarModalanimation,
+    setleftsidebarModal,
+    setleftsidebarModalanimation,
   } = useContext(Theme);
   const { pathname } = useLocation();
   useEffect(() => {
@@ -161,7 +163,13 @@ const TopNavbar = () => {
                     color={themeMode === "dark" ? "#fff" : "black"}
                   />
                 </div>
-                <div className="items-center block py-4 cursor-pointer sm:hidden">
+                <div
+                  onClick={() => {
+                    setleftsidebarModalanimation(true);
+                    setleftsidebarModal(true);
+                  }}
+                  className="items-center block py-4 cursor-pointer sm:hidden"
+                >
                   <HiOutlineMenuAlt1
                     size={30}
                     color={themeMode === "dark" ? "#fff" : "black"}
@@ -170,8 +178,8 @@ const TopNavbar = () => {
                 <div
                   className="py-4 cursor-pointer"
                   onClick={() => {
-                    setsidebarModalanimation(true)
-                    setsidebarModal(true)
+                    setsidebarModalanimation(true);
+                    setsidebarModal(true);
                     // setisLoggedin(false);
                     // localStorage.removeItem("userlogintoken");
                     // navigate("/", { replace: true });

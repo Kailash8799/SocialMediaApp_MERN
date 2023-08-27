@@ -12,6 +12,8 @@ const ThemeProvider = ({ children }) => {
   const [uploadimagemodalanimation,setuploadimagemodalanimation] = useState(false)
   const [sidebarModal,setsidebarModal] = useState(false)
   const [sidebarModalanimation,setsidebarModalanimation] = useState(false)
+  const [leftsidebarModal,setleftsidebarModal] = useState(false)
+  const [leftsidebarModalanimation,setleftsidebarModalanimation] = useState(false)
 
   useEffect(() => {
     setMounted(true);
@@ -60,7 +62,11 @@ const ThemeProvider = ({ children }) => {
         sidebarModal,
         setsidebarModal,
         sidebarModalanimation,
-        setsidebarModalanimation
+        setsidebarModalanimation,
+        leftsidebarModal,
+        setleftsidebarModal,
+        leftsidebarModalanimation,
+        setleftsidebarModalanimation,
       }}
     >
       {children}
