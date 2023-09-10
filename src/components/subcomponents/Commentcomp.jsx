@@ -51,7 +51,7 @@ const Commentcomp = ({ username, profileImage, createdAt, comment }) => {
                 style={{ zIndex: 40 }}
                 className="absolute shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] transition-opacity border-slate-700 right-0 w-40  bg-white rounded-md dark:bg-black top-4 h-52"
               >
-                <h1 onClick={()=>{}} className="px-2 py-2 mt-2 text-black rounded-lg dark:text-white bg-slate-400">
+                <h1 onClick={deleteComment} className="px-2 py-2 mt-2 text-black rounded-lg dark:text-white bg-slate-400">
                   Delete
                 </h1>
               </div>

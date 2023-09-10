@@ -1,20 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Blurhash } from "react-blurhash";
-import {
-  Bookmark,
-  MessagesSquare,
-  MoreHorizontal,
-  Send,
-  X,
-} from "lucide-react";
+import { MessagesSquare, MoreHorizontal, Send, X } from "lucide-react";
 import { Theme } from "../context/ThemeProvider";
 import { PuffLoader } from "react-spinners";
 import Profileimage from "./Profileimage";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
 import Moment from "react-moment";
 import "moment-timezone";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { RotatingLines } from "react-loader-spinner";
 
 const ImagePost = ({
   profileimg,
@@ -30,6 +26,7 @@ const ImagePost = ({
   const [imageloaded, setImageloaded] = useState(false);
   // const [profileimageloaded, setprofileimageloaded] = useState(false);
   const [isLiked, setisLiked] = useState(isLikedpost);
+  const [isSaved, setisSaved] = useState(isLikedpost);
   const [addComment, setAddComment] = useState("");
   const [commentAdding, setCommentAdding] = useState(false);
   const [openPopup, setopenPopup] = useState(false);
@@ -37,6 +34,7 @@ const ImagePost = ({
   const [mounted, setMounted] = useState(false);
   const { themeMode } = useContext(Theme);
   const [loading, setloading] = useState(false);
+  const [bookmarkloading, setbookmarkloading] = useState(false);
   useEffect(() => {
     setMounted(true);
     let tkn = localStorage.getItem("userlogintoken");
@@ -122,6 +120,83 @@ const ImagePost = ({
       setloading(false);
     }
   };
+
+  const savePost = async () => {
+    if (bookmarkloading) {
+      toast.error("Loading...");
+      return;
+    }
+    setbookmarkloading(true);
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/saved`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            postid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        setisSaved(true);
+        setbookmarkloading(false);
+      } else {
+        toast.error(posts?.message);
+        setisSaved(false);
+        setbookmarkloading(false);
+      }
+    } catch (error) {
+      toast.success("Error");
+      setisSaved(false);
+      setbookmarkloading(false);
+    }
+  };
+
+  const unsavePost = async () => {
+    if (bookmarkloading) {
+      toast.error("Loading...");
+      return;
+    }
+    setbookmarkloading(true);
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/unsaved`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            postid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        setbookmarkloading(false);
+        setisSaved(false);
+      } else {
+        toast.error(posts?.message);
+        setbookmarkloading(false);
+        setisSaved(false);
+      }
+    } catch (error) {
+      toast.success("Error");
+      setbookmarkloading(false);
+      setisSaved(false);
+    }
+  };
+
   const postComment = async () => {
     setCommentAdding(true);
     try {
@@ -133,7 +208,7 @@ const ImagePost = ({
             secret: process.env.REACT_APP_SECRET,
             postid: id,
             token: token,
-            comment:addComment
+            comment: addComment,
           }),
           headers: {
             "Content-type": "application/json",
@@ -143,7 +218,7 @@ const ImagePost = ({
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message);
-        setAddComment("")
+        setAddComment("");
         setCommentAdding(false);
       } else {
         toast.error(posts?.message);
@@ -164,25 +239,25 @@ const ImagePost = ({
       >
         <div className="flex px-1.5 items-center justify-between h-12">
           {/*  For the header of posts */}
-         <Link to={`/profile/${username}`}>
-         <div className="flex items-center justify-center space-x-3">
-            <div className="cursor-pointer">
-              <div className="flex flex-col w-full gap2">
-                <div className="relative w-full overflow-hidden rounded-full img-container aspect-square">
-                  <Profileimage key={profileimg} imgsrc={profileimg} />
+          <Link to={`/profile/${username}`}>
+            <div className="flex items-center justify-center space-x-3">
+              <div className="cursor-pointer">
+                <div className="flex flex-col w-full gap2">
+                  <div className="relative w-full overflow-hidden rounded-full img-container aspect-square">
+                    <Profileimage key={profileimg} imgsrc={profileimg} />
+                  </div>
                 </div>
               </div>
+              <div>
+                <h1 className="text-lg font-medium text-black cursor-pointer dark:text-white">
+                  {username?.length > 10 ? username.slice(0, 10) : username} •{" "}
+                  <Moment interval={1} fromNow>
+                    {time}
+                  </Moment>
+                </h1>
+              </div>
             </div>
-            <div>
-              <h1 className="text-lg font-medium text-black cursor-pointer dark:text-white">
-                {username?.length > 10 ? username.slice(0, 10) : username} •{" "}
-                <Moment interval={1} fromNow>
-                  {time}
-                </Moment>
-              </h1>
-            </div>
-          </div>
-          </Link> 
+          </Link>
           <div className="flex items-center justify-center space-x-3">
             <div className="relative cursor-pointer">
               <MoreHorizontal
@@ -222,39 +297,39 @@ const ImagePost = ({
             })}
           </div>
         </div>
-       <Link to={`/posts/${id}`}>
-       <div>
-          {!imageloaded && (
-            <Blurhash
-              hash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
-              width={"100%"}
-              height={350}
-              resolutionX={32}
-              resolutionY={32}
-              punch={0}
-            />
-          )}
-          {imageloaded && (
-            <div
-              onDoubleClick={() => {
-                likeImage();
-              }}
-              className="max-w-screen-md row-span-2 mx-auto cursor-pointer group"
-            >
-              <div className="flex flex-col w-full gap2">
-                <div className="relative w-full overflow-hidden img-container aspect-square ">
-                  <img
-                    src={src}
-                    className="w-full h-full transition img-container selection:bg-none hover:scale-105"
-                    alt=""
-                    srcSet=""
-                  />
+        <Link to={`/posts/${id}`}>
+          <div>
+            {!imageloaded && (
+              <Blurhash
+                hash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
+                width={"100%"}
+                height={350}
+                resolutionX={32}
+                resolutionY={32}
+                punch={0}
+              />
+            )}
+            {imageloaded && (
+              <div
+                onDoubleClick={() => {
+                  likeImage();
+                }}
+                className="max-w-screen-md row-span-2 mx-auto cursor-pointer group"
+              >
+                <div className="flex flex-col w-full gap2">
+                  <div className="relative w-full overflow-hidden img-container aspect-square ">
+                    <img
+                      src={src}
+                      className="w-full h-full transition img-container selection:bg-none hover:scale-105"
+                      alt=""
+                      srcSet=""
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-        </Link> 
+            )}
+          </div>
+        </Link>
         <div className="flex items-center justify-between h-12 px-3">
           {/*  For the footer of posts */}
           <div className="flex items-center justify-center space-x-5">
@@ -277,22 +352,43 @@ const ImagePost = ({
                 />
               )}
             </div>
-            <Link to={`/posts/${id}`}><div className="cursor-pointer">
-              <MessagesSquare
-                size={27}
-                color={themeMode === "dark" ? "#fff" : "#000"}
-              />
-            </div></Link>
+            <Link to={`/posts/${id}`}>
+              <div className="cursor-pointer">
+                <MessagesSquare
+                  size={27}
+                  color={themeMode === "dark" ? "#fff" : "#000"}
+                />
+              </div>
+            </Link>
             <div className="cursor-pointer">
               <Send size={25} color={themeMode === "dark" ? "#fff" : "#000"} />
             </div>
           </div>
-          <div className="cursor-pointer">
-            <Bookmark
-              size={28}
-              color={themeMode === "dark" ? "#fff" : "#000"}
-            />
-          </div>
+          {bookmarkloading ? (
+            <div className="cursor-pointer">
+              <RotatingLines
+                strokeColor="white"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="23"
+                visible={true}
+              />
+            </div>
+          ) : !isSaved ? (
+            <div onClick={savePost} className="cursor-pointer">
+              <BsBookmark
+                size={24}
+                color={themeMode === "dark" ? "#fff" : "#000"}
+              />
+            </div>
+          ) : (
+            <div onClick={unsavePost} className="cursor-pointer">
+              <BsFillBookmarkFill
+                size={24}
+                color={themeMode === "dark" ? "#fff" : "#000"}
+              />
+            </div>
+          )}
         </div>
         <div className="px-3">
           {isLiked ? (
