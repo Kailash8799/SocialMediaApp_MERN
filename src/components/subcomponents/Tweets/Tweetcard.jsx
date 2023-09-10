@@ -244,12 +244,6 @@ const Tweetpostcard = ({
               <Send size={25} color={themeMode === "dark" ? "#fff" : "#000"} />
             </div>
           </div>
-          <div className="cursor-pointer">
-            <Bookmark
-              size={28}
-              color={themeMode === "dark" ? "#fff" : "#000"}
-            />
-          </div>
         </div>
         <div className="px-3">
           {isLiked ? (
