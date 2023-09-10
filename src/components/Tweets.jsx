@@ -55,7 +55,7 @@ const Tweets = () => {
             {tweets?.length === 0 && (
               <div className="flex items-center content-center justify-center w-full h-screen">
                 <h1 className="inline-block mx-auto text-lg text-black dark:text-white">
-                  No saved post found
+                  No text post found
                 </h1>
               </div>
             )}

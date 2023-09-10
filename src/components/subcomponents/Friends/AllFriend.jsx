@@ -3,27 +3,65 @@ import OneFriend from "./OneFriend";
 
 const AllFriend = () => {
   const [mounted, setisMounted] = useState(false);
+  const [allfriends, setallfriends] = useState([]);
+  const [fetching, setfetching] = useState(false);
+  const [profile, setProfile] = useState({});
+  const [tkn, settkn] = useState();
+
   useEffect(() => {
     setisMounted(true);
+    let token = localStorage.getItem("userlogintoken");
+    if (token) {
+      settkn(token);
+      try {
+        (async () => {
+          setfetching(true);
+          const postsdata = await fetch(
+            `${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/getalluser`,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                token: token,
+                secret: process.env.REACT_APP_SECRET,
+              }),
+              headers: {
+                "Content-type": "application/json",
+              },
+            }
+          );
+          const posts = await postsdata.json();
+          if (posts?.success) {
+            setfetching(false);
+            setallfriends(posts?.users);
+            setProfile(posts?.profile);
+          } else {
+            setallfriends([]);
+            setfetching(false);
+          }
+        })();
+      } catch (error) {
+        setallfriends([]);
+        setfetching(false);
+      }
+    }
   }, []);
+
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
-  const friends = [
-    { id: "12345tfcvbf" },
-    { id: "dfbvhfdxchfgds" },
-    { id: "cvbghfrtesdzccb" },
-    { id: "cvbghfrteszxcvbdzccb" },
-    { id: "cvbghzxcvfrtesdzccb" },
-    { id: "cvcxvbbghfrtesdzccb" },
-    { id: "cvcxvbbghfrtesdccczccb" },
-    { id: "cvcxvbbghfrccctesdccczccb" },
-    { id: "cvcxvbbgddhfrccctesdccczccb" },
-    { id: "c" },
-  ];
+
   return (
     <div className="grid grid-cols-2 gap-3 py-5 mx-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-      {friends.map((item) => {
-        return <OneFriend key={item?.id}/>;
+      {allfriends?.map((item) => {
+        return (
+           item?._id !== profile?._id && <OneFriend
+              key={item?._id}
+              id={item?._id}
+              username={item?.username}
+              image={item?.profileimage || "/user.png"}
+              token={tkn}
+              isFollowed={profile?.following?.includes(item?._id)}
+            />
+        );
       })}
     </div>
   );
