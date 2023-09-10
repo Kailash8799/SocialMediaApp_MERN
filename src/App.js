@@ -81,7 +81,7 @@ function App() {
         }
       })();
     }
-  }, []);
+  }, [dispatch, setisLoggedin]);
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (
