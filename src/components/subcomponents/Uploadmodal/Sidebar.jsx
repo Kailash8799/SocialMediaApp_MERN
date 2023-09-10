@@ -11,6 +11,7 @@ const SidebarModal = () => {
     sidebarModalanimation,
     setsidebarModalanimation,
     themeMode,
+    setisLoggedin
   } = useContext(Theme);
   const [ismounted, setisMounted] = useState(false);
   const [toggle, settoggle] = useState(
@@ -114,6 +115,23 @@ const SidebarModal = () => {
                       )}
                       <h1 className="text-xl font-bold text-black/70 dark:text-white">
                         Toggle to {toggle}
+                      </h1>
+                    </div>
+                  </div>
+                  <div
+                    className={`px-3 mt-5 py-3 mx-2 rounded-lg cursor-pointer hover:dark:bg-slate-400/10 hover:bg-slate-400/25`}
+                  >
+                    <div  onClick={() => {
+                        localStorage.removeItem("userlogintoken")
+                        setisLoggedin(false)
+                    }} className="flex flex-row items-center space-x-2 ">
+                      {themeMode === "dark" ? (
+                        <SunMoon size={28} color="#2f76ac" />
+                      ) : (
+                        <Moon size={28} color="#2f76ac" />
+                      )}
+                      <h1 className="text-xl font-bold text-black/70 dark:text-white">
+                        Logout
                       </h1>
                     </div>
                   </div>
