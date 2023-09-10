@@ -22,6 +22,7 @@ const Tweets = () => {
             method: "POST",
             body: JSON.stringify({
               secret: process.env.REACT_APP_SECRET,
+              token:localStorage.getItem("userlogintoken")
             }),
             headers: {
               "Content-type": "application/json",
@@ -29,6 +30,7 @@ const Tweets = () => {
           }
         );
         const posts = await postsdata.json();
+        console.log(posts);
         if (posts?.success) {
           setfetching(false);
           setTweets(posts?.posts);

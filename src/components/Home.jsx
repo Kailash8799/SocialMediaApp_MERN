@@ -4,7 +4,7 @@ import SideNavbar from "./subcomponents/SideNavbar";
 import Stories from "./subcomponents/Stories";
 import { Theme } from "./context/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "../redux/actions/postaction";
+import { setPosts, setUser } from "../redux/actions/postaction";
 import PostSkeleton from "./subcomponents/PostSkeleton";
 
 const Home = () => {
@@ -13,6 +13,7 @@ const Home = () => {
   const allposts = useSelector((state)=>state.setPosts.posts)
   const [homefeed, sethomefeed] = useState(allposts);
   const [fetching,setfetching] = useState(false);
+  const profile = useSelector((state)=>state.setUser)
   const dispatch = useDispatch();
   try {
     useEffect(() => {
@@ -27,6 +28,7 @@ const Home = () => {
               method: "POST",
               body: JSON.stringify({
                 secret: process.env.REACT_APP_SECRET,
+                token:localStorage.getItem("userlogintoken")
               }),
               headers: {
                 "Content-type": "application/json",
@@ -36,6 +38,7 @@ const Home = () => {
           const posts = await postsdata.json();
           if (posts?.success) {
             dispatch(setPosts(posts?.posts))
+            dispatch(setUser(posts?.profile));
             setfetching(false);
             sethomefeed(posts?.posts);
           } else {
@@ -75,7 +78,8 @@ const Home = () => {
                   totalLikes={(item?.likes)?.length}
                   totalComments={(item?.comments)?.length}
                   tagged={item?.tagged}
-                  isLikedpost={item?.likes.includes(item?.profileId?.userid)}
+                  isLikedpost={item?.likes?.includes(profile?.userid)}
+                  isSavedPost={profile?.savedpost?.includes(item?._id)}
                 />
               );
             })}

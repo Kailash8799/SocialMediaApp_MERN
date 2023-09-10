@@ -22,11 +22,12 @@ const ImagePost = ({
   totalLikes,
   id,
   isLikedpost,
+  isSavedPost
 }) => {
   const [imageloaded, setImageloaded] = useState(false);
   // const [profileimageloaded, setprofileimageloaded] = useState(false);
   const [isLiked, setisLiked] = useState(isLikedpost);
-  const [isSaved, setisSaved] = useState(isLikedpost);
+  const [isSaved, setisSaved] = useState(isSavedPost);
   const [addComment, setAddComment] = useState("");
   const [commentAdding, setCommentAdding] = useState(false);
   const [openPopup, setopenPopup] = useState(false);
@@ -73,6 +74,7 @@ const ImagePost = ({
         }
       );
       const posts = await postsdata.json();
+      console.log(posts);
       if (posts?.success) {
         toast.success(posts?.message);
         setloading(false);

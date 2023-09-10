@@ -3,11 +3,15 @@ import { Theme } from "./context/ThemeProvider";
 import ImagePost from "./subcomponents/ImagePost";
 import SideNavbar from "./subcomponents/SideNavbar";
 import PostSkeleton from "./subcomponents/PostSkeleton";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../redux/actions/postaction";
 
 const AllPosts = () => {
   const { setProgress } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
   const [fetching, setfetching] = useState(false);
+  const profile = useSelector((state)=>state.setUser)
+  const dispatch = useDispatch();
   useEffect(() => {
     setProgress(0);
     setisMounted(true);
@@ -27,6 +31,7 @@ const AllPosts = () => {
               method: "POST",
               body: JSON.stringify({
                 secret: process.env.REACT_APP_SECRET,
+                token:localStorage.getItem("userlogintoken")
               }),
               headers: {
                 "Content-type": "application/json",
@@ -36,6 +41,7 @@ const AllPosts = () => {
           const posts = await postsdata.json();
           if (posts?.success) {
             setfetching(false);
+            dispatch(setUser(posts?.profile));
             setposts(posts?.posts);
           } else {
             setposts([]);
@@ -47,7 +53,7 @@ const AllPosts = () => {
         setfetching(false);
       }
       setProgress(100);
-    }, [setProgress]);
+    }, []);
   } catch (error) {
     console.log(error);
   }
@@ -73,7 +79,8 @@ const AllPosts = () => {
                   totalLikes={item?.likes?.length}
                   totalComments={item?.comments?.length}
                   tagged={item?.tagged}
-                  isLikedpost={item?.likes.includes(item?.profileId?.userid)}
+                  isLikedpost={item?.likes?.includes(profile?.userid)}
+                  isSavedPost={profile?.savedpost?.includes(item?._id)}
                 />
               );
             })}

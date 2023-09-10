@@ -8,7 +8,6 @@ import Moment from "react-moment";
 import Profileimage from "./subcomponents/Profileimage";
 import {
   ArrowDownToLine,
-  Bookmark,
   MessageCircle,
   MoreHorizontal,
 } from "lucide-react";
@@ -20,6 +19,8 @@ import { RotatingLines } from "react-loader-spinner";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Commentcomp from "./subcomponents/Commentcomp";
+import { useSelector } from "react-redux";
+import { BsBookmark, BsFillBookmarkFill } from "react-icons/bs";
 
 const Postdetails = () => {
   const { id } = useParams();
@@ -29,6 +30,7 @@ const Postdetails = () => {
   const [openPopup, setopenPopup] = useState(false);
   const { themeMode } = useContext(Theme);
   const [isLiked, setisLiked] = useState(false);
+  const [issaved, setissaved] = useState(false);
   const [isUploading, setisUploading] = useState(false);
   const [token, settoken] = useState("");
   const [comment, setcomment] = useState("");
@@ -37,6 +39,8 @@ const Postdetails = () => {
   const [commentloading, setcommentloading] = useState(true);
   const [commentfetcherror, setcommentfetcherror] = useState(false);
   const [allcomment, setallcomment] = useState([]);
+  const profile = useSelector((state) => state.setUser);
+  const [bookmarkloading, setbookmarkloading] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -65,9 +69,8 @@ const Postdetails = () => {
           setPostdetails(posts?.posts);
           toast.success(posts?.message);
           setFetching(false);
-          setisLiked(
-            posts?.posts?.likes.includes(posts?.posts?.profileId?.userid)
-          );
+          setissaved(profile?.savedpost?.includes(posts?.posts?._id));
+          setisLiked(posts?.posts?.likes?.includes(profile?.userid));
         } else {
           toast.error(posts?.message);
           setFetching(false);
@@ -77,7 +80,7 @@ const Postdetails = () => {
         setFetching(false);
       }
     })();
-  }, [id]);
+  }, [id, profile?.savedpost, profile?.userid]);
 
   useEffect(() => {
     setMounted(true);
@@ -103,7 +106,6 @@ const Postdetails = () => {
         );
         const comments = await commentdata.json();
         if (comments?.success) {
-          console.log(comments?.comments);
           setallcomment(comments?.comments);
           toast.success(comments?.message);
           setcommentloading(false);
@@ -190,6 +192,82 @@ const Postdetails = () => {
     } catch (error) {
       toast.success("Error");
       setloading(false);
+    }
+  };
+
+  const savePost = async () => {
+    if (bookmarkloading) {
+      toast.error("Loading...");
+      return;
+    }
+    setbookmarkloading(true);
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/saved`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            postid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        setissaved(true);
+        setbookmarkloading(false);
+      } else {
+        toast.error(posts?.message);
+        setissaved(false);
+        setbookmarkloading(false);
+      }
+    } catch (error) {
+      toast.success("Error");
+      setissaved(false);
+      setbookmarkloading(false);
+    }
+  };
+
+  const unsavePost = async () => {
+    if (bookmarkloading) {
+      toast.error("Loading...");
+      return;
+    }
+    setbookmarkloading(true);
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/unsaved`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            postid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        setbookmarkloading(false);
+        setissaved(false);
+      } else {
+        toast.error(posts?.message);
+        setbookmarkloading(false);
+        setissaved(false);
+      }
+    } catch (error) {
+      toast.success("Error");
+      setbookmarkloading(false);
+      setissaved(false);
     }
   };
 
@@ -406,17 +484,36 @@ const Postdetails = () => {
                         />
                       )}
                     </div>
+                    {bookmarkloading ? (
+                      <div className="cursor-pointer">
+                        <RotatingLines
+                          strokeColor={themeMode === "dark" ? "#fff" : "black"}
+                          strokeWidth="5"
+                          animationDuration="0.75"
+                          width="23"
+                          visible={true}
+                        />
+                      </div>
+                    ) : !issaved ? (
+                      <div onClick={savePost} className="cursor-pointer">
+                        <BsBookmark
+                          size={24}
+                          color={themeMode === "dark" ? "#fff" : "#000"}
+                        />
+                      </div>
+                    ) : (
+                      <div onClick={unsavePost} className="cursor-pointer">
+                        <BsFillBookmarkFill
+                          size={24}
+                          color={themeMode === "dark" ? "#fff" : "#000"}
+                        />
+                      </div>
+                    )}
                     <div className="cursor-pointer">
-                      <Bookmark
+                      <a href={postDetails?.imageLink} download={true}><ArrowDownToLine
                         size={29}
                         color={themeMode === "dark" ? "#fff" : "black"}
-                      />
-                    </div>
-                    <div className="cursor-pointer">
-                      <ArrowDownToLine
-                        size={29}
-                        color={themeMode === "dark" ? "#fff" : "black"}
-                      />
+                      /></a>
                     </div>
                   </div>
                 )}

@@ -7,6 +7,13 @@ export const setPosts = (posts)=>{
     }
 }
 
+export const setUser = (user)=>{
+    return {
+        type:ActionType.SET_USER,
+        payload:user
+    }
+}
+
 export const removePosts = ()=>{
     return {
         type:ActionType.REMOVE_POSTS

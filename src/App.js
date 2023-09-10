@@ -24,6 +24,8 @@ import Explore from "./components/Explore/Explore";
 import Tweets from "./components/Tweets";
 import Saved from "./components/Saved";
 import LeftSidebarModal from "./components/subcomponents/Uploadmodal/Leftbarside";
+import { useDispatch } from "react-redux";
+import { setUser } from "./redux/actions/postaction";
 
 function App() {
   const {
@@ -33,9 +35,10 @@ function App() {
     setProgress,
     uploadimagemodal,
     sidebarModal,
-    leftsidebarModal
+    leftsidebarModal,
   } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
+  const dispatch = useDispatch();
   useEffect(() => {
     setisMounted(true);
     let token = localStorage.getItem("userlogintoken");
@@ -51,7 +54,10 @@ function App() {
             `${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/getUser`,
             {
               method: "POST",
-              body: JSON.stringify({ token }),
+              body: JSON.stringify({
+                token,
+                secret: process.env.REACT_APP_SECRET,
+              }),
               headers: {
                 "Content-type": "application/json",
               },
@@ -61,6 +67,7 @@ function App() {
           if (data?.success) {
             toast.success(data?.message);
             setisLoggedin(true);
+            dispatch(setUser(data?.profile));
             sessionStorage.setItem("validuser", true);
           } else {
             setisLoggedin(false);
