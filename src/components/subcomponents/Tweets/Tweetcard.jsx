@@ -33,6 +33,8 @@ const Tweetpostcard = ({
   const [mounted, setMounted] = useState(false);
   const { themeMode } = useContext(Theme);
   const [loading, setloading] = useState(false);
+  const [alllikes,setalllikes] = useState(totalLikes)
+
   useEffect(() => {
     setMounted(true);
     let tkn = localStorage.getItem("userlogintoken");
@@ -68,6 +70,7 @@ const Tweetpostcard = ({
       if (posts?.success) {
         toast.success(posts?.message);
         setloading(false);
+        setalllikes(alllikes+1)
       } else {
         toast.error(posts?.message);
         setloading(false);
@@ -103,6 +106,7 @@ const Tweetpostcard = ({
       if (posts?.success) {
         toast.success(posts?.message);
         setloading(false);
+        setalllikes(alllikes-1)
       } else {
         toast.error(posts?.message);
         setloading(false);
@@ -249,11 +253,11 @@ const Tweetpostcard = ({
           {isLiked ? (
             <h1 className="-mt-2 font-semibold text-black dark:text-white">
               Liked by you{" "}
-              {!(totalLikes === 1 && isLikedpost) && `and ${totalLikes} others`}
+              {!(alllikes === 1 && isLikedpost) && `and ${alllikes} others`}
             </h1>
           ) : (
             <h1 className="-mt-2 font-semibold text-black dark:text-white">
-              {totalLikes} likes
+              {alllikes} likes
             </h1>
           )}
         </div>
