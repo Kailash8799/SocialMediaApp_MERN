@@ -367,7 +367,7 @@ const ImagePost = ({
           {bookmarkloading ? (
             <div className="cursor-pointer">
               <RotatingLines
-                strokeColor="white"
+                strokeColor={themeMode==="dark"?"#fff":"black"}
                 strokeWidth="5"
                 animationDuration="0.75"
                 width="23"
