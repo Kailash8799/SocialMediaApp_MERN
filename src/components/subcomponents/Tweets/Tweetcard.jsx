@@ -33,7 +33,7 @@ const Tweetpostcard = ({
   const [mounted, setMounted] = useState(false);
   const { themeMode } = useContext(Theme);
   const [loading, setloading] = useState(false);
-  const [alllikes,setalllikes] = useState(totalLikes)
+  const [alllikes, setalllikes] = useState(totalLikes);
 
   useEffect(() => {
     setMounted(true);
@@ -70,7 +70,7 @@ const Tweetpostcard = ({
       if (posts?.success) {
         toast.success(posts?.message);
         setloading(false);
-        setalllikes(alllikes+1)
+        setalllikes(alllikes + 1);
       } else {
         toast.error(posts?.message);
         setloading(false);
@@ -106,13 +106,13 @@ const Tweetpostcard = ({
       if (posts?.success) {
         toast.success(posts?.message);
         setloading(false);
-        setalllikes(alllikes-1)
+        setalllikes(alllikes - 1);
       } else {
         toast.error(posts?.message);
         setloading(false);
       }
     } catch (error) {
-      toast.success("Error");
+      toast.success("Error accured!");
       setloading(false);
     }
   };
@@ -127,7 +127,7 @@ const Tweetpostcard = ({
             secret: process.env.REACT_APP_SECRET,
             postid: id,
             token: token,
-            comment:addComment
+            comment: addComment,
           }),
           headers: {
             "Content-type": "application/json",
@@ -137,7 +137,7 @@ const Tweetpostcard = ({
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message);
-        setAddComment("")
+        setAddComment("");
         setCommentAdding(false);
       } else {
         toast.error(posts?.message);
@@ -158,25 +158,25 @@ const Tweetpostcard = ({
       >
         <div className="flex px-1.5 items-center justify-between h-12">
           {/*  For the header of posts */}
-         <Link to={`/profile/${username}`}>
-         <div className="flex items-center justify-center space-x-3">
-            <div className="cursor-pointer">
-              <div className="flex flex-col w-full gap2">
-                <div className="relative w-full overflow-hidden rounded-full img-container aspect-square">
-                  <Profileimage key={profileimg} imgsrc={profileimg} />
+          <Link to={`/profile/${username}`}>
+            <div className="flex items-center justify-center space-x-3">
+              <div className="cursor-pointer">
+                <div className="flex flex-col w-full gap2">
+                  <div className="relative w-full overflow-hidden rounded-full img-container aspect-square">
+                    <Profileimage key={profileimg} imgsrc={profileimg} />
+                  </div>
                 </div>
               </div>
+              <div>
+                <h1 className="text-lg font-medium text-black cursor-pointer dark:text-white">
+                  {username?.length > 10 ? username.slice(0, 10) : username} •{" "}
+                  <Moment interval={1} fromNow>
+                    {time}
+                  </Moment>
+                </h1>
+              </div>
             </div>
-            <div>
-              <h1 className="text-lg font-medium text-black cursor-pointer dark:text-white">
-                {username?.length > 10 ? username.slice(0, 10) : username} •{" "}
-                <Moment interval={1} fromNow>
-                  {time}
-                </Moment>
-              </h1>
-            </div>
-          </div>
-          </Link> 
+          </Link>
           <div className="flex items-center justify-center space-x-3">
             <div className="relative cursor-pointer">
               <MoreHorizontal
@@ -238,12 +238,14 @@ const Tweetpostcard = ({
                 />
               )}
             </div>
-            <Link to={`/posts/${id}`}><div className="cursor-pointer">
-              <MessagesSquare
-                size={27}
-                color={themeMode === "dark" ? "#fff" : "#000"}
-              />
-            </div></Link>
+            <Link to={`/posts/${id}`}>
+              <div className="cursor-pointer">
+                <MessagesSquare
+                  size={27}
+                  color={themeMode === "dark" ? "#fff" : "#000"}
+                />
+              </div>
+            </Link>
             <div className="cursor-pointer">
               <Send size={25} color={themeMode === "dark" ? "#fff" : "#000"} />
             </div>
