@@ -26,6 +26,7 @@ const Modal = () => {
   const [isLoading, setisLoading] = useState(false);
   const [token, settoken] = useState("");
   const [ismounted, setisMounted] = useState(false);
+  const [fileadd, setfileadd] = useState(null);
   useEffect(() => {
     setisMounted(true);
     const tk = localStorage.getItem("userlogintoken");
@@ -45,6 +46,7 @@ const Modal = () => {
     }
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
+      setfileadd(e.target.files[0]);
     }
     reader.onload = (readerEvent) => {
       setUploadfile(readerEvent.target.result);
@@ -75,7 +77,7 @@ const Modal = () => {
         settextpostitem("");
         setisLoading(false);
         setuploadimagemodalanimation(false);
-        setUploadfile(null)
+        setUploadfile(null);
         setTimeout(() => {
           setuploadimagemodal(false);
         }, 500);
@@ -89,6 +91,143 @@ const Modal = () => {
       setisLoading(false);
     }
   };
+
+  const uploadImage = async () => {
+    if (fileadd == null) {
+      console.log(fileadd);
+      toast.error("Please select file");
+      return;
+    }
+    try {
+      setisLoading(true);
+      const responce = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/uploadImage`,
+        {
+          method: "POST",
+          body: JSON.stringify({file:uploadfile}),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const data = await responce.json();
+    console.log(data);
+      if (data.success) {
+        try {
+          const responce = await fetch(
+            `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postimage`,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                token: token,
+                secret: secret,
+                caption: "Hello bhidu kese ho",
+                hashtags: ["Hello", "Hii"],
+                imageLink:data.url,
+              }),
+              headers: {
+                "Content-type": "application/json",
+              },
+            }
+          );
+          const dataadd = await responce.json();
+          if (dataadd.success) {
+            toast.success(dataadd?.message);
+            settextpostitem("");
+            setisLoading(false);
+            setuploadimagemodalanimation(false);
+            setUploadfile(null);
+            setTimeout(() => {
+              setuploadimagemodal(false);
+            }, 500);
+          } else {
+            toast.error(data?.message+ "He;;");
+            setisLoading(false);
+          }
+          setisLoading(false);
+        } catch (error) {
+          toast.error("Some error accured oka");
+          setisLoading(false);
+        }
+      } else {
+        toast.error(data?.message+ "sdfg");
+        setisLoading(false);
+      }
+      setisLoading(false);
+    } catch (error) {
+      toast.error("Some error accured here");
+      setisLoading(false);
+    }
+  };
+
+  const uploadVideo = async () => {
+    if (fileadd == null) {
+      console.log(fileadd);
+      toast.error("Please select file");
+      return;
+    }
+    try {
+      setisLoading(true);
+      const responce = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/uploadVideo`,
+        {
+          method: "POST",
+          body: JSON.stringify({file:uploadfile}),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const data = await responce.json();
+    console.log(data);
+      if (data.success) {
+        try {
+          const responce = await fetch(
+            `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postimage`,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                token: token,
+                secret: secret,
+                caption: "Hello bhidu kese ho",
+                hashtags: ["Hello", "Hii"],
+                imageLink:data.url,
+              }),
+              headers: {
+                "Content-type": "application/json",
+              },
+            }
+          );
+          const dataadd = await responce.json();
+          if (dataadd.success) {
+            toast.success(dataadd?.message);
+            settextpostitem("");
+            setisLoading(false);
+            setuploadimagemodalanimation(false);
+            setUploadfile(null);
+            setTimeout(() => {
+              setuploadimagemodal(false);
+            }, 500);
+          } else {
+            toast.error(data?.message+ "He;;");
+            setisLoading(false);
+          }
+          setisLoading(false);
+        } catch (error) {
+          toast.error("Some error accured oka");
+          setisLoading(false);
+        }
+      } else {
+        toast.error(data?.message+ "sdfg");
+        setisLoading(false);
+      }
+      setisLoading(false);
+    } catch (error) {
+      toast.error("Some error accured here");
+      setisLoading(false);
+    }
+  };
+
   if (!ismounted) return;
   return (
     <div
@@ -309,7 +448,7 @@ const Modal = () => {
                         className="absolute bottom-0 right-0"
                         style={{ zIndex: 60 }}
                       >
-                        <h1 className=" bg-blue-600 px-3 py-1.5 text-white font-semibold rounded-lg">
+                        <h1 onClick={uploadImage} className=" cursor-pointer bg-blue-600 px-3 py-1.5 text-white font-semibold rounded-lg">
                           Next
                         </h1>
                       </div>

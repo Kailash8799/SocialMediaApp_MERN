@@ -1,9 +1,49 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SideNavbar from "../subcomponents/SideNavbar";
 import ExplorePost from "./ExplorePost";
+import { Theme } from "../context/ThemeProvider";
 
 const Explore = () => {
-    const exploreimages = [1,2,3,4,5,6,7,8,9];
+  const exploreimages = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const [posts, setposts] = useState([]);
+  const { setProgress } = useContext(Theme);
+  const [mounted, setisMounted] = useState(false);
+  const [fetching, setfetching] = useState(false);
+  useEffect(() => {
+    setProgress(0);
+    setisMounted(true);
+    try {
+      (async () => {
+        setfetching(true);
+        const postsdata = await fetch(
+          `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/getAllPosts`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              secret: process.env.REACT_APP_SECRET,
+              token: localStorage.getItem("userlogintoken"),
+            }),
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        );
+        const posts = await postsdata.json();
+        if (posts?.success) {
+          setfetching(false);
+          setposts(posts?.posts);
+        } else {
+          setposts([]);
+          setfetching(false);
+        }
+      })();
+    } catch (error) {
+      setposts([]);
+      setfetching(false);
+    }
+    setProgress(100);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white selection:bg-none dark:bg-black">
       <SideNavbar />
@@ -16,10 +56,9 @@ const Explore = () => {
           />
         </div>
         <div className="grid grid-cols-3 gap-1 sm:gap-2">
-        {exploreimages?.map((image,ind)=>{
-            return <ExplorePost key={ind}/>
-        })}
-          
+          {posts?.map((image, ind) => {
+            return <ExplorePost key={ind} img={image?.imageLink} />;
+          })}
         </div>
       </div>
     </div>

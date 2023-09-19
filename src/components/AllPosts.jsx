@@ -18,7 +18,7 @@ const AllPosts = () => {
     setProgress(100);
   }, [setProgress]);
   const [posts, setposts] = useState([]);
-  try {
+  
     useEffect(() => {
       setProgress(0);
       setisMounted(true);
@@ -54,9 +54,7 @@ const AllPosts = () => {
       }
       setProgress(100);
     }, []);
-  } catch (error) {
-    console.log(error);
-  }
+  
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (
