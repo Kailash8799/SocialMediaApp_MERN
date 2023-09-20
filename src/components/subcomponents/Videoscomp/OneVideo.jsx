@@ -74,8 +74,8 @@ const OneVideo = ({ src, username, time, caption, hashtags, totalLikes }) => {
       <div>
         {
           <div className="max-w-screen-md row-span-2 mx-auto cursor-pointer group">
-            <div className="flex flex-col w-full gap2">
-              <div className="relative w-full overflow-hidden img-container aspect-square ">
+            <div className="flex flex-col  w-full gap2">
+              <div className="relative w-full overflow-hidden  aspect-square ">
                 <video
                   src="https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
                   className="w-full h-full transition img-container"
