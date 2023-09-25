@@ -45,8 +45,8 @@ const Modal = () => {
       setisVideo(true);
     }
     if (e.target.files[0]) {
-      reader.readAsDataURL(e.target.files[0]);
       setfileadd(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[0]);
     }
     reader.onload = (readerEvent) => {
       setUploadfile(readerEvent.target.result);
@@ -94,24 +94,23 @@ const Modal = () => {
 
   const uploadImage = async () => {
     if (fileadd == null) {
-      console.log(fileadd);
       toast.error("Please select file");
       return;
     }
+    const formData = new FormData();
+    formData.append('file', fileadd);
     try {
       setisLoading(true);
+      console.log("Hello");
       const responce = await fetch(
         `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/uploadImage`,
         {
           method: "POST",
-          body: JSON.stringify({file:uploadfile}),
-          headers: {
-            "Content-type": "application/json",
-          },
+          body: formData,
         }
       );
       const data = await responce.json();
-    console.log(data);
+      console.log(data);
       if (data.success) {
         try {
           const responce = await fetch(
@@ -162,28 +161,26 @@ const Modal = () => {
 
   const uploadVideo = async () => {
     if (fileadd == null) {
-      console.log(fileadd);
       toast.error("Please select file");
       return;
     }
+    const formData = new FormData();
+    formData.append('file', fileadd);
     try {
       setisLoading(true);
       const responce = await fetch(
         `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/uploadVideo`,
         {
           method: "POST",
-          body: JSON.stringify({file:uploadfile}),
-          headers: {
-            "Content-type": "application/json",
-          },
+          body: formData,
         }
       );
       const data = await responce.json();
-    console.log(data);
+      console.log(data);
       if (data.success) {
         try {
           const responce = await fetch(
-            `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postimage`,
+            `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postvideo`,
             {
               method: "POST",
               body: JSON.stringify({
@@ -191,7 +188,7 @@ const Modal = () => {
                 secret: secret,
                 caption: "Hello bhidu kese ho",
                 hashtags: ["Hello", "Hii"],
-                imageLink:data.url,
+                videoLink:data.url,
               }),
               headers: {
                 "Content-type": "application/json",
@@ -448,7 +445,13 @@ const Modal = () => {
                         className="absolute bottom-0 right-0"
                         style={{ zIndex: 60 }}
                       >
-                        <h1 onClick={uploadImage} className=" cursor-pointer bg-blue-600 px-3 py-1.5 text-white font-semibold rounded-lg">
+                        <h1 onClick={()=>{
+                          if(!isVideo){
+                            uploadImage()
+                          }else{
+                            uploadVideo()
+                          }
+                        }} className=" cursor-pointer bg-blue-600 px-3 py-1.5 text-white font-semibold rounded-lg">
                           Next
                         </h1>
                       </div>

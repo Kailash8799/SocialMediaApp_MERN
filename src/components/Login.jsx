@@ -57,7 +57,7 @@ function Login() {
   };
   return (
     <>
-      <div className="w-screen h-screen bg-white sm:px-4 sm:py-16 dark:bg-black">
+      <div className="w-screen h-screen overflow-x-hidden bg-white sm:px-4 sm:py-16 dark:bg-black">
         <div className="flex flex-col items-center justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
