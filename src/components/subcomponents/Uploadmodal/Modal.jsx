@@ -54,11 +54,14 @@ const Modal = () => {
     };
   };
   const uploadtextPost = async () => {
+    if (isLoading) {
+      toast.error("Uploading in progress plese do not turn off window");
+      return;
+    }
     try {
       setisLoading(true);
-      const responce = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/posttweet`,
-        {
+      const responce = await toast.promise(
+        fetch(`${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/posttweet`, {
           method: "POST",
           body: JSON.stringify({
             token: token,
@@ -69,8 +72,16 @@ const Modal = () => {
           headers: {
             "Content-type": "application/json",
           },
+        }),
+        {
+          loading: "Uploading tweet",
+          error: <b>Failed to upload</b>,
         }
       );
+      if (!responce.ok) {
+        toast.error("Network error accured!");
+        return;
+      }
       const data = await responce.json();
       if (data.success) {
         toast.success(data?.message);
@@ -97,39 +108,63 @@ const Modal = () => {
       toast.error("Please select file");
       return;
     }
+    if (isLoading) {
+      toast.error("Uploading in progress plese do not turn off window");
+      return;
+    }
     const formData = new FormData();
-    formData.append('file', fileadd);
+    formData.append("file", fileadd);
     try {
       setisLoading(true);
-      console.log("Hello");
-      const responce = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/uploadImage`,
+      const responce = await toast.promise(
+        fetch(
+          `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/uploadImage`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        ),
         {
-          method: "POST",
-          body: formData,
+          loading: "Image Uploading",
+          success: "Image uploaded",
+          error: <b>Failed to upload</b>,
         }
       );
+      if (!responce.ok) {
+        toast.error("Network error accured!");
+        return;
+      }
       const data = await responce.json();
-      console.log(data);
       if (data.success) {
         try {
-          const responce = await fetch(
-            `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postimage`,
+          const responceimg = await toast.promise(
+            fetch(
+              `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postimage`,
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  token: token,
+                  secret: secret,
+                  caption: "Hello bhidu kese ho",
+                  hashtags: ["Hello", "Hii"],
+                  imageLink: data.url,
+                }),
+                headers: {
+                  "Content-type": "application/json",
+                },
+              }
+            ),
             {
-              method: "POST",
-              body: JSON.stringify({
-                token: token,
-                secret: secret,
-                caption: "Hello bhidu kese ho",
-                hashtags: ["Hello", "Hii"],
-                imageLink:data.url,
-              }),
-              headers: {
-                "Content-type": "application/json",
-              },
+              loading: "Post data uploading",
+              success: "Post data uploaded",
+              error: <b>Failed to upload</b>,
             }
           );
-          const dataadd = await responce.json();
+          if (!responceimg.ok) {
+            toast.error("Network error accured!");
+            return;
+          }
+          const dataadd = await responceimg.json();
           if (dataadd.success) {
             toast.success(dataadd?.message);
             settextpostitem("");
@@ -140,7 +175,7 @@ const Modal = () => {
               setuploadimagemodal(false);
             }, 500);
           } else {
-            toast.error(data?.message+ "He;;");
+            toast.error(data?.message + "He;;");
             setisLoading(false);
           }
           setisLoading(false);
@@ -149,7 +184,7 @@ const Modal = () => {
           setisLoading(false);
         }
       } else {
-        toast.error(data?.message+ "sdfg");
+        toast.error(data?.message + "sdfg");
         setisLoading(false);
       }
       setisLoading(false);
@@ -165,37 +200,57 @@ const Modal = () => {
       return;
     }
     const formData = new FormData();
-    formData.append('file', fileadd);
+    formData.append("file", fileadd);
     try {
       setisLoading(true);
-      const responce = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/uploadVideo`,
+      const responce = await toast.promise(
+        fetch(
+          `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/uploadVideo`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        ),
         {
-          method: "POST",
-          body: formData,
+          loading: "Video Uploading",
+          success: "Video uploaded",
+          error: <b>Failed to upload</b>,
         }
       );
+      if (!responce.ok) {
+        toast.error("Network error accured!");
+        return;
+      }
       const data = await responce.json();
-      console.log(data);
       if (data.success) {
         try {
-          const responce = await fetch(
-            `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postvideo`,
+          const responcevideo = await toast.promise(
+            fetch(
+              `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postvideo`,
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  token: token,
+                  secret: secret,
+                  caption: "Hello bhidu kese ho",
+                  hashtags: ["Hello", "Hii"],
+                  videoLink: data.url,
+                }),
+                headers: {
+                  "Content-type": "application/json",
+                },
+              }
+            ),
             {
-              method: "POST",
-              body: JSON.stringify({
-                token: token,
-                secret: secret,
-                caption: "Hello bhidu kese ho",
-                hashtags: ["Hello", "Hii"],
-                videoLink:data.url,
-              }),
-              headers: {
-                "Content-type": "application/json",
-              },
+              loading: "Video data uploading",
+              success:"Video data uploaded",
+              error: <b>Failed to upload</b>,
             }
           );
-          const dataadd = await responce.json();
+          if (!responcevideo.ok) {
+            toast.error("Network error accured!");
+          }
+          const dataadd = await responcevideo.json();
           if (dataadd.success) {
             toast.success(dataadd?.message);
             settextpostitem("");
@@ -206,7 +261,7 @@ const Modal = () => {
               setuploadimagemodal(false);
             }, 500);
           } else {
-            toast.error(data?.message+ "He;;");
+            toast.error(data?.message + "He;;");
             setisLoading(false);
           }
           setisLoading(false);
@@ -215,7 +270,7 @@ const Modal = () => {
           setisLoading(false);
         }
       } else {
-        toast.error(data?.message+ "sdfg");
+        toast.error(data?.message + "sdfg");
         setisLoading(false);
       }
       setisLoading(false);
@@ -445,13 +500,16 @@ const Modal = () => {
                         className="absolute bottom-0 right-0"
                         style={{ zIndex: 60 }}
                       >
-                        <h1 onClick={()=>{
-                          if(!isVideo){
-                            uploadImage()
-                          }else{
-                            uploadVideo()
-                          }
-                        }} className=" cursor-pointer bg-blue-600 px-3 py-1.5 text-white font-semibold rounded-lg">
+                        <h1
+                          onClick={() => {
+                            if (!isVideo) {
+                              uploadImage();
+                            } else {
+                              uploadVideo();
+                            }
+                          }}
+                          className=" cursor-pointer bg-blue-600 px-3 py-1.5 text-white font-semibold rounded-lg"
+                        >
                           Next
                         </h1>
                       </div>
