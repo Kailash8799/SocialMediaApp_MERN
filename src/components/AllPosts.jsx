@@ -86,8 +86,8 @@ const AllPosts = () => {
             {fetching && <PostSkeleton />}
             <div className="w-full h-40"></div>
           </div>
-          <div className="sticky hidden w-1/4 h-[80vh] border border-red-800 top-16 epx:block">
-            <h1 className="text-black dark:text-white">Friends</h1>
+          <div className="sticky hidden w-1/4 h-[80vh]  border-red-800 top-16 epx:block">
+            {/* <h1 className="text-black dark:text-white">Friends</h1> */}
           </div>
         </div>
       </div>

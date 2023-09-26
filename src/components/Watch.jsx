@@ -54,7 +54,7 @@ const Watch = () => {
       setfetching(false);
     }
     setProgress(100);
-  }, [setProgress]);
+  }, [dispatch, setProgress]);
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
   return (

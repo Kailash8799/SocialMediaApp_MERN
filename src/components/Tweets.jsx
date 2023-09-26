@@ -4,12 +4,17 @@ import { Theme } from "./context/ThemeProvider";
 import Tweetpostcard from "./subcomponents/Tweets/Tweetcard";
 import Tweetskeleton from "./subcomponents/Tweets/Tweetskeleton";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../redux/actions/postaction";
 
 const Tweets = () => {
   const [mounted, setisMounted] = useState(false);
   const { setProgress } = useContext(Theme);
   const [tweets, setTweets] = useState([0, 1, 2, 3]);
   const [fetching, setfetching] = useState(false);
+  const dispatch = useDispatch();
+
+  const profile = useSelector((state) => state.setUser);
 
   useEffect(() => {
     setProgress(0);
@@ -39,6 +44,7 @@ const Tweets = () => {
         if (posts?.success) {
           setfetching(false);
           setTweets(posts?.posts);
+          dispatch(setUser(posts?.profile));
         } else {
           setTweets([]);
           setfetching(false);
@@ -74,9 +80,7 @@ const Tweets = () => {
                     caption={tweet?.tweet}
                     hashtags={tweet?.hashtags}
                     id={tweet?._id}
-                    isLikedpost={tweet?.likes?.includes(
-                      tweet?.profileId?.userid
-                    )}
+                    isLikedpost={tweet?.likes?.includes(profile?.userid)}
                     profileimg={tweet?.profileId?.profileImage}
                     time={tweet?.createdAt}
                     totalLikes={tweet?.likes?.length}

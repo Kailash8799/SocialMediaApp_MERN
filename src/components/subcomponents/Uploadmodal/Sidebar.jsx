@@ -3,6 +3,8 @@ import { Theme } from "../../context/ThemeProvider";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
 import { Moon, SunMoon } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const SidebarModal = () => {
   const {
@@ -17,6 +19,7 @@ const SidebarModal = () => {
   const [toggle, settoggle] = useState(
     themeMode === "dark" ? "light" : themeMode
   );
+  const profile = useSelector((state) => state.setUser);
   useEffect(() => {
     setisMounted(true);
   }, []);
@@ -70,7 +73,7 @@ const SidebarModal = () => {
                 >
                   <div className="items-center justify-center mx-auto transition-all border-green-200">
                     <h1 className="inline-block font-semibold text-center text-black transition-all dark:text-white">
-                      Create new text post
+                      Welcome
                     </h1>
                   </div>
                   <div>
@@ -117,6 +120,21 @@ const SidebarModal = () => {
                         Toggle to {toggle}
                       </h1>
                     </div>
+                  </div>
+                  <div
+                    className={`px-3 mt-5 py-3 mx-2 rounded-lg cursor-pointer hover:dark:bg-slate-400/10 hover:bg-slate-400/25`}
+                  >
+                    <Link to={`/profile/${profile?.username}`}><div className="flex flex-row items-center space-x-2 ">
+                      {themeMode === "dark" ? (
+                        <SunMoon size={28} color="#2f76ac" />
+                      ) : (
+                        <Moon size={28} color="#2f76ac" />
+                      )}
+                      <h1 className="text-xl font-bold text-black/70 dark:text-white">
+                        Profile
+                      </h1>
+                    </div>
+                  </Link>
                   </div>
                   <div
                     className={`px-3 mt-5 py-3 mx-2 rounded-lg cursor-pointer hover:dark:bg-slate-400/10 hover:bg-slate-400/25`}

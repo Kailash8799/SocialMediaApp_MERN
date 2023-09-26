@@ -6,6 +6,9 @@ import { Theme } from "./context/ThemeProvider";
 import { useSelector } from "react-redux";
 import { RotatingLines } from "react-loader-spinner";
 import toast from "react-hot-toast";
+import  io  from "socket.io-client";
+
+// const socket = io.connect(process.env.REACT_APP_LOCALHOST_KEY)
 
 const Messages = () => {
   const [chatusers, setChatusers] = useState([]);
@@ -13,6 +16,7 @@ const Messages = () => {
   const [mounted, setisMounted] = useState(false);
   const [fetching, setfetching] = useState(true);
   const profile = useSelector((state) => state.setUser);
+  const [selectedchat,setselectedchat] = useState(null);
 
   useEffect(() => {
     setProgress(0);
@@ -51,9 +55,16 @@ const Messages = () => {
       setfetching(false);
     }
     setProgress(100);
-  }, []);
+  }, [setProgress]);
 
   if (!mounted) return;
+
+  // const joinRoom = ()=>{
+  //   if(selectedchat === null){
+  //     toast.error("Select user");
+  //   }
+  //   socket.emit("join_room",)
+  // }
 
   return (
     <div className="bg-white dark:bg-black min-h-screen w-full">

@@ -250,14 +250,14 @@ const Tweetpostcard = ({
                 />
               )}
             </div>
-            <Link to={`/posts/${id}`}>
+            {/* <Link to={`/posts/${id}`}> */}
               <div className="cursor-pointer">
                 <MessagesSquare
                   size={27}
                   color={themeMode === "dark" ? "#fff" : "#000"}
                 />
               </div>
-            </Link>
+            {/* </Link> */}
             <div className="cursor-pointer">
               <Send size={25} color={themeMode === "dark" ? "#fff" : "#000"} />
             </div>
