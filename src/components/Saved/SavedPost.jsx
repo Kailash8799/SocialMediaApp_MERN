@@ -21,6 +21,10 @@ function SavedPost({ id }) {
             },
           }
         );
+        if (!postsdata?.ok) {
+          toast.error("Network error accured!");
+          return;
+        }
         const posts = await postsdata.json();
         if (posts?.success) {
           setPostdetails(posts?.posts);

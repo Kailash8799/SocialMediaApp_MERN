@@ -73,8 +73,11 @@ const ImagePost = ({
           },
         }
       );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
       const posts = await postsdata.json();
-      console.log(posts);
       if (posts?.success) {
         toast.success(posts?.message);
         setloading(false);
@@ -109,6 +112,10 @@ const ImagePost = ({
           },
         }
       );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message);
@@ -144,6 +151,10 @@ const ImagePost = ({
           },
         }
       );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message);
@@ -182,6 +193,10 @@ const ImagePost = ({
           },
         }
       );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message);
@@ -217,6 +232,10 @@ const ImagePost = ({
           },
         }
       );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message);

@@ -5,6 +5,7 @@ import User from "./subcomponents/messages/User";
 import { Theme } from "./context/ThemeProvider";
 import { useSelector } from "react-redux";
 import { RotatingLines } from "react-loader-spinner";
+import toast from "react-hot-toast";
 
 const Messages = () => {
   const [chatusers, setChatusers] = useState([]);
@@ -19,7 +20,7 @@ const Messages = () => {
     try {
       (async () => {
         setfetching(true);
-        const postsdata = await fetch(
+        const getfolllowers = await fetch(
           `${process.env.REACT_APP_LOCALHOST_KEY}/api/auth/getFollowers`,
           {
             method: "POST",
@@ -32,7 +33,11 @@ const Messages = () => {
             },
           }
         );
-        const posts = await postsdata.json();
+        if (!getfolllowers.ok) {
+          toast.error("Network error accured! refresh page and try again");
+          return;
+        }
+        const posts = await getfolllowers.json();
         if (posts?.success) {
           setfetching(false);
           setChatusers(posts?.profiles);

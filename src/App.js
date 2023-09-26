@@ -26,6 +26,7 @@ import Saved from "./components/Saved";
 import LeftSidebarModal from "./components/subcomponents/Uploadmodal/Leftbarside";
 import { useDispatch } from "react-redux";
 import { setUser } from "./redux/actions/postaction";
+import Videodetails from "./components/Videodetails";
 
 function App() {
   const {
@@ -104,6 +105,7 @@ function App() {
               <Route path="/explore" element={<Explore />} />
               <Route path="/posts" element={<AllPosts />} />
               <Route path="/posts/:id" element={<Postdetails />} />
+              <Route path="/videos/:id" element={<Videodetails />} />
               <Route path="/profile/:username" element={<Profile />} />
               <Route path="*" element={<NoPage />} />
             </Route>

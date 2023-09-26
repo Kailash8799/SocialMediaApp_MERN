@@ -6,14 +6,15 @@ import { Theme } from "./context/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts, setUser } from "../redux/actions/postaction";
 import PostSkeleton from "./subcomponents/PostSkeleton";
+import toast from "react-hot-toast";
 
 const Home = () => {
   const { setProgress } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
-  const allposts = useSelector((state)=>state.setPosts.posts)
+  const allposts = useSelector((state) => state.setPosts.posts);
   const [homefeed, sethomefeed] = useState(allposts);
-  const [fetching,setfetching] = useState(false);
-  const profile = useSelector((state)=>state.setUser)
+  const [fetching, setfetching] = useState(false);
+  const profile = useSelector((state) => state.setUser);
   const dispatch = useDispatch();
   try {
     useEffect(() => {
@@ -28,27 +29,31 @@ const Home = () => {
               method: "POST",
               body: JSON.stringify({
                 secret: process.env.REACT_APP_SECRET,
-                token:localStorage.getItem("userlogintoken")
+                token: localStorage.getItem("userlogintoken"),
               }),
               headers: {
                 "Content-type": "application/json",
               },
             }
           );
+          if (!postsdata.ok) {
+            toast.error("Network error accured, Refresh page and try again!");
+            return;
+          }
           const posts = await postsdata.json();
           if (posts?.success) {
-            dispatch(setPosts(posts?.posts))
+            dispatch(setPosts(posts?.posts));
             dispatch(setUser(posts?.profile));
             setfetching(false);
             sethomefeed(posts?.posts);
           } else {
             sethomefeed([]);
-            setfetching(false)
+            setfetching(false);
           }
         })();
       } catch (error) {
         sethomefeed([]);
-        setfetching(false)
+        setfetching(false);
       }
       setProgress(100);
     }, [dispatch, setProgress]);
@@ -64,25 +69,26 @@ const Home = () => {
         <div className="px-2 pt-5 xs:px-4 sm:flex sm:flex-row sm:px-0">
           <div className="flex flex-col items-center w-full space-y-10 sm:px-4 epx:w-3/4">
             <Stories />
-           {!fetching && homefeed?.map((item, ind) => {
-              return (
-                <ImagePost
-                  key={ind}
-                  src={item?.imageLink}
-                  id={item?._id}
-                  profileimg={item?.profileId?.profileImage}
-                  username={item?.profileId?.username}
-                  time={item?.createdAt}
-                  caption={item?.caption}
-                  hashtags={item?.hashtags}
-                  totalLikes={(item?.likes)?.length}
-                  totalComments={(item?.comments)?.length}
-                  tagged={item?.tagged}
-                  isLikedpost={item?.likes?.includes(profile?.userid)}
-                  isSavedPost={profile?.savedpost?.includes(item?._id)}
-                />
-              );
-            })}
+            {!fetching &&
+              homefeed?.map((item, ind) => {
+                return (
+                  <ImagePost
+                    key={ind}
+                    src={item?.imageLink}
+                    id={item?._id}
+                    profileimg={item?.profileId?.profileImage}
+                    username={item?.profileId?.username}
+                    time={item?.createdAt}
+                    caption={item?.caption}
+                    hashtags={item?.hashtags}
+                    totalLikes={item?.likes?.length}
+                    totalComments={item?.comments?.length}
+                    tagged={item?.tagged}
+                    isLikedpost={item?.likes?.includes(profile?.userid)}
+                    isSavedPost={profile?.savedpost?.includes(item?._id)}
+                  />
+                );
+              })}
             {fetching && <PostSkeleton />}
             {fetching && <PostSkeleton />}
             <div className="w-full h-40"></div>

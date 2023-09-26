@@ -33,6 +33,12 @@ const OneFriend = ({ id, username, image, token, isFollowed }) => {
           },
         }
       );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        setfollowloading(false);
+        setisFolloweduser(false)
+        return;
+      }
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message+ " " + username);
@@ -64,6 +70,12 @@ const OneFriend = ({ id, username, image, token, isFollowed }) => {
           },
         }
       );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        setfollowloading(false);
+        setisFolloweduser(true)
+        return;
+      }
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message + " " + username);

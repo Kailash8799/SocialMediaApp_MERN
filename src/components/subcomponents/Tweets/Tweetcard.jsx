@@ -66,6 +66,10 @@ const Tweetpostcard = ({
           },
         }
       );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message);
@@ -102,6 +106,10 @@ const Tweetpostcard = ({
           },
         }
       );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message);
@@ -134,6 +142,10 @@ const Tweetpostcard = ({
           },
         }
       );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
       const posts = await postsdata.json();
       if (posts?.success) {
         toast.success(posts?.message);

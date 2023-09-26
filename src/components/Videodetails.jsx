@@ -6,11 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import SideNavbar from "./subcomponents/SideNavbar";
 import Moment from "react-moment";
 import Profileimage from "./subcomponents/Profileimage";
-import {
-  ArrowDownToLine,
-  MessageCircle,
-  MoreHorizontal,
-} from "lucide-react";
+import { ArrowDownToLine, MessageCircle, MoreHorizontal } from "lucide-react";
 import { Theme } from "./context/ThemeProvider";
 import { useContext } from "react";
 import moment from "moment-timezone";
@@ -22,7 +18,7 @@ import Commentcomp from "./subcomponents/Commentcomp";
 import { useSelector } from "react-redux";
 import { BsBookmark, BsFillBookmarkFill } from "react-icons/bs";
 
-const Postdetails = () => {
+const Videodetails = () => {
   const { id } = useParams();
   const [mounted, setMounted] = useState(false);
   const [fetching, setFetching] = useState(true);
@@ -52,7 +48,7 @@ const Postdetails = () => {
       setFetching(true);
       try {
         const postsdata = await fetch(
-          `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/getParticularpost`,
+          `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/getParticularVideopost`,
           {
             method: "POST",
             body: JSON.stringify({
@@ -65,9 +61,9 @@ const Postdetails = () => {
           }
         );
         if (!postsdata.ok) {
-        toast.error("Network error accured! refresh page and try again");
-        return;
-      }
+          toast.error("Network error accured! refresh page and try again");
+          return;
+        }
         const posts = await postsdata.json();
         if (posts?.success) {
           setPostdetails(posts?.posts);
@@ -96,7 +92,7 @@ const Postdetails = () => {
       setcommentloading(true);
       try {
         const commentdata = await fetch(
-          `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/fetchCommentonimage`,
+          `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/fetchCommentonvideo`,
           {
             method: "POST",
             body: JSON.stringify({
@@ -109,9 +105,9 @@ const Postdetails = () => {
           }
         );
         if (!commentdata.ok) {
-        toast.error("Network error accured! refresh page and try again");
-        return;
-      }
+          toast.error("Network error accured! refresh page and try again");
+          return;
+        }
         const comments = await commentdata.json();
         if (comments?.success) {
           setallcomment(comments?.comments);
@@ -132,7 +128,7 @@ const Postdetails = () => {
   }, [id]);
   if (!mounted) <div className="min-h-screen bg-white dark:bg-black"></div>;
 
-  const likeImage = async () => {
+  const likeVideo = async () => {
     if (loading) {
       toast.error("Loading...");
       return;
@@ -141,7 +137,7 @@ const Postdetails = () => {
     setloading(true);
     try {
       const postsdata = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/likeimage`,
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/likevideo`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -154,8 +150,8 @@ const Postdetails = () => {
           },
         }
       );
-      if (!postsdata.ok) {
-        toast.error("Network error accured! refresh page and try again");
+      if(!postsdata?.ok){
+        toast.error("Network error");
         return;
       }
       const posts = await postsdata.json();
@@ -171,7 +167,7 @@ const Postdetails = () => {
       setloading(false);
     }
   };
-  const dislikeImage = async () => {
+  const dislikeVideo = async () => {
     if (loading) {
       toast.error("Loading...");
       return;
@@ -180,7 +176,7 @@ const Postdetails = () => {
     setloading(true);
     try {
       const postsdata = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/dislikeimage`,
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/dislikevideo`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -193,8 +189,8 @@ const Postdetails = () => {
           },
         }
       );
-      if (!postsdata.ok) {
-        toast.error("Network error accured! refresh page and try again");
+      if(!postsdata?.ok){
+        toast.error("Network error");
         return;
       }
       const posts = await postsdata.json();
@@ -232,8 +228,8 @@ const Postdetails = () => {
           },
         }
       );
-      if (!postsdata.ok) {
-        toast.error("Network error accured! refresh page and try again");
+      if(!postsdata?.ok){
+        toast.error("Network error");
         return;
       }
       const posts = await postsdata.json();
@@ -274,8 +270,8 @@ const Postdetails = () => {
           },
         }
       );
-      if (!postsdata.ok) {
-        toast.error("Network error accured! refresh page and try again");
+      if(!postsdata?.ok){
+        toast.error("Network error");
         return;
       }
       const posts = await postsdata.json();
@@ -299,7 +295,7 @@ const Postdetails = () => {
     setisUploading(true);
     try {
       const postsdata = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postimagecomment`,
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postvideocomment`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -313,8 +309,8 @@ const Postdetails = () => {
           },
         }
       );
-      if (!postsdata.ok) {
-        toast.error("Network error accured! refresh page and try again");
+      if(!postsdata?.ok){
+        toast.error("Network error occured!");
         return;
       }
       const posts = await postsdata.json();
@@ -334,6 +330,7 @@ const Postdetails = () => {
       setFetcherror(true);
     }
   };
+
   return (
     <>
       <SideNavbar />
@@ -439,9 +436,10 @@ const Postdetails = () => {
                     <div className="max-w-screen-md row-span-2 mx-auto cursor-pointer group">
                       <div className="flex flex-col w-full gap2">
                         <div className="relative w-full overflow-hidden img-container aspect-square ">
-                          <img
-                            src={postDetails?.imageLink}
-                            className="w-full h-full transition img-container selection:bg-none hover:scale-105"
+                          <video
+                            src={postDetails?.videoLink}
+                            className="w-full h-full transition img-container"
+                            controls
                             alt=""
                             srcSet=""
                           />
@@ -497,7 +495,7 @@ const Postdetails = () => {
                       {isLiked ? (
                         <AiFillHeart
                           onClick={() => {
-                            dislikeImage();
+                            dislikeVideo();
                           }}
                           size={29}
                           color="#ed1d1d"
@@ -506,7 +504,7 @@ const Postdetails = () => {
                         <AiOutlineHeart
                           size={29}
                           onClick={() => {
-                            likeImage();
+                            likeVideo();
                           }}
                           color={themeMode === "dark" ? "#fff" : "#000"}
                         />
@@ -538,10 +536,12 @@ const Postdetails = () => {
                       </div>
                     )}
                     <div className="cursor-pointer">
-                      <a href={postDetails?.imageLink} download={true}><ArrowDownToLine
-                        size={29}
-                        color={themeMode === "dark" ? "#fff" : "black"}
-                      /></a>
+                      <a href={postDetails?.imageLink} download={true}>
+                        <ArrowDownToLine
+                          size={29}
+                          color={themeMode === "dark" ? "#fff" : "black"}
+                        />
+                      </a>
                     </div>
                   </div>
                 )}
@@ -630,4 +630,4 @@ const Postdetails = () => {
   );
 };
 
-export default Postdetails;
+export default Videodetails;

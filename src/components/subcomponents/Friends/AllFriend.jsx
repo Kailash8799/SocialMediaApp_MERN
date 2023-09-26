@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import OneFriend from "./OneFriend";
+import toast from "react-hot-toast";
 
 const AllFriend = () => {
   const [mounted, setisMounted] = useState(false);
@@ -29,6 +30,12 @@ const AllFriend = () => {
               },
             }
           );
+          if (!postsdata?.ok) {
+            toast.error("Network error accured!");
+            setallfriends([]);
+            setfetching(false);
+            return;
+          }
           const posts = await postsdata.json();
           if (posts?.success) {
             setfetching(false);
@@ -53,7 +60,8 @@ const AllFriend = () => {
     <div className="grid grid-cols-2 gap-3 py-5 mx-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
       {allfriends?.map((item) => {
         return (
-           item?._id !== profile?._id && <OneFriend
+          item?._id !== profile?._id && (
+            <OneFriend
               key={item?._id}
               id={item?._id}
               username={item?.username}
@@ -61,6 +69,7 @@ const AllFriend = () => {
               token={tkn}
               isFollowed={profile?.following?.includes(item?._id)}
             />
+          )
         );
       })}
     </div>

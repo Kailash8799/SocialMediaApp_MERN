@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import SideNavbar from "../subcomponents/SideNavbar";
 import ExplorePost from "./ExplorePost";
 import { Theme } from "../context/ThemeProvider";
+import toast from "react-hot-toast";
 
 const Explore = () => {
   const exploreimages = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -28,6 +29,10 @@ const Explore = () => {
             },
           }
         );
+        if (!postsdata?.ok) {
+          toast.error("Network error accured!");
+          return;
+        }
         const posts = await postsdata.json();
         if (posts?.success) {
           setfetching(false);

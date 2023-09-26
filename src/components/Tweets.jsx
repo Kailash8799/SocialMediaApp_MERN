@@ -3,6 +3,7 @@ import SideNavbar from "./subcomponents/SideNavbar";
 import { Theme } from "./context/ThemeProvider";
 import Tweetpostcard from "./subcomponents/Tweets/Tweetcard";
 import Tweetskeleton from "./subcomponents/Tweets/Tweetskeleton";
+import toast from "react-hot-toast";
 
 const Tweets = () => {
   const [mounted, setisMounted] = useState(false);
@@ -29,6 +30,10 @@ const Tweets = () => {
             },
           }
         );
+        if (!postsdata.ok) {
+        toast.error("Network error accured! refresh page and try again");
+        return;
+      }
         const posts = await postsdata.json();
         console.log(posts);
         if (posts?.success) {

@@ -43,6 +43,10 @@ export default function Verifyuser() {
           },
         }
       );
+      if (!responce.ok) {
+        toast.error("Network error accured! refresh page and try again");
+        return;
+      }
       const data = await responce.json();
       if (data.success) {
         toast.success(data?.message);
