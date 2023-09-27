@@ -385,7 +385,7 @@ const Videodetails = () => {
                           }}
                           color={themeMode === "dark" ? "#fff" : "#000"}
                         />
-                        {openPopup && (
+                        {/* {openPopup && (
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
@@ -393,7 +393,7 @@ const Videodetails = () => {
                             style={{ zIndex: 40 }}
                             className="absolute shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] transition-opacity border-slate-700 right-0 w-40  bg-white rounded-md dark:bg-black h-52"
                           ></div>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>

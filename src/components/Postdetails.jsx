@@ -388,7 +388,7 @@ const Postdetails = () => {
                           }}
                           color={themeMode === "dark" ? "#fff" : "#000"}
                         />
-                        {openPopup && (
+                        {/* {openPopup && (
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
@@ -396,7 +396,7 @@ const Postdetails = () => {
                             style={{ zIndex: 40 }}
                             className="absolute shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] transition-opacity border-slate-700 right-0 w-40  bg-white rounded-md dark:bg-black h-52"
                           ></div>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>
@@ -438,7 +438,7 @@ const Postdetails = () => {
                   <div>
                     <div className="max-w-screen-md row-span-2 mx-auto cursor-pointer group">
                       <div className="flex flex-col w-full gap2">
-                        <div className="relative w-full overflow-hidden img-container aspect-square ">
+                        <div className="relative w-full overflow-hidden img-container">
                           <img
                             src={postDetails?.imageLink}
                             className="w-full h-full transition img-container selection:bg-none hover:scale-105"

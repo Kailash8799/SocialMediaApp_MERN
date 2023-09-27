@@ -263,6 +263,7 @@ const ImagePost = ({
             secret: process.env.REACT_APP_SECRET,
             imageid: id,
             token: token,
+            link: src,
           }),
           headers: {
             "Content-type": "application/json",

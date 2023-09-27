@@ -205,7 +205,7 @@ const Modal = () => {
       setisLoading(true);
       const responce = await toast.promise(
         fetch(
-          `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/uploadVideo`,
+          `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/uploadvideofile`,
           {
             method: "POST",
             body: formData,
@@ -283,7 +283,7 @@ const Modal = () => {
   if (!ismounted) return;
   return (
     <div
-      className="selection:bg-none fixed h-screen w-screen modal-backdrop"
+      className="fixed w-screen h-screen selection:bg-none modal-backdrop"
       style={{ zIndex: 150 }}
     >
       <div
@@ -293,14 +293,14 @@ const Modal = () => {
             setuploadimagemodal(false);
           }, 500);
         }}
-        className="fixed hidden md:flex right-10 top-5 modal-backdrop cursor-pointer"
+        className="fixed hidden cursor-pointer md:flex right-10 top-5 modal-backdrop"
       >
         <AiOutlineClose
           color={themeMode === "dark" ? "white" : "black"}
           size={30}
         />
       </div>
-      <div className="h-full w-full flex items-center justify-center">
+      <div className="flex items-center justify-center w-full h-full">
         <AnimatePresence>
           {uploadimagemodalanimation && (
             <motion.div
@@ -342,7 +342,7 @@ const Modal = () => {
                             x: 100,
                             y: -100,
                           }}
-                          className="cursor-pointer items-center justify-center"
+                          className="items-center justify-center cursor-pointer"
                         >
                           <BiArrowBack
                             color={themeMode === "dark" ? "white" : "black"}
@@ -351,8 +351,8 @@ const Modal = () => {
                         </motion.div>
                       </div>
                     )}
-                    <div className="items-center transition-all md:mx-auto border-green-200 justify-center">
-                      <h1 className="text-center transition-all inline-block font-semibold text-black dark:text-white">
+                    <div className="items-center justify-center transition-all border-green-200 md:mx-auto">
+                      <h1 className="inline-block font-semibold text-center text-black transition-all dark:text-white">
                         Create new post
                       </h1>
                     </div>
@@ -375,7 +375,7 @@ const Modal = () => {
                           x: 100,
                           y: -100,
                         }}
-                        className="cursor-pointer items-center justify-center md:hidden"
+                        className="items-center justify-center cursor-pointer md:hidden"
                       >
                         <AiOutlineClose
                           color={themeMode === "dark" ? "white" : "black"}
@@ -400,7 +400,7 @@ const Modal = () => {
                       }}
                       className="h-[500px] items-center justify-center flex flex-col"
                     >
-                      <div className="relative items-center justify-center flex">
+                      <div className="relative flex items-center justify-center">
                         <div className="flex">
                           <FiImage
                             size={100}
@@ -410,7 +410,7 @@ const Modal = () => {
                           <PlaySquare
                             size={100}
                             color={themeMode === "dark" ? "white" : "black"}
-                            className="-ml-3 rotate-6 mt-5 "
+                            className="mt-5 -ml-3 rotate-6 "
                           />
                         </div>
                       </div>
@@ -422,20 +422,20 @@ const Modal = () => {
                         id=""
                         className="hidden"
                       />
-                      <h1 className="mx-auto text-center text-black dark:text-white text-lg">
+                      <h1 className="mx-auto text-lg text-center text-black dark:text-white">
                         Drag photos and video here
                       </h1>
                       <div className="w-full">
-                        <div className="flex w-full items-center justify-center my-3">
+                        <div className="flex items-center justify-center w-full my-3">
                           <h1
                             onClick={selectFile}
-                            className="inline-block cursor-pointer max-w-xs font-semibold text-white w-full mx-5 text-center bg-blue-600 py-2 px-5 rounded-lg"
+                            className="inline-block w-full max-w-xs px-5 py-2 mx-5 font-semibold text-center text-white bg-blue-600 rounded-lg cursor-pointer"
                           >
                             Select from device
                           </h1>
                         </div>
                         {/* <div className="flex items-center justify-center my-3">
-                    <h1 className="inline-block cursor-pointer max-w-xs font-semibold text-white w-full mx-5 text-center bg-blue-600 py-2 px-5 rounded-lg">
+                    <h1 className="inline-block w-full max-w-xs px-5 py-2 mx-5 font-semibold text-center text-white bg-blue-600 rounded-lg cursor-pointer">
                       Select video
                     </h1>
                   </div> */}
@@ -444,7 +444,7 @@ const Modal = () => {
                             onClick={() => {
                               settextpost(true);
                             }}
-                            className="inline-block cursor-pointer max-w-xs font-semibold text-white w-full mx-5 text-center bg-blue-600 py-2 px-5 rounded-lg"
+                            className="inline-block w-full max-w-xs px-5 py-2 mx-5 font-semibold text-center text-white bg-blue-600 rounded-lg cursor-pointer"
                           >
                             Write text
                           </h1>
@@ -455,7 +455,7 @@ const Modal = () => {
                               onClick={() => {
                                 setuploadfilebar(true);
                               }}
-                              className="inline-block cursor-pointer max-w-xs font-semibold text-white w-full mx-5 text-center bg-blue-600 py-2 px-5 rounded-lg"
+                              className="inline-block w-full max-w-xs px-5 py-2 mx-5 font-semibold text-center text-white bg-blue-600 rounded-lg cursor-pointer"
                             >
                               Go Forward
                             </h1>
@@ -478,7 +478,7 @@ const Modal = () => {
                       }}
                       className="h-[520px] relative flex flex-col items-center justify-center overflow-hidden"
                     >
-                      <div className="items-center  mx-0 rounded-lg overflow-hidden object-cover justify-center flex flex-col">
+                      <div className="flex flex-col items-center justify-center object-cover mx-0 overflow-hidden rounded-lg">
                         {!isVideo && (
                           <img
                             src={uploadfile}
@@ -557,7 +557,7 @@ const Modal = () => {
                         exit={{
                           x: 100,
                         }}
-                        className="cursor-pointer items-center justify-center"
+                        className="items-center justify-center cursor-pointer"
                       >
                         <BiArrowBack
                           color={themeMode === "dark" ? "white" : "black"}
@@ -566,8 +566,8 @@ const Modal = () => {
                       </motion.div>
                     </div>
 
-                    <div className="items-center transition-all md:mx-auto border-green-200 justify-center">
-                      <h1 className="text-center transition-all inline-block font-semibold text-black dark:text-white">
+                    <div className="items-center justify-center transition-all border-green-200 md:mx-auto">
+                      <h1 className="inline-block font-semibold text-center text-black transition-all dark:text-white">
                         Create new text post
                       </h1>
                     </div>
@@ -589,7 +589,7 @@ const Modal = () => {
                         exit={{
                           x: 100,
                         }}
-                        className="cursor-pointer items-center justify-center md:hidden"
+                        className="items-center justify-center cursor-pointer md:hidden"
                       >
                         <AiOutlineClose
                           color={themeMode === "dark" ? "white" : "black"}
@@ -598,7 +598,7 @@ const Modal = () => {
                       </motion.div>
                     </div>
                   </div>
-                  <div className=" w-full overflow-hidden">
+                  <div className="w-full overflow-hidden ">
                     <div className="mt-3 ml-4">
                       <img
                         src="https://res.cloudinary.com/dyyonlqge/image/upload/v1685327821/bxgrtnyp2rt4uynge9nx.webp"
@@ -632,12 +632,12 @@ const Modal = () => {
                           onClick={() => {
                             uploadtextPost();
                           }}
-                          className="text-center cursor-pointer text-white font-semibold py-2 rounded-lg  max-w-xs w-full bg-blue-600 mx-auto"
+                          className="w-full max-w-xs py-2 mx-auto font-semibold text-center text-white bg-blue-600 rounded-lg cursor-pointer"
                         >
                           Post
                         </h1>
                       ) : (
-                        <h1 className="text-center cursor-pointer text-white font-semibold py-2 rounded-lg justify-center flex  max-w-xs w-full bg-blue-600 mx-auto">
+                        <h1 className="flex justify-center w-full max-w-xs py-2 mx-auto font-semibold text-center text-white bg-blue-600 rounded-lg cursor-pointer">
                           <RotatingLines
                             strokeColor="white"
                             strokeWidth="5"
