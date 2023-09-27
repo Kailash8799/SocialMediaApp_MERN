@@ -1,10 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  MessagesSquare,
-  MoreHorizontal,
-  Send,
-  X,
-} from "lucide-react";
+import { MessagesSquare, MoreHorizontal, Send, X } from "lucide-react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { PuffLoader } from "react-spinners";
 import { Theme } from "../../context/ThemeProvider";
@@ -26,12 +21,14 @@ const OneVideo = ({
   videoLink,
   isSavedPost,
   isLikedpost,
+  profile,
+  ownerid,
 }) => {
   const [isLiked, setisLiked] = useState(isLikedpost);
   const [addComment, setAddComment] = useState("");
   const [commentAdding, setCommentAdding] = useState(false);
   const [isSaved, setisSaved] = useState(isSavedPost);
-  // const [openPopup, setopenPopup] = useState(false);
+  const [openPopup, setopenPopup] = useState(false);
   const [token, settoken] = useState("");
   const [mounted, setMounted] = useState(false);
   const [loading, setloading] = useState(false);
@@ -70,7 +67,7 @@ const OneVideo = ({
           },
         }
       );
-      if(!postsdata?.ok){
+      if (!postsdata?.ok) {
         toast.error("Network error accured!");
         return;
       }
@@ -110,7 +107,7 @@ const OneVideo = ({
           },
         }
       );
-      if(!postsdata?.ok){
+      if (!postsdata?.ok) {
         toast.error("Network error accured!");
         return;
       }
@@ -149,7 +146,7 @@ const OneVideo = ({
           },
         }
       );
-      if(!postsdata?.ok){
+      if (!postsdata?.ok) {
         toast.error("Network error accured!");
         return;
       }
@@ -191,7 +188,7 @@ const OneVideo = ({
           },
         }
       );
-      if(!postsdata?.ok){
+      if (!postsdata?.ok) {
         toast.error("Network error accured!");
         return;
       }
@@ -230,7 +227,7 @@ const OneVideo = ({
           },
         }
       );
-      if(!postsdata?.ok){
+      if (!postsdata?.ok) {
         toast.error("Network error accured!");
         return;
       }
@@ -249,6 +246,38 @@ const OneVideo = ({
     }
   };
 
+  const deleteVideo = async () => {
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/deletevideo`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            videoid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      if (!postsdata?.ok) {
+        toast.error("Network error accured!");
+        return;
+      }
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        window.location.reload();
+      } else {
+        toast.error(posts?.message);
+      }
+    } catch (error) {
+      toast.success("Error");
+    }
+  };
+
   return (
     <div className="items-center selection:bg-none justify-center w-full py-3 mx-auto space-y-1 rounded-md shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] border-slate-700 sm:mx-0 sm:max-w-xl">
       <div className="flex px-1.5 items-center justify-between h-12">
@@ -263,16 +292,40 @@ const OneVideo = ({
           </div>
           <div>
             <h1 className="text-lg font-medium text-black cursor-pointer dark:text-white">
-            {username?.length > 10 ? username.slice(0, 10) : username} •{" "}
-                  <Moment interval={1} fromNow>
-                    {time}
-                  </Moment>
+              {username?.length > 10 ? username.slice(0, 10) : username} •{" "}
+              <Moment interval={1} fromNow>
+                {time}
+              </Moment>
             </h1>
           </div>
         </div>
         <div className="flex items-center justify-center space-x-3">
-          <div className="cursor-pointer">
-            <MoreHorizontal color={themeMode === "dark" ? "#fff" : "#000"} />
+          <div className="relative cursor-pointer">
+            <MoreHorizontal
+              onClick={(e) => {
+                e.stopPropagation();
+                setopenPopup(!openPopup);
+              }}
+              color={themeMode === "dark" ? "#fff" : "#000"}
+            />
+            {openPopup && (
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                style={{ zIndex: 40 }}
+                className="absolute shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] transition-opacity border-slate-700 right-0 w-40  bg-white rounded-md dark:bg-black h-52"
+              >
+                {profile?._id === ownerid && (
+                  <h1
+                    onClick={deleteVideo}
+                    className="p-2 text-black bg-slate-700 dark:text-white"
+                  >
+                    Delete Post
+                  </h1>
+                )}
+              </div>
+            )}
           </div>
           <div className="cursor-pointer">
             <X color={themeMode === "dark" ? "#fff" : "#000"} />
@@ -295,10 +348,10 @@ const OneVideo = ({
         </div>
       </div>
       <div>
-      <Link to={`/videos/${id}`}>
+        <Link to={`/videos/${id}`}>
           <div className="max-w-screen-md row-span-2 mx-auto cursor-pointer group">
-            <div className="flex flex-col  w-full gap2">
-              <div className="relative w-full overflow-hidden  aspect-square ">
+            <div className="flex flex-col w-full gap2">
+              <div className="relative w-full overflow-hidden aspect-square ">
                 <video
                   src={videoLink}
                   className="w-full h-full transition img-container"
@@ -318,8 +371,8 @@ const OneVideo = ({
             {isLiked ? (
               <AiFillHeart
                 onClick={() => {
-                  dislikeVideo()
-                  setisLiked(false)
+                  dislikeVideo();
+                  setisLiked(false);
                 }}
                 className="transition-all transform"
                 size={29}
@@ -330,7 +383,7 @@ const OneVideo = ({
                 size={29}
                 onClick={() => {
                   setisLiked(true);
-                  likeVideo()
+                  likeVideo();
                 }}
                 color={themeMode === "dark" ? "#fff" : "#000"}
               />
@@ -347,30 +400,30 @@ const OneVideo = ({
           </div>
         </div>
         {bookmarkloading ? (
-            <div className="cursor-pointer">
-              <RotatingLines
-                strokeColor={themeMode==="dark"?"#fff":"black"}
-                strokeWidth="5"
-                animationDuration="0.75"
-                width="23"
-                visible={true}
-              />
-            </div>
-          ) : !isSaved ? (
-            <div onClick={savePost} className="cursor-pointer">
-              <BsBookmark
-                size={24}
-                color={themeMode === "dark" ? "#fff" : "#000"}
-              />
-            </div>
-          ) : (
-            <div onClick={unsavePost} className="cursor-pointer">
-              <BsFillBookmarkFill
-                size={24}
-                color={themeMode === "dark" ? "#fff" : "#000"}
-              />
-            </div>
-          )}
+          <div className="cursor-pointer">
+            <RotatingLines
+              strokeColor={themeMode === "dark" ? "#fff" : "black"}
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="23"
+              visible={true}
+            />
+          </div>
+        ) : !isSaved ? (
+          <div onClick={savePost} className="cursor-pointer">
+            <BsBookmark
+              size={24}
+              color={themeMode === "dark" ? "#fff" : "#000"}
+            />
+          </div>
+        ) : (
+          <div onClick={unsavePost} className="cursor-pointer">
+            <BsFillBookmarkFill
+              size={24}
+              color={themeMode === "dark" ? "#fff" : "#000"}
+            />
+          </div>
+        )}
       </div>
       <div className="px-3">
         {isLiked ? (
@@ -401,7 +454,7 @@ const OneVideo = ({
           ) : (
             <h1
               onClick={() => {
-                postComment()
+                postComment();
               }}
               className="text-lg text-center text-blue-900 cursor-pointer"
             >

@@ -84,6 +84,8 @@ const Home = () => {
                     totalLikes={item?.likes?.length}
                     totalComments={item?.comments?.length}
                     tagged={item?.tagged}
+                    profile={profile}
+                    ownerid={item?.profileId?._id}
                     isLikedpost={item?.likes?.includes(profile?.userid)}
                     isSavedPost={profile?.savedpost?.includes(item?._id)}
                   />

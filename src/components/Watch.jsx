@@ -78,6 +78,8 @@ const Watch = () => {
                     caption={item?.caption}
                     hashtags={item?.hashtags}
                     totalLikes={item?.likes?.length}
+                    profile={profile}
+                    ownerid={item?.profileId?._id}
                   />
                 );
               })}

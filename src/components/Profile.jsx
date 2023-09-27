@@ -190,14 +190,14 @@ const Profile = () => {
     ],
   };
   return (
-    <div className="bg-white dark:bg-black min-h-screen">
+    <div className="min-h-screen bg-white dark:bg-black">
       <SideNavbar />
       {!fetching ? (
         userfound ? (
-          <div className="flex flex-col lg:ml-64 sm:ml-16  justify-center py-8 ">
+          <div className="flex flex-col justify-center py-8 lg:ml-64 sm:ml-16 ">
             {/* Left section: Profile details and follow button */}
-            <div className="flex  items-center justify-between  mb-6 mx-10">
-              <div className="flex flex-col items-center lg:items-start mb-6 lg:mb-0">
+            <div className="flex items-center justify-between mx-10 mb-6">
+              <div className="flex flex-col items-center mb-6 lg:items-start lg:mb-0">
                 <img
                   src={
                     userprofile?.profileImage
@@ -205,10 +205,10 @@ const Profile = () => {
                       : "/user.png"
                   }
                   alt="Profile"
-                  className="w-32 h-32 rounded-full mb-2"
+                  className="w-32 h-32 mb-2 rounded-full"
                 />
                 <div className="text-center lg:text-left">
-                  <div className="font-bold text-black dark:text-white text-xl mb-1">
+                  <div className="mb-1 text-xl font-bold text-black dark:text-white">
                     {userprofile?.username ? userprofile?.username : "Guest"}
                   </div>
                   <div className="text-gray-600">
@@ -216,13 +216,13 @@ const Profile = () => {
                   </div>
                   <div className="mt-2">
                     <span
-                      className="mr-4 font-bold text-black dark:text-white cursor-pointer"
+                      className="mr-4 font-bold text-black cursor-pointer dark:text-white"
                       onClick={handleFollowerClick}
                     >
                       {userprofile?.followers?.length} Followers
                     </span>
                     <span
-                      className="mr-4 font-bold text-black dark:text-white cursor-pointer"
+                      className="mr-4 font-bold text-black cursor-pointer dark:text-white"
                       onClick={handleFollowingClick}
                     >
                       {userprofile?.following?.length} Following
@@ -238,27 +238,28 @@ const Profile = () => {
                 (followloading ? (
                   <button
                     onClick={unfollowUser}
-                    className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    className="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
                   >
-                  <ColorRing
-                    visible={true}
-                    height="25"
-                    width="25"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{ margin: "auto" }}
-                    wrapperClass="blocks-wrapper"
-                    colors={[
-                      "#e15b64",
-                      "#f47e60",
-                      "#f8b26a",
-                      "#abbd81",
-                      "#849b87",
-                    ]}
-                  /></button>
+                    <ColorRing
+                      visible={true}
+                      height="25"
+                      width="25"
+                      ariaLabel="blocks-loading"
+                      wrapperStyle={{ margin: "auto" }}
+                      wrapperClass="blocks-wrapper"
+                      colors={[
+                        "#e15b64",
+                        "#f47e60",
+                        "#f8b26a",
+                        "#abbd81",
+                        "#849b87",
+                      ]}
+                    />
+                  </button>
                 ) : (
                   <button
                     onClick={unfollowUser}
-                    className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    className="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
                   >
                     Following
                   </button>
@@ -268,28 +269,28 @@ const Profile = () => {
                 (followloading ? (
                   <button
                     onClick={unfollowUser}
-                    className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    className="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
                   >
-                  <ColorRing
-                    visible={true}
-                    height="25"
-                    width="25"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{ margin: "auto" }}
-                    wrapperClass="blocks-wrapper"
-                    colors={[
-                      "#e15b64",
-                      "#f47e60",
-                      "#f8b26a",
-                      "#abbd81",
-                      "#849b87",
-                    ]}
-                  />
+                    <ColorRing
+                      visible={true}
+                      height="25"
+                      width="25"
+                      ariaLabel="blocks-loading"
+                      wrapperStyle={{ margin: "auto" }}
+                      wrapperClass="blocks-wrapper"
+                      colors={[
+                        "#e15b64",
+                        "#f47e60",
+                        "#f8b26a",
+                        "#abbd81",
+                        "#849b87",
+                      ]}
+                    />
                   </button>
                 ) : (
                   <button
                     onClick={followUser}
-                    className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    className="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
                   >
                     Follow
                   </button>
@@ -317,7 +318,7 @@ const Profile = () => {
             {/* Display content based on the selected tab */}
             {selectedTab === "tweets" && (
               <div className="m-10 space-y-4">
-                <h2 className="font-bold mb-2 text-black dark:text-white">
+                <h2 className="mb-2 font-bold text-black dark:text-white">
                   Tweets
                 </h2>
                 {!fetching &&
@@ -349,7 +350,7 @@ const Profile = () => {
                   </div>
                 ) : (
                   <div className="px-4 lg:px-10 sm:py-3 ">
-                    <div className="grid md:grid-cols-2 gap-1 sm:gap-2">
+                    <div className="grid gap-1 md:grid-cols-2 sm:gap-2">
                       {/* {profileimages?.map((id, ind) => {
                         return <SavedPost key={ind} id={id} />;
                       })} */}
@@ -368,6 +369,8 @@ const Profile = () => {
                               totalLikes={item?.likes?.length}
                               totalComments={item?.comments?.length}
                               tagged={item?.tagged}
+                              profile={profile}
+                              ownerid={item?.profileId?._id}
                               isLikedpost={item?.likes?.includes(
                                 profile?.userid
                               )}
@@ -392,7 +395,7 @@ const Profile = () => {
                   </div>
                 ) : (
                   <div className="px-4 lg:px-10 sm:py-3 ">
-                    <div className="grid md:grid-cols-2 gap-1 sm:gap-2">
+                    <div className="grid gap-1 md:grid-cols-2 sm:gap-2">
                       {/* {profileimages?.map((id, ind) => {
                         return <SavedPost key={ind} id={id} />;
                       })} */}
@@ -427,19 +430,19 @@ const Profile = () => {
             {/* Follower List */}
             {followersList.length > 0 && (
               <div className="mt-6">
-                <h2 className="font-bold mb-2">Followers</h2>
+                <h2 className="mb-2 font-bold">Followers</h2>
                 {followersList.map((follower, index) => (
                   <div key={index} className="flex items-center mb-2">
                     <img
                       src="https://via.placeholder.com/40"
                       alt="Profile"
-                      className="w-10 h-10 rounded-full mr-2"
+                      className="w-10 h-10 mr-2 rounded-full"
                     />
                     <div>
                       <div className="font-bold">{follower}</div>
                       <div>@{follower}</div>
                     </div>
-                    <button className="ml-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                    <button className="px-4 py-2 ml-auto font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700">
                       Follow
                     </button>
                   </div>
@@ -450,19 +453,19 @@ const Profile = () => {
             {/* Following List */}
             {followingList.length > 0 && (
               <div className="mt-6">
-                <h2 className="font-bold mb-2">Following</h2>
+                <h2 className="mb-2 font-bold">Following</h2>
                 {followingList.map((following, index) => (
                   <div key={index} className="flex items-center mb-2">
                     <img
                       src="https://via.placeholder.com/40"
                       alt="Profile"
-                      className="w-10 h-10 rounded-full mr-2"
+                      className="w-10 h-10 mr-2 rounded-full"
                     />
                     <div>
                       <div className="font-bold">{following}</div>
                       <div>@{following}</div>
                     </div>
-                    <button className="ml-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                    <button className="px-4 py-2 ml-auto font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700">
                       Follow
                     </button>
                   </div>
@@ -472,18 +475,18 @@ const Profile = () => {
           </div>
         ) : (
           <div className="bg-white dark:bg-black">
-            <div className="min-h-screen w-full items-center bg-white dark:bg-black justify-center">
-              <h1 className="text-black text-center pt-48 dark:text-white">
+            <div className="items-center justify-center w-full min-h-screen bg-white dark:bg-black">
+              <h1 className="pt-48 text-center text-black dark:text-white">
                 User not found
               </h1>
-              <h1 className="text-black text-center dark:text-white">
+              <h1 className="text-center text-black dark:text-white">
                 Plesae check the username of that user and try again
               </h1>
             </div>
           </div>
         )
       ) : (
-        <div className="min-h-screen bg-white dark:bg-black items-center justify-center flex">
+        <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
           <RotatingLines
             strokeColor={themeMode === "dark" ? "#fff" : "black"}
             strokeWidth="5"

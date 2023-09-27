@@ -22,7 +22,9 @@ const ImagePost = ({
   totalLikes,
   id,
   isLikedpost,
-  isSavedPost
+  isSavedPost,
+  profile,
+  ownerid
 }) => {
   const [imageloaded, setImageloaded] = useState(false);
   // const [profileimageloaded, setprofileimageloaded] = useState(false);
@@ -250,6 +252,39 @@ const ImagePost = ({
       setCommentAdding(false);
     }
   };
+
+  const deleteimage = async () => {
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/deleteimage`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            imageid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        window.location.reload();
+      } else {
+        toast.error(posts?.message);
+      }
+    } catch (error) {
+      toast.success("Error");
+    }
+  }
+
   return (
     <>
       <div
@@ -295,7 +330,9 @@ const ImagePost = ({
                   }}
                   style={{ zIndex: 40 }}
                   className="absolute shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] transition-opacity border-slate-700 right-0 w-40  bg-white rounded-md dark:bg-black h-52"
-                ></div>
+                >
+                 {profile?._id === ownerid && <h1 onClick={deleteimage} className="p-2 text-black bg-slate-700 dark:text-white">Delete Post</h1>}
+                </div>
               )}
             </div>
             <div className="cursor-pointer">
@@ -335,13 +372,13 @@ const ImagePost = ({
                 onDoubleClick={() => {
                   likeImage();
                 }}
-                className="max-w-screen-md row-span-2 mx-auto cursor-pointer group"
+                className="h-auto max-w-screen-md row-span-2 mx-auto cursor-pointer group"
               >
-                <div className="flex flex-col w-full gap2">
-                  <div className="relative w-full overflow-hidden img-container aspect-square ">
+                <div className="flex flex-col w-full h-auto gap2">
+                  <div className="relative w-full h-auto overflow-hidden img-container ">
                     <img
                       src={src}
-                      className="w-full h-full transition img-container selection:bg-none hover:scale-105"
+                      className="w-full h-auto transition img-container selection:bg-none hover:scale-105"
                       alt=""
                       srcSet=""
                     />

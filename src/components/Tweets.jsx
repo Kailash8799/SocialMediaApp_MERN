@@ -86,6 +86,8 @@ const Tweets = () => {
                     totalLikes={tweet?.likes?.length}
                     username={tweet?.profileId?.username}
                     key={ind}
+                    profile={profile}
+                    ownerid={tweet?.profileId?._id}
                   />
                 );
               })}

@@ -24,6 +24,8 @@ const Tweetpostcard = ({
   totalLikes,
   id,
   isLikedpost,
+  profile,
+  ownerid
 }) => {
   const [isLiked, setisLiked] = useState(isLikedpost);
   const [addComment, setAddComment] = useState("");
@@ -160,6 +162,37 @@ const Tweetpostcard = ({
       setCommentAdding(false);
     }
   };
+  const deleteTweet = async () => {
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/deletetweet`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            tweetid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      if (!postsdata?.ok) {
+        toast.error("Network error accured!");
+        return;
+      }
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        window.location.reload();
+      } else {
+        toast.error(posts?.message);
+      }
+    } catch (error) {
+      toast.success("Error");
+    }
+  };
   return (
     <>
       <div
@@ -205,7 +238,16 @@ const Tweetpostcard = ({
                   }}
                   style={{ zIndex: 40 }}
                   className="absolute shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] transition-opacity border-slate-700 right-0 w-40  bg-white rounded-md dark:bg-black h-52"
-                ></div>
+                >
+                  {profile?._id === ownerid && (
+                  <h1
+                    onClick={deleteTweet}
+                    className="p-2 text-black bg-slate-700 dark:text-white"
+                  >
+                    Delete Post
+                  </h1>
+                )}
+                </div>
               )}
             </div>
             <div className="cursor-pointer">
