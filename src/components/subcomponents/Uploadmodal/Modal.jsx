@@ -3,7 +3,7 @@ import { Theme } from "../../context/ThemeProvider";
 import { AnimatePresence, motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiImage } from "react-icons/fi";
-import { PlaySquare } from "lucide-react";
+import { PlaySquare, X } from "lucide-react";
 import { BiArrowBack } from "react-icons/bi";
 import { toast } from "react-hot-toast";
 import { RotatingLines } from "react-loader-spinner";
@@ -27,6 +27,9 @@ const Modal = () => {
   const [token, settoken] = useState("");
   const [ismounted, setisMounted] = useState(false);
   const [fileadd, setfileadd] = useState(null);
+  const [tags, settags] = useState([]);
+  const [texttag,settexttag] = useState("")
+
   useEffect(() => {
     setisMounted(true);
     const tk = localStorage.getItem("userlogintoken");
@@ -67,7 +70,7 @@ const Modal = () => {
             token: token,
             secret: secret,
             tweet: textpostitem,
-            hashtags: ["Hello", "Hii"],
+            hashtags: tags,
           }),
           headers: {
             "Content-type": "application/json",
@@ -194,6 +197,7 @@ const Modal = () => {
     }
   };
 
+  console.log("updated")
   const uploadVideo = async () => {
     if (fileadd == null) {
       toast.error("Please select file");
@@ -243,7 +247,7 @@ const Modal = () => {
             ),
             {
               loading: "Video data uploading",
-              success:"Video data uploaded",
+              success: "Video data uploaded",
               error: <b>Failed to upload</b>,
             }
           );
@@ -618,12 +622,47 @@ const Modal = () => {
                         ></textarea>
                       </div>
                     </div>
-                    <div className="mx-4 mt-2">
+                    <div className="mx-4">
                       <div className="relative py-1 w-full min-w-[200px]">
-                        <textarea
-                          className=" h-full min-h-[100px] w-full resize-none rounded-[7px]  bg-transparent dark:text-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all border dark:border-neutral-600 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
-                          placeholder="Add tags"
-                        ></textarea>
+                      {tags.length !== 0 && (
+                          <div className="flex mx-4 mb-2 space-x-2">
+                            {tags.map((item, ind) => {
+                              return (
+                                <h1
+                                  key={ind}
+                                  className="bg-slate-400 py-0.5 px-2 rounded-full flex space-x-5 items-center"
+                                >
+                                  {item}
+                                  <span
+                                    className="cursor-pointer"
+                                    onClick={() => {
+                                    tags.splice(ind, 1)
+                                    console.log(ind);
+                                     settags([...tags]);
+                                     console.log(tags,[...tags]);
+                                    }}
+                                  >
+                                    <X size={20} />
+                                  </span>
+                                </h1>
+                              );
+                            })}
+                          </div>
+                        )}
+                        <input
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && tags.length < 5 && e.target.value.length > 1) {
+                              settags([...tags, e.target.value]);
+                              settexttag("")
+                            }
+                          }}
+                          onChange={(e)=>{
+                            settexttag(e.target.value)
+                          }}
+                          value={texttag}
+                          className="h-full  min-h-[100px] w-full resize-none rounded-[7px]  bg-transparent dark:text-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all border dark:border-neutral-600 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+                          placeholder="Add tags name and press enter"
+                        ></input>
                       </div>
                     </div>
                     <div className="mt-2">
