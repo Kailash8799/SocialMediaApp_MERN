@@ -17,6 +17,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Commentcomp from "./subcomponents/Commentcomp";
 import { useSelector } from "react-redux";
 import { BsBookmark, BsFillBookmarkFill } from "react-icons/bs";
+import Commentvideocomp from "./subcomponents/Commentvideo";
 
 const Videodetails = () => {
   const { id } = useParams();
@@ -607,12 +608,14 @@ const Videodetails = () => {
                 <div className="mx-2">
                   {allcomment?.map((onecomment, key) => {
                     return (
-                      <Commentcomp
+                      <Commentvideocomp
                         key={key}
                         comment={onecomment?.comment}
                         username={onecomment?.profileId?.username}
                         profileImage={onecomment?.profileId?.profileImage}
                         createdAt={onecomment?.createdAt}
+                        id={onecomment?._id}
+                        tweetid={id}
                       />
                     );
                   })}

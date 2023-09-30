@@ -66,9 +66,6 @@ const CommentModal = () => {
       }
     })();
 
-    return () => {
-      setpostid("");
-    };
   }, [postid, setpostid]);
   if (!mounted) <div className="min-h-screen bg-white dark:bg-black"></div>;
 
@@ -158,6 +155,8 @@ const CommentModal = () => {
                       username={onecomment?.profileId?.username}
                       profileImage={onecomment?.profileId?.profileImage}
                       createdAt={onecomment?.createdAt}
+                      id={onecomment?._id}
+                      tweetid={postid}
                     />
                   );
                 })}

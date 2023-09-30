@@ -21,6 +21,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Commentcomp from "./subcomponents/Commentcomp";
 import { useSelector } from "react-redux";
 import { BsBookmark, BsFillBookmarkFill } from "react-icons/bs";
+import Commentimagecomp from "./subcomponents/CommentImage";
 
 const Postdetails = () => {
   const { id } = useParams();
@@ -607,12 +608,14 @@ const Postdetails = () => {
                 <div className="mx-2">
                   {allcomment?.map((onecomment, key) => {
                     return (
-                      <Commentcomp
+                      <Commentimagecomp
                         key={key}
                         comment={onecomment?.comment}
                         username={onecomment?.profileId?.username}
                         profileImage={onecomment?.profileId?.profileImage}
                         createdAt={onecomment?.createdAt}
+                        id={onecomment?._id}
+                        tweetid={id}
                       />
                     );
                   })}

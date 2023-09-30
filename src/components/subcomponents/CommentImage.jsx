@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import toast from "react-hot-toast";
 
-const Commentcomp = ({ username, profileImage, createdAt, comment, id,tweetid }) => {
+const Commentimagecomp = ({ username, profileImage, createdAt, comment, id,tweetid }) => {
   const [openPopup, setopenPopup] = useState(false);
 
   const deleteComment = async () => {
     try {
       const postsdata = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/deletetextcomment`,
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/deleteimagecomment`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -117,4 +117,4 @@ const Commentcomp = ({ username, profileImage, createdAt, comment, id,tweetid })
   );
 };
 
-export default Commentcomp;
+export default Commentimagecomp;
