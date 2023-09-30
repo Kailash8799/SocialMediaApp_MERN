@@ -40,7 +40,6 @@ const Tweets = () => {
         return;
       }
         const posts = await postsdata.json();
-        console.log(posts);
         if (posts?.success) {
           setfetching(false);
           setTweets(posts?.posts);
@@ -55,7 +54,7 @@ const Tweets = () => {
       setfetching(false);
     }
     setProgress(100);
-  }, [setProgress]);
+  }, [dispatch, setProgress]);
   if (!mounted)
     return <div className="w-screen h-screen bg-white dark:bg-black"></div>;
 

@@ -27,6 +27,7 @@ import LeftSidebarModal from "./components/subcomponents/Uploadmodal/Leftbarside
 import { useDispatch } from "react-redux";
 import { setUser } from "./redux/actions/postaction";
 import Videodetails from "./components/Videodetails";
+import CommentModal from "./components/subcomponents/Modal/CommentModal";
 
 function App() {
   const {
@@ -37,6 +38,7 @@ function App() {
     uploadimagemodal,
     sidebarModal,
     leftsidebarModal,
+    commentModal,
   } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
   const dispatch = useDispatch();
@@ -93,6 +95,7 @@ function App() {
           {uploadimagemodal && <Modal />}
           {sidebarModal && <SidebarModal />}
           {leftsidebarModal && <LeftSidebarModal />}
+          {commentModal && <CommentModal />}
           <Routes>
             <Route path="/" element={<TopNavbar />}>
               <Route index element={<Home />} />

@@ -1,22 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  Bookmark,
-  MessagesSquare,
-  MoreHorizontal,
-  Send,
-  X,
-} from "lucide-react";
-import { Theme } from "../../context/ThemeProvider";
+import { Blurhash } from "react-blurhash";
+import { MessagesSquare, MoreHorizontal, Send, X } from "lucide-react";
+import { Theme } from "../context/ThemeProvider";
 import { PuffLoader } from "react-spinners";
-import Profileimage from "../Profileimage";
+import Profileimage from "./Profileimage";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
 import Moment from "react-moment";
 import "moment-timezone";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { RotatingLines } from "react-loader-spinner";
 
-const Tweetpostcard = ({
+const ImageProfile = ({
   profileimg,
+  src,
   username,
   time,
   caption,
@@ -24,15 +22,14 @@ const Tweetpostcard = ({
   totalLikes,
   id,
   isLikedpost,
+  isSavedPost,
   profile,
-  ownerid,
+  ownerid
 }) => {
-  const {
-    setcommentModal,
-    setcommentModalanimation,
-    setpostid,
-  } = useContext(Theme);
+  const [imageloaded, setImageloaded] = useState(false);
+  // const [profileimageloaded, setprofileimageloaded] = useState(false);
   const [isLiked, setisLiked] = useState(isLikedpost);
+  const [isSaved, setisSaved] = useState(isSavedPost);
   const [addComment, setAddComment] = useState("");
   const [commentAdding, setCommentAdding] = useState(false);
   const [openPopup, setopenPopup] = useState(false);
@@ -40,18 +37,23 @@ const Tweetpostcard = ({
   const [mounted, setMounted] = useState(false);
   const { themeMode } = useContext(Theme);
   const [loading, setloading] = useState(false);
-  const [alllikes, setalllikes] = useState(totalLikes);
-
+  const [bookmarkloading, setbookmarkloading] = useState(false);
   useEffect(() => {
     setMounted(true);
     let tkn = localStorage.getItem("userlogintoken");
     if (tkn) {
       settoken(tkn);
     }
-  }, []);
+    const img = new Image();
+    img.onload = () => {
+      setImageloaded(true);
+    };
+
+    img.src = src;
+  }, [src]);
   if (!mounted) return;
 
-  const likeTweet = async () => {
+  const likeImage = async () => {
     if (loading) {
       toast.error("Loading...");
       return;
@@ -60,7 +62,7 @@ const Tweetpostcard = ({
     setloading(true);
     try {
       const postsdata = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/liketweet`,
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/likeimage`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -73,7 +75,7 @@ const Tweetpostcard = ({
           },
         }
       );
-      if (!postsdata?.ok) {
+      if(!postsdata?.ok){
         toast.error("Network error accured!");
         return;
       }
@@ -81,7 +83,6 @@ const Tweetpostcard = ({
       if (posts?.success) {
         toast.success(posts?.message);
         setloading(false);
-        setalllikes(alllikes + 1);
       } else {
         toast.error(posts?.message);
         setloading(false);
@@ -91,7 +92,7 @@ const Tweetpostcard = ({
       setloading(false);
     }
   };
-  const dislikeTweet = async () => {
+  const dislikeImage = async () => {
     if (loading) {
       toast.error("Loading...");
       return;
@@ -100,7 +101,7 @@ const Tweetpostcard = ({
     setloading(true);
     try {
       const postsdata = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/disliketweet`,
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/dislikeimage`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -113,7 +114,7 @@ const Tweetpostcard = ({
           },
         }
       );
-      if (!postsdata?.ok) {
+      if(!postsdata?.ok){
         toast.error("Network error accured!");
         return;
       }
@@ -121,21 +122,105 @@ const Tweetpostcard = ({
       if (posts?.success) {
         toast.success(posts?.message);
         setloading(false);
-        setalllikes(alllikes - 1);
       } else {
         toast.error(posts?.message);
         setloading(false);
       }
     } catch (error) {
-      toast.success("Error accured!");
+      toast.success("Error");
       setloading(false);
     }
   };
+
+  const savePost = async () => {
+    if (bookmarkloading) {
+      toast.error("Loading...");
+      return;
+    }
+    setbookmarkloading(true);
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/saved`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            postid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        setisSaved(true);
+        setbookmarkloading(false);
+      } else {
+        toast.error(posts?.message);
+        setisSaved(false);
+        setbookmarkloading(false);
+      }
+    } catch (error) {
+      toast.success("Error");
+      setisSaved(false);
+      setbookmarkloading(false);
+    }
+  };
+
+  const unsavePost = async () => {
+    if (bookmarkloading) {
+      toast.error("Loading...");
+      return;
+    }
+    setbookmarkloading(true);
+    try {
+      const postsdata = await fetch(
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/unsaved`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            secret: process.env.REACT_APP_SECRET,
+            postid: id,
+            token: token,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      if(!postsdata?.ok){
+        toast.error("Network error accured!");
+        return;
+      }
+      const posts = await postsdata.json();
+      if (posts?.success) {
+        toast.success(posts?.message);
+        setbookmarkloading(false);
+        setisSaved(false);
+      } else {
+        toast.error(posts?.message);
+        setbookmarkloading(false);
+        setisSaved(false);
+      }
+    } catch (error) {
+      toast.success("Error");
+      setbookmarkloading(false);
+      setisSaved(false);
+    }
+  };
+
   const postComment = async () => {
     setCommentAdding(true);
     try {
       const postsdata = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/posttextcomment`,
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/postimagecomment`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -149,7 +234,7 @@ const Tweetpostcard = ({
           },
         }
       );
-      if (!postsdata?.ok) {
+      if(!postsdata?.ok){
         toast.error("Network error accured!");
         return;
       }
@@ -167,23 +252,25 @@ const Tweetpostcard = ({
       setCommentAdding(false);
     }
   };
-  const deleteTweet = async () => {
+
+  const deleteimage = async () => {
     try {
       const postsdata = await fetch(
-        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/deletetweet`,
+        `${process.env.REACT_APP_LOCALHOST_KEY}/api/addpost/deleteimage`,
         {
           method: "POST",
           body: JSON.stringify({
             secret: process.env.REACT_APP_SECRET,
-            tweetid: id,
+            imageid: id,
             token: token,
+            link: src,
           }),
           headers: {
             "Content-type": "application/json",
           },
         }
       );
-      if (!postsdata?.ok) {
+      if(!postsdata?.ok){
         toast.error("Network error accured!");
         return;
       }
@@ -197,7 +284,8 @@ const Tweetpostcard = ({
     } catch (error) {
       toast.success("Error");
     }
-  };
+  }
+
   return (
     <>
       <div
@@ -244,14 +332,7 @@ const Tweetpostcard = ({
                   style={{ zIndex: 40 }}
                   className="absolute shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] transition-opacity border-slate-700 right-0 w-40  bg-white rounded-md dark:bg-black h-52"
                 >
-                  {profile?._id === ownerid && (
-                    <h1
-                      onClick={deleteTweet}
-                      className="p-2 text-black bg-slate-700 dark:text-white"
-                    >
-                      Delete Post
-                    </h1>
-                  )}
+                 {profile?._id === ownerid && <h1 onClick={deleteimage} className="p-2 text-black bg-slate-700 dark:text-white">Delete Post</h1>}
                 </div>
               )}
             </div>
@@ -275,6 +356,39 @@ const Tweetpostcard = ({
             })}
           </div>
         </div>
+        <Link to={`/posts/${id}`}>
+          <div>
+            {!imageloaded && (
+              <Blurhash
+                hash="LEHV6nWB2yk8pyo0adR*.7kCMdnj"
+                width={"100%"}
+                height={350}
+                resolutionX={32}
+                resolutionY={32}
+                punch={0}
+              />
+            )}
+            {imageloaded && (
+              <div
+                onDoubleClick={() => {
+                  likeImage();
+                }}
+                className="h-auto max-w-screen-md row-span-2 mx-auto cursor-pointer group"
+              >
+                <div className="flex flex-col w-full h-auto gap2">
+                  <div className="relative w-full h-auto overflow-hidden img-container ">
+                    <img
+                      src={src}
+                      className="w-full h-auto transition aspect-square img-container selection:bg-none hover:scale-105"
+                      alt=""
+                      srcSet=""
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </Link>
         <div className="flex items-center justify-between h-12 px-3">
           {/*  For the footer of posts */}
           <div className="flex items-center justify-center space-x-5">
@@ -282,7 +396,7 @@ const Tweetpostcard = ({
               {isLiked ? (
                 <AiFillHeart
                   onClick={() => {
-                    dislikeTweet();
+                    dislikeImage();
                   }}
                   size={29}
                   color="#ed1d1d"
@@ -291,41 +405,59 @@ const Tweetpostcard = ({
                 <AiOutlineHeart
                   size={29}
                   onClick={() => {
-                    likeTweet();
+                    likeImage();
                   }}
                   color={themeMode === "dark" ? "#fff" : "#000"}
                 />
               )}
             </div>
-            {/* <Link to={`/posts/${id}`}> */}
-            <div
-              onClick={() => {
-                setcommentModalanimation(true);
-                setcommentModal(true);
-                setpostid(id);
-              }}
-              className="cursor-pointer"
-            >
-              <MessagesSquare
-                size={27}
-                color={themeMode === "dark" ? "#fff" : "#000"}
-              />
-            </div>
-            {/* </Link> */}
+            <Link to={`/posts/${id}`}>
+              <div className="cursor-pointer">
+                <MessagesSquare
+                  size={27}
+                  color={themeMode === "dark" ? "#fff" : "#000"}
+                />
+              </div>
+            </Link>
             <div className="cursor-pointer">
               <Send size={25} color={themeMode === "dark" ? "#fff" : "#000"} />
             </div>
           </div>
+          {bookmarkloading ? (
+            <div className="cursor-pointer">
+              <RotatingLines
+                strokeColor={themeMode==="dark"?"#fff":"black"}
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="23"
+                visible={true}
+              />
+            </div>
+          ) : !isSaved ? (
+            <div onClick={savePost} className="cursor-pointer">
+              <BsBookmark
+                size={24}
+                color={themeMode === "dark" ? "#fff" : "#000"}
+              />
+            </div>
+          ) : (
+            <div onClick={unsavePost} className="cursor-pointer">
+              <BsFillBookmarkFill
+                size={24}
+                color={themeMode === "dark" ? "#fff" : "#000"}
+              />
+            </div>
+          )}
         </div>
         <div className="px-3">
           {isLiked ? (
             <h1 className="-mt-2 font-semibold text-black dark:text-white">
               Liked by you{" "}
-              {!(alllikes === 1 && isLikedpost) && `and ${alllikes} others`}
+              {!(totalLikes === 1 && isLikedpost) && `and ${totalLikes} others`}
             </h1>
           ) : (
             <h1 className="-mt-2 font-semibold text-black dark:text-white">
-              {alllikes} likes
+              {totalLikes} likes
             </h1>
           )}
         </div>
@@ -359,4 +491,4 @@ const Tweetpostcard = ({
   );
 };
 
-export default Tweetpostcard;
+export default ImageProfile;

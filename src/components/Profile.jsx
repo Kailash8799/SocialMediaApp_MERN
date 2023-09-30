@@ -10,6 +10,7 @@ import SavedPost from "./Saved/SavedPost";
 import ImagePost from "./subcomponents/ImagePost";
 import OneVideo from "./subcomponents/Videoscomp/OneVideo";
 import { setUser } from "../redux/actions/postaction";
+import ImageProfile from "./subcomponents/Imageprofile";
 
 const Profile = () => {
   const { setProgress, themeMode } = useContext(Theme);
@@ -357,7 +358,7 @@ const Profile = () => {
                       {!fetching &&
                         profileimages?.map((item, ind) => {
                           return (
-                            <ImagePost
+                            <ImageProfile
                               key={ind}
                               src={item?.imageLink}
                               id={item?._id}
