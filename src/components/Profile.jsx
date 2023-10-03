@@ -13,7 +13,13 @@ import { setUser } from "../redux/actions/postaction";
 import ImageProfile from "./subcomponents/Imageprofile";
 
 const Profile = () => {
-  const { setProgress, themeMode } = useContext(Theme);
+  const {
+    setProgress,
+    themeMode,
+    seteditprofileModal,
+    seteditprofileModalanimation,
+    setprofileinfo,
+  } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
   const [fetching, setfetching] = useState(false);
   const [userprofile, setuserprofile] = useState({});
@@ -265,6 +271,18 @@ const Profile = () => {
                     Following
                   </button>
                 ))}
+              {profile.username === userprofile.username && (
+                <button
+                  onClick={() => {
+                    seteditprofileModalanimation(true)
+                    seteditprofileModal(true)
+                    setprofileinfo(userprofile);
+                  }}
+                  className="px-4 py-2 mt-4 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
+                >
+                  Edit Profile
+                </button>
+              )}
               {profile.username !== userprofile.username &&
                 !isFolloweduser &&
                 (followloading ? (

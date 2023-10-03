@@ -375,11 +375,11 @@ const ImageProfile = ({
                 }}
                 className="h-auto max-w-screen-md row-span-2 mx-auto cursor-pointer group"
               >
-                <div className="flex flex-col w-full h-auto gap2">
+                <div className="flex flex-col w-full h-auto gap-2">
                   <div className="relative w-full h-auto overflow-hidden img-container ">
                     <img
                       src={src}
-                      className="w-full h-auto transition aspect-square img-container selection:bg-none hover:scale-105"
+                      className="w-full h-auto object-contain transition aspect-square img-container selection:bg-none hover:scale-105"
                       alt=""
                       srcSet=""
                     />

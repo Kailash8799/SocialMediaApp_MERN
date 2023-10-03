@@ -17,6 +17,9 @@ const ThemeProvider = ({ children }) => {
   const [postid,setpostid] = useState("");
   const [commentModal,setcommentModal] = useState(false)
   const [commentModalanimation,setcommentModalanimation] = useState(false)
+  const [editprofileModal,seteditprofileModal] = useState(false)
+  const [editprofileModalanimation,seteditprofileModalanimation] = useState(false)
+  const [profileinfo,setprofileinfo] = useState({});
 
   useEffect(() => {
     setMounted(true);
@@ -75,7 +78,12 @@ const ThemeProvider = ({ children }) => {
         commentModalanimation,
         setcommentModalanimation,
         postid,
-        setpostid
+        setpostid,
+        editprofileModal,
+        seteditprofileModal,
+        editprofileModalanimation,
+        seteditprofileModalanimation,
+        profileinfo,setprofileinfo
       }}
     >
       {children}

@@ -28,6 +28,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./redux/actions/postaction";
 import Videodetails from "./components/Videodetails";
 import CommentModal from "./components/subcomponents/Modal/CommentModal";
+import EditProfileModal from "./components/subcomponents/Modal/EditProfile";
 
 function App() {
   const {
@@ -39,6 +40,7 @@ function App() {
     sidebarModal,
     leftsidebarModal,
     commentModal,
+    editprofileModal,
   } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
   const dispatch = useDispatch();
@@ -96,6 +98,8 @@ function App() {
           {sidebarModal && <SidebarModal />}
           {leftsidebarModal && <LeftSidebarModal />}
           {commentModal && <CommentModal />}
+          {editprofileModal && <EditProfileModal />}
+
           <Routes>
             <Route path="/" element={<TopNavbar />}>
               <Route index element={<Home />} />
