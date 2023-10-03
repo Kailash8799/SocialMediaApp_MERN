@@ -89,6 +89,7 @@ const EditProfileModal = () => {
           const dataadd = await responceimg.json();
           if (dataadd.success) {
             toast.success(dataadd?.message);
+            window.location.reload();
             setisLoading(false);
           } else {
             toast.error(dataadd?.message);

@@ -22,6 +22,7 @@ const Modal = () => {
   const [uploadfilebar, setuploadfilebar] = useState(false);
   const [textpostitem, settextpostitem] = useState("");
   const [textpost, settextpost] = useState(false);
+  const [imagecaptionpost, setimagecaptionpost] = useState(false);
   const [isVideo, setisVideo] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const [token, settoken] = useState("");
@@ -29,6 +30,9 @@ const Modal = () => {
   const [fileadd, setfileadd] = useState(null);
   const [tags, settags] = useState([]);
   const [texttag,settexttag] = useState("")
+  const [caption,setcaption] = useState("")
+  const [posttag,setposttag] = useState([])
+  const [posttagdata,setposttagdata] = useState("");
 
   useEffect(() => {
     setisMounted(true);
@@ -148,8 +152,8 @@ const Modal = () => {
                 body: JSON.stringify({
                   token: token,
                   secret: secret,
-                  caption: "Hello bhidu kese ho",
-                  hashtags: ["Hello", "Hii"],
+                  caption: caption,
+                  hashtags: posttag,
                   imageLink: data.url,
                 }),
                 headers: {
@@ -197,7 +201,6 @@ const Modal = () => {
     }
   };
 
-  console.log("updated")
   const uploadVideo = async () => {
     if (fileadd == null) {
       toast.error("Please select file");
@@ -236,8 +239,8 @@ const Modal = () => {
                 body: JSON.stringify({
                   token: token,
                   secret: secret,
-                  caption: "Hello bhidu kese ho",
-                  hashtags: ["Hello", "Hii"],
+                  caption: caption,
+                  hashtags: posttag,
                   videoLink: data.url,
                 }),
                 headers: {
@@ -469,6 +472,7 @@ const Modal = () => {
                     </motion.div>
                   )}
                   {uploadfilebar && (
+                    !imagecaptionpost ? 
                     <motion.div
                       initial={{ x: 300 }}
                       animate={{ x: 0 }}
@@ -506,11 +510,8 @@ const Modal = () => {
                       >
                         <h1
                           onClick={() => {
-                            if (!isVideo) {
-                              uploadImage();
-                            } else {
-                              uploadVideo();
-                            }
+                            setimagecaptionpost(true);
+                            // setuploadfilebar(false)
                           }}
                           className=" cursor-pointer bg-blue-600 px-3 py-1.5 text-white font-semibold rounded-lg"
                         >
@@ -525,7 +526,163 @@ const Modal = () => {
                           Crop
                         </h1>
                       </div>
-                    </motion.div>
+                    </motion.div> : 
+                <motion.div
+                  initial={{ x: 100 }}
+                  animate={{ x: 0 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0,
+                    ease: [0, 0.71, 0.2, 1.01],
+                  }}
+                  exit={{
+                    x: 100,
+                  }}
+                >
+                  <div
+                    className={`h-12 border-b items-center flex justify-between border-slate-300 dark:border-slate-800 px-3`}
+                  >
+                    <div className="items-center">
+                      <motion.div
+                        onClick={() => {
+                          settextpost(false);
+                          setimagecaptionpost(false)
+                        }}
+                        initial={{ x: 100 }}
+                        animate={{ x: 0 }}
+                        transition={{
+                          duration: 0.8,
+                          delay: 0,
+                          ease: [0, 0.71, 0.2, 1.01],
+                        }}
+                        exit={{
+                          x: 100,
+                        }}
+                        className="items-center justify-center cursor-pointer"
+                      >
+                        <BiArrowBack
+                          color={themeMode === "dark" ? "white" : "black"}
+                          size={24}
+                        />
+                      </motion.div>
+                    </div>
+
+                    <div className="items-center justify-center transition-all border-green-200 md:mx-auto">
+                      <h1 className="inline-block font-semibold text-center text-black transition-all dark:text-white">
+                        Post Description
+                      </h1>
+                    </div>
+                    <div>
+                      <motion.div
+                        onClick={() => {
+                          setuploadimagemodalanimation(false);
+                          setTimeout(() => {
+                            setuploadimagemodal(false);
+                          }, 500);
+                        }}
+                        initial={{ x: 100 }}
+                        animate={{ x: 0 }}
+                        transition={{
+                          duration: 0.8,
+                          delay: 0,
+                          ease: [0, 0.71, 0.2, 1.01],
+                        }}
+                        exit={{
+                          x: 100,
+                        }}
+                        className="items-center justify-center cursor-pointer md:hidden"
+                      >
+                        <AiOutlineClose
+                          color={themeMode === "dark" ? "white" : "black"}
+                          size={24}
+                        />
+                      </motion.div>
+                    </div>
+                  </div>
+                  <div className="w-full overflow-hidden ">
+                   
+                    <div className="mx-4 mt-4">
+                      <div className="relative py-1 w-full min-w-[200px]">
+                        <textarea
+                          value={caption}
+                          onChange={(e) => {
+                            setcaption(e.target.value);
+                          }}
+                          className=" h-full min-h-[100px] w-full resize-none rounded-[7px]  bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline dark:text-white outline-0 transition-all border focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50 dark:border-neutral-600"
+                          placeholder="What is happening?!"
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="mx-4">
+                      <div className="relative py-1 w-full min-w-[200px]">
+                      {posttag.length !== 0 && (
+                          <div className="flex mx-4 mb-2 space-x-2">
+                            {posttag.map((item, ind) => {
+                              return (
+                                <h1
+                                  key={ind}
+                                  className="bg-slate-400 py-0.5 px-2 rounded-full flex space-x-5 items-center"
+                                >
+                                  {item}
+                                  <span
+                                    className="cursor-pointer"
+                                    onClick={() => {
+                                    posttag.splice(ind, 1)
+                                     setposttag([...posttag]);
+                                    }}
+                                  >
+                                    <X size={20} />
+                                  </span>
+                                </h1>
+                              );
+                            })}
+                          </div>
+                        )}
+                        <input
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && posttag.length < 5 && e.target.value.length > 1) {
+                              setposttag([...posttag, e.target.value]);
+                              setposttagdata("")
+                            }
+                          }}
+                          onChange={(e)=>{
+                            setposttagdata(e.target.value)
+                          }}
+                          value={posttagdata}
+                          className="h-full  min-h-[100px] w-full resize-none rounded-[7px]  bg-transparent dark:text-white px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all border dark:border-neutral-600 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
+                          placeholder="Add tags name and press enter"
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      {!isLoading ? (
+                        <h1
+                          onClick={() => {
+                            if (!isVideo) {
+                              uploadImage();
+                            } else {
+                              uploadVideo();
+                            }
+                          }}
+                          className="w-full max-w-xs py-2 mx-auto font-semibold text-center text-white bg-blue-600 rounded-lg cursor-pointer"
+                        >
+                          Post
+                        </h1>
+                      ) : (
+                        <h1 className="flex justify-center w-full max-w-xs py-2 mx-auto font-semibold text-center text-white bg-blue-600 rounded-lg cursor-pointer">
+                          <RotatingLines
+                            strokeColor="white"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="23"
+                            visible={true}
+                          />
+                        </h1>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              
                   )}
                 </div>
               )}
@@ -690,6 +847,7 @@ const Modal = () => {
                   </div>
                 </motion.div>
               )}
+              
             </motion.div>
           )}
         </AnimatePresence>
