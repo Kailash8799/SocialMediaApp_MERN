@@ -29,6 +29,7 @@ import { setUser } from "./redux/actions/postaction";
 import Videodetails from "./components/Videodetails";
 import CommentModal from "./components/subcomponents/Modal/CommentModal";
 import EditProfileModal from "./components/subcomponents/Modal/EditProfile";
+import AddStoryComp from "./components/subcomponents/Modal/StoryModal";
 
 function App() {
   const {
@@ -41,6 +42,7 @@ function App() {
     leftsidebarModal,
     commentModal,
     editprofileModal,
+    storyModal,
   } = useContext(Theme);
   const [mounted, setisMounted] = useState(false);
   const dispatch = useDispatch();
@@ -99,6 +101,7 @@ function App() {
           {leftsidebarModal && <LeftSidebarModal />}
           {commentModal && <CommentModal />}
           {editprofileModal && <EditProfileModal />}
+          {storyModal && <AddStoryComp />}
 
           <Routes>
             <Route path="/" element={<TopNavbar />}>

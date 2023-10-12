@@ -123,7 +123,7 @@ const SideNavbar = () => {
             </div>
           </Link>
         </div>
-        <div
+        {/* <div
           className={`px-3 py-3 mx-2 rounded-lg cursor-pointer hover:dark:bg-slate-400/10 hover:bg-slate-400/25 ${
             pathname === "/messages"
               ? "dark:bg-slate-400/10 bg-slate-400/25 "
@@ -138,7 +138,7 @@ const SideNavbar = () => {
               </h1>
             </div>
           </Link>
-        </div>
+        </div> */}
         <div className="h-10"></div>
       </div>
       <div className="fixed left-0 hidden w-16 h-screen py-8 space-y-6 overflow-y-auto transition-transform bg-white border-r scrollwidth dark:bg-black border-slate-500/40 dark:border-slate-800 sm:block lg:hidden">

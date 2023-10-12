@@ -228,7 +228,7 @@ const Tweetpostcard = ({
             </div>
           </Link>
           <div className="flex items-center justify-center space-x-3">
-            <div className="relative cursor-pointer">
+           {profile?._id === ownerid && <div className="mr-2 relative cursor-pointer">
               <MoreHorizontal
                 onClick={(e) => {
                   e.stopPropagation();
@@ -236,28 +236,28 @@ const Tweetpostcard = ({
                 }}
                 color={themeMode === "dark" ? "#fff" : "#000"}
               />
-              {openPopup && (
+              {openPopup  && (
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
                   style={{ zIndex: 40 }}
-                  className="absolute shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] transition-opacity border-slate-700 right-0 w-40  bg-white rounded-md dark:bg-black h-52"
+                  className="absolute shadow-inner shadow-slate-500 dark:shadow-slate-500 dark:border-b-[1px] transition-opacity border-slate-700 right-0 w-40  bg-white rounded-md dark:bg-black h-12"
                 >
                   {profile?._id === ownerid && (
                     <h1
                       onClick={deleteTweet}
-                      className="p-2 text-black bg-slate-700 dark:text-white"
+                      className="p-2 text-black bg-slate-700/30 m-1 rounded-md dark:text-white"
                     >
                       Delete Post
                     </h1>
                   )}
                 </div>
               )}
-            </div>
-            <div className="cursor-pointer">
+            </div>}
+            {/* <div className="cursor-pointer">
               <X color={themeMode === "dark" ? "#fff" : "#000"} />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="px-1.5">

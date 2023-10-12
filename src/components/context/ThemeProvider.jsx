@@ -20,6 +20,8 @@ const ThemeProvider = ({ children }) => {
   const [editprofileModal,seteditprofileModal] = useState(false)
   const [editprofileModalanimation,seteditprofileModalanimation] = useState(false)
   const [profileinfo,setprofileinfo] = useState({});
+  const [storyModal,setstoryModal] = useState(false)
+  const [storyModalanimation,setstoryModalanimation] = useState(false)
 
   useEffect(() => {
     setMounted(true);
@@ -83,7 +85,11 @@ const ThemeProvider = ({ children }) => {
         seteditprofileModal,
         editprofileModalanimation,
         seteditprofileModalanimation,
-        profileinfo,setprofileinfo
+        profileinfo,setprofileinfo,
+        storyModal,
+        setstoryModal,
+        storyModalanimation,
+        setstoryModalanimation
       }}
     >
       {children}
